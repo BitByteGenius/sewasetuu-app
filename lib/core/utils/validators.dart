@@ -7,6 +7,10 @@ abstract class AppValidators {
     return null;
   }
 
+  static String? required(String? value, {String? fieldName}) {
+    return validateRequired(value, fieldName != null ? '$fieldName is required' : 'This field is required');
+  }
+
   static String? validateEmail(String? value) {
     if (value == null || value.trim().isEmpty) {
       return 'Email is required';
@@ -17,6 +21,8 @@ abstract class AppValidators {
     }
     return null;
   }
+
+  static String? email(String? value) => validateEmail(value);
 
   static String? validatePhone(String? value) {
     if (value == null || value.trim().isEmpty) {
@@ -29,10 +35,14 @@ abstract class AppValidators {
     return null;
   }
 
+  static String? phone(String? value) => validatePhone(value);
+
   static String? validatePassword(String? value) {
     if (value == null || value.length < 6) {
       return 'Password must be at least 6 characters long';
     }
     return null;
   }
+
+  static String? password(String? value) => validatePassword(value);
 }

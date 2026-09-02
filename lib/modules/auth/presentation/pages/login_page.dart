@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../app/theme/app_colors.dart';
-import '../../../../app/theme/app_spacing.dart';
-import '../../../../app/theme/app_text_styles.dart';
-import '../../../../core/utils/validators.dart';
-import '../../../../shared/widgets/app_button.dart';
-import '../../../../shared/widgets/app_text_field.dart';
-import '../controllers/auth_controller.dart';
+import 'package:sewasetu/app/routes/app_routes.dart';
+import 'package:sewasetu/app/theme/app_colors.dart';
+import 'package:sewasetu/app/theme/app_radius.dart';
+import 'package:sewasetu/app/theme/app_spacing.dart';
+import 'package:sewasetu/app/theme/app_text_styles.dart';
+import 'package:sewasetu/core/utils/validators.dart';
+import 'package:sewasetu/modules/auth/presentation/controllers/auth_controller.dart';
+import 'package:sewasetu/shared/widgets/app_button.dart';
+import 'package:sewasetu/shared/widgets/app_text_field.dart';
 
-/// Clean authentication page with phone login, OTP verification toggle, and social placeholders.
+/// Authentication Screen supporting phone OTP verification & password login
 class LoginPage extends GetView<AuthController> {
   const LoginPage({super.key});
 
@@ -22,10 +24,9 @@ class LoginPage extends GetView<AuthController> {
           TextButton(
             onPressed: controller.skipAuth,
             child: Text(
-              'Explore First',
+              'Skip',
               style: AppTextStyles.labelMedium(isDark).copyWith(
-                color: isDark ? AppColors.primaryLight : AppColors.primary,
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),
@@ -35,10 +36,23 @@ class LoginPage extends GetView<AuthController> {
         child: SingleChildScrollView(
           padding: AppSpacing.screenPadding,
           child: Form(
-            key: controller.formKey,
+            key: controller.loginFormKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                AppSpacing.gapV16,
+                // Logo Emblem
+                Container(
+                  width: 52,
+                  height: 52,
+                  decoration: BoxDecoration(
+                    color: isDark ? AppColors.primaryContainerDark : AppColors.primaryContainer,
+                    borderRadius: AppRadius.radiusLg,
+                  ),
+                  child: Center(
+                    child: Text('🏡', style: const TextStyle(fontSize: 26)),
+                  ),
+                ),
                 AppSpacing.gapV24,
                 Text(
                   'Welcome to SewaSetu',
@@ -48,92 +62,179 @@ class LoginPage extends GetView<AuthController> {
                 ),
                 AppSpacing.gapV8,
                 Text(
-                  'Log in or register to book stays, manage rentals, and access local marketplace services.',
+                  'Your trusted marketplace for verified Rooms, PGs, Mess, Homestays & Hotels.',
                   style: AppTextStyles.bodyMedium(isDark).copyWith(
                     color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
                   ),
                 ),
                 AppSpacing.gapV32,
 
-                // Phone Input
+                // Phone Input Field
                 AppTextField(
-                  label: 'Phone Number',
-                  hint: 'Enter 10-digit mobile number',
                   controller: controller.phoneController,
+                  label: 'Phone Number',
+                  hint: 'Enter your 10-digit mobile number',
                   keyboardType: TextInputType.phone,
-                  validator: AppValidators.validatePhone,
                   prefixIcon: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          '🇮🇳 +91',
+                          style: AppTextStyles.titleMedium(isDark).copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Container(
+                          width: 1,
+                          height: 20,
+                          color: isDark ? AppColors.borderDark : AppColors.borderLight,
+                        ),
+                      ],
+                    ),
+                  ),
+                  validator: AppValidators.phone,
+                ),
+                AppSpacing.gapV16,
+
+                // Forgot Password link
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: GestureDetector(
+                    onTap: () => Get.toNamed(AppRoutes.forgotPassword),
                     child: Text(
-                      '+91',
-                      style: AppTextStyles.labelLarge(isDark).copyWith(
+                      'Forgot Password?',
+                      style: AppTextStyles.labelMedium(isDark).copyWith(
+                        color: isDark ? AppColors.primaryLight : AppColors.primary,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),
                 ),
-
-                // OTP Input (Conditional)
-                Obx(() {
-                  if (!controller.isOtpSent.value) return const SizedBox.shrink();
-                  return Column(
-                    children: [
-                      AppSpacing.gapV16,
-                      AppTextField(
-                        label: '6-digit OTP',
-                        hint: 'Enter OTP code',
-                        controller: controller.otpController,
-                        keyboardType: TextInputType.number,
-                        prefixIcon: const Icon(Icons.lock_outline_rounded, size: 20),
-                      ),
-                    ],
-                  );
-                }),
-
                 AppSpacing.gapV24,
 
-                // CTA Button
+                // Continue / Send OTP Action
                 Obx(() {
                   return AppButton.primary(
-                    text: controller.isOtpSent.value ? 'Verify & Continue' : 'Get OTP',
+                    text: 'Continue with OTP',
                     width: double.infinity,
                     isLoading: controller.isLoading.value,
-                    onPressed: controller.isOtpSent.value
-                        ? controller.verifyOtpAndLogin
-                        : controller.sendOtp,
+                    onPressed: () {
+                      if (controller.loginFormKey.currentState?.validate() ?? false) {
+                        controller.sendOtp();
+                      }
+                    },
                   );
                 }),
-
                 AppSpacing.gapV24,
+
+                // Divider Or
                 Row(
                   children: [
                     const Expanded(child: Divider()),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: Text('OR', style: AppTextStyles.labelSmall(isDark)),
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Text(
+                        'or connect with',
+                        style: AppTextStyles.bodySmall(isDark),
+                      ),
                     ),
                     const Expanded(child: Divider()),
                   ],
                 ),
                 AppSpacing.gapV24,
 
-                // Social Sign-In Buttons
-                AppButton.outline(
-                  text: 'Continue with Google',
-                  width: double.infinity,
-                  prefixIcon: const Icon(Icons.g_mobiledata_rounded, size: 24),
-                  onPressed: controller.skipAuth,
+                // Social Sign-in Buttons
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildSocialButton(
+                        isDark: isDark,
+                        label: 'Google',
+                        icon: Icons.g_mobiledata_rounded,
+                        onTap: () => controller.skipAuth(),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: _buildSocialButton(
+                        isDark: isDark,
+                        label: 'Apple',
+                        icon: Icons.apple_rounded,
+                        onTap: () => controller.skipAuth(),
+                      ),
+                    ),
+                  ],
                 ),
-                AppSpacing.gapV12,
-                AppButton.outline(
-                  text: 'Continue with Apple',
-                  width: double.infinity,
-                  prefixIcon: const Icon(Icons.apple_rounded, size: 20),
-                  onPressed: controller.skipAuth,
+                AppSpacing.gapV32,
+
+                // Sign Up Navigation
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Don’t have an account? ',
+                        style: AppTextStyles.bodyMedium(isDark),
+                      ),
+                      GestureDetector(
+                        onTap: () => Get.toNamed(AppRoutes.signUp),
+                        child: Text(
+                          'Sign Up',
+                          style: AppTextStyles.bodyMedium(isDark).copyWith(
+                            color: isDark ? AppColors.primaryLight : AppColors.primary,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
+                AppSpacing.gapV16,
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSocialButton({
+    required bool isDark,
+    required String label,
+    required IconData icon,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: AppRadius.radiusMd,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        decoration: BoxDecoration(
+          color: isDark ? AppColors.surfaceDark : AppColors.surfaceLight,
+          borderRadius: AppRadius.radiusMd,
+          border: Border.all(
+            color: isDark ? AppColors.borderDark : AppColors.borderLight,
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              size: 22,
+              color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+            ),
+            const SizedBox(width: 8),
+            Text(
+              label,
+              style: AppTextStyles.labelMedium(isDark).copyWith(
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ],
         ),
       ),
     );

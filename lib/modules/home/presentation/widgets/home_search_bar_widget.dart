@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../app/routes/app_routes.dart';
-import '../../../../app/theme/app_colors.dart';
-import '../../../../app/theme/app_radius.dart';
-import '../../../../app/theme/app_shadows.dart';
-import '../../../../app/theme/app_spacing.dart';
-import '../../../../app/theme/app_text_styles.dart';
+import 'package:sewasetu/app/routes/app_routes.dart';
+import 'package:sewasetu/app/theme/app_colors.dart';
+import 'package:sewasetu/app/theme/app_radius.dart';
+import 'package:sewasetu/app/theme/app_shadows.dart';
+import 'package:sewasetu/app/theme/app_spacing.dart';
+import 'package:sewasetu/app/theme/app_text_styles.dart';
 
-/// Interactive search card with instant search redirect and direct filter trigger.
+/// Prominent, animated search bar triggering the complete multi-step search experience
 class HomeSearchBarWidget extends StatelessWidget {
   final VoidCallback? onFilterTap;
 
@@ -21,25 +21,32 @@ class HomeSearchBarWidget extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Padding(
-      padding: AppSpacing.horizontalLg,
+      padding: AppSpacing.screenPadding,
       child: GestureDetector(
         onTap: () => Get.toNamed(AppRoutes.staySearch),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           decoration: BoxDecoration(
-            color: isDark ? AppColors.surfaceDark : AppColors.surfaceLight,
-            borderRadius: AppRadius.radiusLg,
+            color: isDark ? AppColors.surfaceDark : Colors.white,
+            borderRadius: AppRadius.radiusXxl,
+            boxShadow: AppShadows.md,
             border: Border.all(
               color: isDark ? AppColors.borderDark : AppColors.borderLight,
             ),
-            boxShadow: isDark ? AppShadows.darkCard : AppShadows.soft,
           ),
           child: Row(
             children: [
-              Icon(
-                Icons.search_rounded,
-                size: 22,
-                color: isDark ? AppColors.primaryLight : AppColors.primary,
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: isDark ? AppColors.primaryContainerDark : AppColors.primaryContainer,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.search_rounded,
+                  size: 20,
+                  color: isDark ? AppColors.primaryLight : AppColors.primary,
+                ),
               ),
               AppSpacing.gapH12,
               Expanded(
@@ -48,26 +55,24 @@ class HomeSearchBarWidget extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      'Search rooms, PGs, mess, homestays...',
-                      style: AppTextStyles.bodyMedium(isDark).copyWith(
-                        color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
-                        fontWeight: FontWeight.w600,
+                      'Where do you want to stay?',
+                      style: AppTextStyles.titleSmall(isDark).copyWith(
+                        fontWeight: FontWeight.w700,
                       ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
                     ),
+                    const SizedBox(height: 2),
                     Text(
-                      'Anywhere • Any price • Verified only',
-                      style: AppTextStyles.bodySmall(isDark).copyWith(
+                      'Any destination • Any week • Add guests',
+                      style: AppTextStyles.labelSmall(isDark).copyWith(
                         color: isDark ? AppColors.textMutedDark : AppColors.textMutedLight,
                       ),
                     ),
                   ],
                 ),
               ),
-              AppSpacing.gapH8,
+              // Filter Button Shortcut
               GestureDetector(
-                onTap: onFilterTap,
+                onTap: onFilterTap ?? () => Get.toNamed(AppRoutes.staySearch),
                 child: Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
@@ -77,7 +82,7 @@ class HomeSearchBarWidget extends StatelessWidget {
                   child: Icon(
                     Icons.tune_rounded,
                     size: 18,
-                    color: isDark ? AppColors.primaryLight : AppColors.primary,
+                    color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
                   ),
                 ),
               ),

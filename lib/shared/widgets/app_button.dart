@@ -17,9 +17,12 @@ class AppButton extends StatefulWidget {
   final bool isLoading;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
+  final Widget? icon;
   final double? width;
   final double? height;
   final BorderRadius? borderRadius;
+  final Color? textColor;
+  final Color? borderColor;
 
   const AppButton({
     super.key,
@@ -30,9 +33,12 @@ class AppButton extends StatefulWidget {
     this.isLoading = false,
     this.prefixIcon,
     this.suffixIcon,
+    this.icon,
     this.width,
     this.height,
     this.borderRadius,
+    this.textColor,
+    this.borderColor,
   });
 
   const AppButton.primary({
@@ -43,9 +49,12 @@ class AppButton extends StatefulWidget {
     this.isLoading = false,
     this.prefixIcon,
     this.suffixIcon,
+    this.icon,
     this.width,
     this.height,
     this.borderRadius,
+    this.textColor,
+    this.borderColor,
   }) : variant = AppButtonVariant.primary;
 
   const AppButton.secondary({
@@ -56,9 +65,12 @@ class AppButton extends StatefulWidget {
     this.isLoading = false,
     this.prefixIcon,
     this.suffixIcon,
+    this.icon,
     this.width,
     this.height,
     this.borderRadius,
+    this.textColor,
+    this.borderColor,
   }) : variant = AppButtonVariant.secondary;
 
   const AppButton.outline({
@@ -69,9 +81,12 @@ class AppButton extends StatefulWidget {
     this.isLoading = false,
     this.prefixIcon,
     this.suffixIcon,
+    this.icon,
     this.width,
     this.height,
     this.borderRadius,
+    this.textColor,
+    this.borderColor,
   }) : variant = AppButtonVariant.outline;
 
   const AppButton.text({
@@ -82,9 +97,12 @@ class AppButton extends StatefulWidget {
     this.isLoading = false,
     this.prefixIcon,
     this.suffixIcon,
+    this.icon,
     this.width,
     this.height,
     this.borderRadius,
+    this.textColor,
+    this.borderColor,
   }) : variant = AppButtonVariant.text;
 
   @override
@@ -170,38 +188,39 @@ class _AppButtonState extends State<AppButton> with SingleTickerProviderStateMix
         bgColor = isEnabled
             ? (isDark ? AppColors.primaryLight : AppColors.primary)
             : (isDark ? AppColors.surfaceVariantDark : AppColors.borderLight);
-        fgColor = isEnabled
+        fgColor = widget.textColor ?? (isEnabled
             ? (isDark ? Colors.black : Colors.white)
-            : (isDark ? AppColors.textMutedDark : AppColors.textMutedLight);
+            : (isDark ? AppColors.textMutedDark : AppColors.textMutedLight));
         shadows = isEnabled && !isDark ? AppShadows.primaryGlow : null;
         break;
       case AppButtonVariant.secondary:
         bgColor = isEnabled
             ? (isDark ? AppColors.primaryContainerDark : AppColors.primaryContainer)
             : (isDark ? AppColors.surfaceVariantDark : AppColors.borderLight);
-        fgColor = isDark ? AppColors.primaryLight : AppColors.primary;
+        fgColor = widget.textColor ?? (isDark ? AppColors.primaryLight : AppColors.primary);
         break;
       case AppButtonVariant.outline:
         bgColor = Colors.transparent;
-        fgColor = isDark ? AppColors.primaryLight : AppColors.primary;
+        fgColor = widget.textColor ?? (isDark ? AppColors.primaryLight : AppColors.primary);
         border = Border.all(
-          color: isEnabled
+          color: widget.borderColor ?? (isEnabled
               ? (isDark ? AppColors.primaryLight : AppColors.primary)
-              : (isDark ? AppColors.borderDark : AppColors.borderLight),
+              : (isDark ? AppColors.borderDark : AppColors.borderLight)),
           width: 1.5,
         );
         break;
       case AppButtonVariant.text:
         bgColor = Colors.transparent;
-        fgColor = isDark ? AppColors.primaryLight : AppColors.primary;
+        fgColor = widget.textColor ?? (isDark ? AppColors.primaryLight : AppColors.primary);
         break;
       case AppButtonVariant.danger:
         bgColor = isEnabled ? AppColors.error : AppColors.errorLight;
-        fgColor = Colors.white;
+        fgColor = widget.textColor ?? Colors.white;
         break;
     }
 
     final radius = widget.borderRadius ?? AppRadius.radiusMd;
+    final effectiveLeadingIcon = widget.icon ?? widget.prefixIcon;
 
     return AnimatedBuilder(
       animation: _scaleAnimation,
@@ -238,8 +257,8 @@ class _AppButtonState extends State<AppButton> with SingleTickerProviderStateMix
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      if (widget.prefixIcon != null) ...[
-                        widget.prefixIcon!,
+                      if (effectiveLeadingIcon != null) ...[
+                        effectiveLeadingIcon,
                         const SizedBox(width: 8),
                       ],
                       Text(

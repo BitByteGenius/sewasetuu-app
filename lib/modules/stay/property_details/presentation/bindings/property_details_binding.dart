@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:sewasetu/modules/stay/property/data/datasources/stay_mock_datasource.dart';
 import 'package:sewasetu/modules/stay/property/data/repositories/stay_repository_impl.dart';
 import 'package:sewasetu/modules/stay/property/domain/repositories/stay_repository.dart';
+import 'package:sewasetu/modules/stay/property/domain/usecases/get_stays_usecase.dart';
 import 'package:sewasetu/modules/stay/property_details/domain/usecases/get_stay_details_usecase.dart';
 import 'package:sewasetu/modules/stay/property_details/presentation/controllers/property_details_controller.dart';
 
@@ -16,9 +17,16 @@ class PropertyDetailsBinding extends Bindings {
       Get.lazyPut<IStayRepository>(() => StayRepositoryImpl(Get.find<IStayDataSource>()));
     }
 
+    if (!Get.isRegistered<GetStaysUseCase>()) {
+      Get.lazyPut<GetStaysUseCase>(() => GetStaysUseCase(Get.find<IStayRepository>()));
+    }
     Get.lazyPut<GetStayDetailsUseCase>(() => GetStayDetailsUseCase(Get.find<IStayRepository>()));
+
     Get.lazyPut<PropertyDetailsController>(
-      () => PropertyDetailsController(getStayDetailsUseCase: Get.find<GetStayDetailsUseCase>()),
+      () => PropertyDetailsController(
+        getStayDetailsUseCase: Get.find<GetStayDetailsUseCase>(),
+        getStaysUseCase: Get.find<GetStaysUseCase>(),
+      ),
     );
   }
 }

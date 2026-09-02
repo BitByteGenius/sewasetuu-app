@@ -5,12 +5,13 @@ import 'package:sewasetu/app/theme/app_colors.dart';
 import 'package:sewasetu/app/theme/app_radius.dart';
 import 'package:sewasetu/app/theme/app_spacing.dart';
 import 'package:sewasetu/app/theme/app_text_styles.dart';
+import 'package:sewasetu/modules/home/presentation/controllers/home_controller.dart';
+import 'package:sewasetu/modules/profile/presentation/controllers/profile_controller.dart';
 import 'package:sewasetu/shared/widgets/app_badge.dart';
 import 'package:sewasetu/shared/widgets/app_card.dart';
 import 'package:sewasetu/shared/widgets/app_network_image.dart';
-import 'package:sewasetu/modules/profile/presentation/controllers/profile_controller.dart';
 
-/// Clean Profile & Settings page with Theme toggle (Light/Dark), stats, and quick links.
+/// Clean Profile & Settings page with Theme toggle (Light/Dark), stats, and quick links
 class ProfilePage extends GetView<ProfileController> {
   const ProfilePage({super.key});
 
@@ -29,55 +30,67 @@ class ProfilePage extends GetView<ProfileController> {
         padding: AppSpacing.screenPadding,
         child: Column(
           children: [
-            // User Card
-            AppCard(
-              padding: AppSpacing.edgeInsetsLg,
-              child: Row(
-                children: [
-                  const AppNetworkImage(
-                    imageUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80',
-                    width: 64,
-                    height: 64,
-                    borderRadius: AppRadius.radiusPill,
-                  ),
-                  AppSpacing.gapH16,
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Obx(() {
-                              return Text(
-                                controller.userName.value,
-                                style: AppTextStyles.titleLarge(isDark).copyWith(
-                                  fontWeight: FontWeight.w800,
-                                ),
-                              );
-                            }),
-                            const SizedBox(width: 6),
-                            const AppBadge.verified(),
-                          ],
-                        ),
-                        AppSpacing.gapV4,
-                        Obx(() {
-                          return Text(
-                            controller.userPhone.value,
-                            style: AppTextStyles.bodySmall(isDark),
-                          );
-                        }),
-                        Obx(() {
-                          return Text(
-                            controller.userEmail.value,
-                            style: AppTextStyles.bodySmall(isDark).copyWith(
-                              color: isDark ? AppColors.textMutedDark : AppColors.textMutedLight,
-                            ),
-                          );
-                        }),
-                      ],
+            // User Card with Edit Action
+            GestureDetector(
+              onTap: () => Get.toNamed(AppRoutes.editProfile),
+              child: AppCard(
+                padding: AppSpacing.edgeInsetsLg,
+                child: Row(
+                  children: [
+                    const AppNetworkImage(
+                      imageUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80',
+                      width: 64,
+                      height: 64,
+                      borderRadius: AppRadius.radiusPill,
                     ),
-                  ),
-                ],
+                    AppSpacing.gapH16,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Obx(() {
+                                return Flexible(
+                                  child: Text(
+                                    controller.userName.value,
+                                    style: AppTextStyles.titleLarge(isDark).copyWith(
+                                      fontWeight: FontWeight.w800,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                );
+                              }),
+                              const SizedBox(width: 6),
+                              const AppBadge.verified(),
+                            ],
+                          ),
+                          AppSpacing.gapV4,
+                          Obx(() {
+                            return Text(
+                              controller.userPhone.value,
+                              style: AppTextStyles.bodySmall(isDark),
+                            );
+                          }),
+                          Obx(() {
+                            return Text(
+                              controller.userEmail.value,
+                              style: AppTextStyles.bodySmall(isDark).copyWith(
+                                color: isDark ? AppColors.textMutedDark : AppColors.textMutedLight,
+                              ),
+                            );
+                          }),
+                        ],
+                      ),
+                    ),
+                    Icon(
+                      Icons.edit_outlined,
+                      size: 20,
+                      color: isDark ? AppColors.primaryLight : AppColors.primary,
+                    ),
+                  ],
+                ),
               ),
             ),
             AppSpacing.gapV16,
@@ -86,15 +99,32 @@ class ProfilePage extends GetView<ProfileController> {
             Row(
               children: [
                 Expanded(
-                  child: _buildStatCard(isDark, '3', 'Active Bookings', Icons.check_circle_outline_rounded),
+                  child: GestureDetector(
+                    onTap: () {
+                      if (Get.isRegistered<HomeController>()) {
+                        Get.find<HomeController>().switchNavTab(2);
+                      }
+                    },
+                    child: _buildStatCard(isDark, '3', 'My Bookings', Icons.check_circle_outline_rounded),
+                  ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
-                  child: _buildStatCard(isDark, '12', 'Saved Stays', Icons.favorite_outline_rounded),
+                  child: GestureDetector(
+                    onTap: () {
+                      if (Get.isRegistered<HomeController>()) {
+                        Get.find<HomeController>().switchNavTab(3);
+                      }
+                    },
+                    child: _buildStatCard(isDark, '12', 'Wishlist', Icons.favorite_outline_rounded),
+                  ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
-                  child: _buildStatCard(isDark, '5', 'Reviews Given', Icons.star_outline_rounded),
+                  child: GestureDetector(
+                    onTap: () => Get.toNamed(AppRoutes.coupons),
+                    child: _buildStatCard(isDark, '3', 'Coupons', Icons.local_offer_outlined),
+                  ),
                 ),
               ],
             ),
@@ -105,6 +135,16 @@ class ProfilePage extends GetView<ProfileController> {
               padding: EdgeInsets.zero,
               child: Column(
                 children: [
+                  // Personal Information
+                  _buildMenuItem(
+                    isDark: isDark,
+                    icon: Icons.person_outline_rounded,
+                    title: 'Personal Information',
+                    subtitle: 'Name, phone, email & identity',
+                    onTap: () => Get.toNamed(AppRoutes.editProfile),
+                  ),
+                  const Divider(height: 1),
+
                   // Dark Mode Switch Tile
                   Obx(() {
                     return SwitchListTile(
@@ -128,6 +168,17 @@ class ProfilePage extends GetView<ProfileController> {
                     );
                   }),
                   const Divider(height: 1),
+
+                  // Coupons & Offers
+                  _buildMenuItem(
+                    isDark: isDark,
+                    icon: Icons.local_offer_outlined,
+                    title: 'Coupons & Promo Codes',
+                    subtitle: 'View available discounts & vouchers',
+                    onTap: () => Get.toNamed(AppRoutes.coupons),
+                  ),
+                  const Divider(height: 1),
+
                   _buildMenuItem(
                     isDark: isDark,
                     icon: Icons.credit_card_outlined,
@@ -136,6 +187,7 @@ class ProfilePage extends GetView<ProfileController> {
                     onTap: () => Get.toNamed(AppRoutes.payment),
                   ),
                   const Divider(height: 1),
+
                   _buildMenuItem(
                     isDark: isDark,
                     icon: Icons.notifications_none_rounded,
@@ -144,22 +196,29 @@ class ProfilePage extends GetView<ProfileController> {
                     onTap: () => Get.toNamed(AppRoutes.notifications),
                   ),
                   const Divider(height: 1),
+
                   _buildMenuItem(
                     isDark: isDark,
                     icon: Icons.security_outlined,
                     title: 'Privacy & Security',
                     subtitle: 'Account protection & permissions',
-                    onTap: () {},
+                    onTap: () {
+                      Get.snackbar('Privacy', 'Your account is protected by 256-bit SSL encryption.');
+                    },
                   ),
                   const Divider(height: 1),
+
                   _buildMenuItem(
                     isDark: isDark,
                     icon: Icons.help_outline_rounded,
-                    title: 'Help & Support',
-                    subtitle: '24/7 customer assistance',
-                    onTap: () {},
+                    title: 'Help & 24/7 Support',
+                    subtitle: 'Customer assistance & FAQs',
+                    onTap: () {
+                      Get.snackbar('SewaSetu Support', 'Support team is available 24x7 at support@sewasetu.com');
+                    },
                   ),
                   const Divider(height: 1),
+
                   _buildMenuItem(
                     isDark: isDark,
                     icon: Icons.logout_rounded,

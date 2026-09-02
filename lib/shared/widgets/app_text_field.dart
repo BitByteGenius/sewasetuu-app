@@ -11,6 +11,7 @@ class AppTextField extends StatefulWidget {
   final TextEditingController? controller;
   final TextInputType keyboardType;
   final bool isPassword;
+  final bool? obscureText;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
   final String? Function(String?)? validator;
@@ -30,6 +31,7 @@ class AppTextField extends StatefulWidget {
     this.controller,
     this.keyboardType = TextInputType.text,
     this.isPassword = false,
+    this.obscureText,
     this.prefixIcon,
     this.suffixIcon,
     this.validator,
@@ -52,7 +54,15 @@ class _AppTextFieldState extends State<AppTextField> {
   @override
   void initState() {
     super.initState();
-    _obscureText = widget.isPassword;
+    _obscureText = widget.obscureText ?? widget.isPassword;
+  }
+
+  @override
+  void didUpdateWidget(covariant AppTextField oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.obscureText != null) {
+      _obscureText = widget.obscureText!;
+    }
   }
 
   @override
@@ -80,7 +90,7 @@ class _AppTextFieldState extends State<AppTextField> {
           obscureText: _obscureText,
           readOnly: widget.readOnly,
           onTap: widget.onTap,
-          maxLines: widget.isPassword ? 1 : widget.maxLines,
+          maxLines: (widget.isPassword || (widget.obscureText ?? false)) ? 1 : widget.maxLines,
           autofocus: widget.autofocus,
           focusNode: widget.focusNode,
           validator: widget.validator,

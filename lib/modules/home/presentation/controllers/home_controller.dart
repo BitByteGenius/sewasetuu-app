@@ -1,11 +1,12 @@
 import 'package:get/get.dart';
-import '../../../../core/services/location_service.dart';
-import '../../../stay/property/domain/entities/stay_entity.dart';
-import '../../../stay/property/domain/usecases/get_stays_usecase.dart';
-import '../../../../shared/enums/stay_type.dart';
-import '../../../../shared/enums/view_state.dart';
+import 'package:sewasetu/app/routes/app_routes.dart';
+import 'package:sewasetu/core/services/location_service.dart';
+import 'package:sewasetu/modules/stay/property/domain/entities/stay_entity.dart';
+import 'package:sewasetu/modules/stay/property/domain/usecases/get_stays_usecase.dart';
+import 'package:sewasetu/shared/enums/stay_type.dart';
+import 'package:sewasetu/shared/enums/view_state.dart';
 
-/// Controller managing the Home screen state, featured properties, and nearby feed.
+/// Controller for Home Discovery screen and Main Shell navigation
 class HomeController extends GetxController {
   final GetStaysUseCase getStaysUseCase;
   final LocationService locationService;
@@ -15,50 +16,54 @@ class HomeController extends GetxController {
     required this.locationService,
   });
 
+  // Observables
+  final RxInt selectedNavIndex = 0.obs;
   final Rx<ViewState> state = ViewState.initial.obs;
   final RxList<StayEntity> featuredStays = <StayEntity>[].obs;
   final RxList<StayEntity> nearbyStays = <StayEntity>[].obs;
-  final RxInt selectedNavIndex = 0.obs;
+  final RxList<StayEntity> recommendedStays = <StayEntity>[].obs;
+  final RxList<StayEntity> recentlyViewedStays = <StayEntity>[].obs;
+  final RxInt unreadNotificationCount = 2.obs;
 
   @override
   void onInit() {
     super.onInit();
     loadHomeData();
-    // Reactively refresh nearby stays when selected city changes
     ever(locationService.selectedCity, (_) => loadNearbyStays());
   }
 
   Future<void> loadHomeData() async {
     try {
       state.value = ViewState.loading;
+      final allStays = await getStaysUseCase();
       final featured = await getStaysUseCase.getFeatured();
       final nearby = await getStaysUseCase.getNearby(locationService.selectedCity.value);
+
       featuredStays.assignAll(featured);
       nearbyStays.assignAll(nearby);
+      recommendedStays.assignAll(allStays.reversed.take(4).toList());
+      recentlyViewedStays.assignAll(allStays.take(3).toList());
+
       state.value = ViewState.loaded;
-    } catch (e) {
+    } catch (_) {
       state.value = ViewState.error;
     }
   }
 
   Future<void> loadNearbyStays() async {
-    try {
-      final nearby = await getStaysUseCase.getNearby(locationService.selectedCity.value);
-      nearbyStays.assignAll(nearby);
-    } catch (_) {}
-  }
-
-  void onSelectStayType(StayType type) {
-    // Navigate directly to Stay List with pre-selected category
-    Get.toNamed('/stay/list', arguments: type);
-  }
-
-  void onSelectDestination(String city) {
-    locationService.updateCity(city);
-    Get.toNamed('/stay/list');
+    final nearby = await getStaysUseCase.getNearby(locationService.selectedCity.value);
+    nearbyStays.assignAll(nearby);
   }
 
   void switchNavTab(int index) {
     selectedNavIndex.value = index;
+  }
+
+  void onSelectStayType(StayType type) {
+    Get.toNamed(AppRoutes.stayList, arguments: type);
+  }
+
+  void onSelectDestination(String destination) {
+    Get.toNamed(AppRoutes.staySearch, arguments: destination);
   }
 }

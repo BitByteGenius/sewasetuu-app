@@ -11,6 +11,8 @@ abstract class AppShadows {
     ),
   ];
 
+  static List<BoxShadow> sm = soft;
+
   static List<BoxShadow> card = [
     BoxShadow(
       color: Colors.black.withAlpha((255 * 0.06).round()),
@@ -19,6 +21,8 @@ abstract class AppShadows {
       spreadRadius: -2,
     ),
   ];
+
+  static List<BoxShadow> md = card;
 
   static List<BoxShadow> floating = [
     BoxShadow(
@@ -36,6 +40,8 @@ abstract class AppShadows {
       offset: const Offset(0, -4),
     ),
   ];
+
+  static List<BoxShadow> topNav = bottomNav;
 
   static List<BoxShadow> primaryGlow = [
     BoxShadow(

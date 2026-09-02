@@ -11,6 +11,8 @@ class AppCard extends StatelessWidget {
   final Color? backgroundColor;
   final BorderRadius? borderRadius;
   final Border? border;
+  final Color? borderColor;
+  final double? borderWidth;
   final List<BoxShadow>? shadows;
   final double? width;
   final double? height;
@@ -23,6 +25,8 @@ class AppCard extends StatelessWidget {
     this.backgroundColor,
     this.borderRadius,
     this.border,
+    this.borderColor,
+    this.borderWidth,
     this.shadows,
     this.width,
     this.height,
@@ -35,8 +39,8 @@ class AppCard extends StatelessWidget {
     final effectiveBg = backgroundColor ?? (isDark ? AppColors.cardDark : AppColors.cardLight);
     final effectiveBorder = border ??
         Border.all(
-          color: isDark ? AppColors.borderDark : AppColors.borderLight,
-          width: 1,
+          color: borderColor ?? (isDark ? AppColors.borderDark : AppColors.borderLight),
+          width: borderWidth ?? 1,
         );
     final effectiveShadow = shadows ?? (isDark ? AppShadows.darkCard : AppShadows.card);
 

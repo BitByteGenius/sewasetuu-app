@@ -4,7 +4,7 @@ import 'package:sewasetu/app/theme/app_radius.dart';
 import 'package:sewasetu/app/theme/app_spacing.dart';
 import 'package:sewasetu/app/theme/app_text_styles.dart';
 
-/// Clean stylized map visual card preview with address and distance markers.
+/// Clean stylized map visual card preview with address, distance markers and 400m privacy circle overlay
 class LocationMapPreviewWidget extends StatelessWidget {
   final String address;
   final String city;
@@ -24,11 +24,11 @@ class LocationMapPreviewWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Stylized map placeholder container
+        // Stylized map placeholder container with 400m circle overlay
         ClipRRect(
           borderRadius: AppRadius.radiusLg,
           child: Container(
-            height: 160,
+            height: 180,
             width: double.infinity,
             decoration: BoxDecoration(
               color: isDark ? const Color(0xFF1E2A38) : const Color(0xFFE2E8F0),
@@ -39,45 +39,77 @@ class LocationMapPreviewWidget extends StatelessWidget {
                   child: Image.network(
                     'https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=800&q=80',
                     fit: BoxFit.cover,
-                    opacity: const AlwaysStoppedAnimation(0.75),
+                    opacity: const AlwaysStoppedAnimation(0.7),
                     errorBuilder: (context, error, stackTrace) => Container(
                       color: isDark ? const Color(0xFF1E2A38) : const Color(0xFFE2E8F0),
                     ),
                   ),
                 ),
-                // Pin Marker in center
+                // 400m Translucent Privacy Circle overlay
                 Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
+                  child: Container(
+                    width: 140,
+                    height: 140,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: (isDark ? AppColors.primaryLight : AppColors.primary).withAlpha(40),
+                      border: Border.all(
+                        color: (isDark ? AppColors.primaryLight : AppColors.primary).withAlpha(160),
+                        width: 2,
+                      ),
+                    ),
+                  ),
+                ),
+                // Center Icon Marker
+                Center(
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: isDark ? AppColors.primaryLight : AppColors.primary,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withAlpha(60),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: Icon(
+                      Icons.home_rounded,
+                      color: isDark ? Colors.black : Colors.white,
+                      size: 20,
+                    ),
+                  ),
+                ),
+                // Privacy notice tag (Top Left)
+                Positioned(
+                  top: 10,
+                  left: 10,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: (isDark ? AppColors.surfaceDark : Colors.white).withAlpha(240),
+                      borderRadius: AppRadius.radiusPill,
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.security_rounded,
+                          size: 13,
                           color: isDark ? AppColors.primaryLight : AppColors.primary,
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withAlpha(50),
-                              blurRadius: 10,
-                              offset: const Offset(0, 4),
-                            ),
-                          ],
                         ),
-                        child: Icon(
-                          Icons.apartment_rounded,
-                          color: isDark ? Colors.black : Colors.white,
-                          size: 20,
+                        const SizedBox(width: 4),
+                        Text(
+                          'Approximate location (400m)',
+                          style: AppTextStyles.labelSmall(isDark).copyWith(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 10,
+                          ),
                         ),
-                      ),
-                      Container(
-                        width: 8,
-                        height: 8,
-                        decoration: BoxDecoration(
-                          color: Colors.black.withAlpha(100),
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 // Distance Pill (Bottom Left)

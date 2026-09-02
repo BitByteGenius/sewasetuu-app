@@ -1,22 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sewasetu/app/routes/app_routes.dart';
 import 'package:sewasetu/app/theme/app_colors.dart';
 import 'package:sewasetu/app/theme/app_spacing.dart';
 import 'package:sewasetu/app/theme/app_text_styles.dart';
-import 'package:sewasetu/shared/enums/view_state.dart';
-import 'package:sewasetu/shared/widgets/app_badge.dart';
-import 'package:sewasetu/shared/widgets/app_empty_state.dart';
-import 'package:sewasetu/shared/widgets/app_loader.dart';
-import 'package:sewasetu/shared/widgets/app_rating_bar.dart';
-import 'package:sewasetu/modules/stay/review/presentation/widgets/review_item_widget.dart';
 import 'package:sewasetu/modules/stay/property_details/presentation/controllers/property_details_controller.dart';
+import 'package:sewasetu/modules/stay/property_details/presentation/widgets/all_amenities_modal.dart';
+import 'package:sewasetu/modules/stay/property_details/presentation/widgets/all_reviews_modal.dart';
 import 'package:sewasetu/modules/stay/property_details/presentation/widgets/amenities_grid_widget.dart';
 import 'package:sewasetu/modules/stay/property_details/presentation/widgets/host_profile_card_widget.dart';
 import 'package:sewasetu/modules/stay/property_details/presentation/widgets/location_map_preview_widget.dart';
 import 'package:sewasetu/modules/stay/property_details/presentation/widgets/property_image_gallery.dart';
+import 'package:sewasetu/modules/stay/property_details/presentation/widgets/reviews_breakdown_widget.dart';
+import 'package:sewasetu/modules/stay/property_details/presentation/widgets/room_options_selector_widget.dart';
+import 'package:sewasetu/modules/stay/property_details/presentation/widgets/similar_properties_widget.dart';
 import 'package:sewasetu/modules/stay/property_details/presentation/widgets/sticky_booking_bar_widget.dart';
+import 'package:sewasetu/modules/stay/review/presentation/widgets/review_item_widget.dart';
+import 'package:sewasetu/shared/enums/view_state.dart';
+import 'package:sewasetu/shared/widgets/app_badge.dart';
+import 'package:sewasetu/shared/widgets/app_empty_state.dart';
+import 'package:sewasetu/shared/widgets/app_skeleton.dart';
 
-/// Property Details Page displaying photos, host, amenities, map, reviews, and booking bar.
+/// Comprehensive Property Details Experience with Rooms, Amenities, Reviews Breakdown and 400m Privacy Map
 class PropertyDetailsPage extends GetView<PropertyDetailsController> {
   const PropertyDetailsPage({super.key});
 
@@ -28,7 +33,10 @@ class PropertyDetailsPage extends GetView<PropertyDetailsController> {
       body: Obx(() {
         switch (controller.state.value) {
           case ViewState.loading:
-            return const Center(child: AppLoader(message: 'Loading property details...'));
+            return Padding(
+              padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+              child: const StayCardSkeleton(),
+            );
           case ViewState.error:
             return AppEmptyState(
               icon: Icons.error_outline_rounded,
@@ -42,8 +50,13 @@ class PropertyDetailsPage extends GetView<PropertyDetailsController> {
           case ViewState.loaded:
             final stay = controller.stay.value;
             if (stay == null) {
-              return const Center(child: AppLoader());
+              return const Center(child: CircularProgressIndicator());
             }
+
+            final selectedRoom = controller.availableRooms.firstWhere(
+              (r) => r.id == controller.selectedRoomId.value,
+              orElse: () => controller.availableRooms.first,
+            );
 
             return Stack(
               children: [
@@ -55,19 +68,23 @@ class PropertyDetailsPage extends GetView<PropertyDetailsController> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Image Carousel with Hero tag
-                      PropertyImageGallery(
-                        heroTag: 'stay-img-${stay.id}',
-                        images: stay.images,
-                        isFavorite: controller.isFavorite.value,
-                        onFavoriteTap: controller.toggleFavorite,
+                      // 1. Large Image Gallery with Hero and Full-Screen Tap
+                      GestureDetector(
+                        onTap: () => controller.openGallery(0),
+                        child: PropertyImageGallery(
+                          heroTag: 'stay-img-${stay.id}',
+                          images: stay.images,
+                          isFavorite: controller.isFavorite.value,
+                          onFavoriteTap: controller.toggleFavorite,
+                        ),
                       ),
+
                       Padding(
                         padding: AppSpacing.screenPadding,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // Category & Verified Badge
+                            // 2. Category & Verified Badge
                             Row(
                               children: [
                                 AppBadge(
@@ -82,7 +99,8 @@ class PropertyDetailsPage extends GetView<PropertyDetailsController> {
                               ],
                             ),
                             AppSpacing.gapV12,
-                            // Title
+
+                            // 3. Property Title
                             Text(
                               stay.title,
                               style: AppTextStyles.headlineMedium(isDark).copyWith(
@@ -90,21 +108,27 @@ class PropertyDetailsPage extends GetView<PropertyDetailsController> {
                               ),
                             ),
                             AppSpacing.gapV8,
-                            // Rating and Reviews
+
+                            // 4. Location & Rating Subtitle
                             Row(
                               children: [
-                                AppRatingBar(
-                                  rating: stay.rating,
-                                  reviewsCount: stay.reviewsCount,
-                                  iconSize: 16,
+                                const Icon(Icons.star_rounded, size: 18, color: AppColors.starGold),
+                                const SizedBox(width: 4),
+                                Text(
+                                  '${stay.rating} (${stay.reviewsCount} reviews)',
+                                  style: AppTextStyles.titleSmall(isDark).copyWith(
+                                    fontWeight: FontWeight.w700,
+                                  ),
                                 ),
                                 const SizedBox(width: 8),
                                 const Text('•'),
                                 const SizedBox(width: 8),
-                                Text(
-                                  stay.roomConfiguration,
-                                  style: AppTextStyles.bodyMedium(isDark).copyWith(
-                                    fontWeight: FontWeight.w600,
+                                Expanded(
+                                  child: Text(
+                                    stay.city,
+                                    style: AppTextStyles.bodyMedium(isDark),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                               ],
@@ -113,43 +137,89 @@ class PropertyDetailsPage extends GetView<PropertyDetailsController> {
                             const Divider(height: 1),
                             AppSpacing.gapV16,
 
-                            // Host Card
-                            HostProfileCardWidget(host: stay.host),
-
+                            // 5. Host Information Card
+                            HostProfileCardWidget(
+                              host: stay.host,
+                              onContactTap: () {
+                                Get.snackbar(
+                                  'Host Contacted',
+                                  'Message sent to ${stay.host.name}. Average response time: 10 mins.',
+                                  snackPosition: SnackPosition.BOTTOM,
+                                );
+                              },
+                            ),
                             AppSpacing.gapV24,
-                            // Description Section
+
+                            // 6. About Description
                             Text(
-                              'About this space',
-                              style: AppTextStyles.headlineSmall(isDark),
+                              'About this place',
+                              style: AppTextStyles.headlineSmall(isDark).copyWith(
+                                fontWeight: FontWeight.w800,
+                              ),
                             ),
                             AppSpacing.gapV8,
                             Text(
                               stay.description,
                               style: AppTextStyles.bodyLarge(isDark).copyWith(
                                 color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                                height: 1.6,
                               ),
                             ),
-
                             AppSpacing.gapV24,
                             const Divider(height: 1),
                             AppSpacing.gapV24,
 
-                            // Amenities Section
-                            Text(
-                              'What this place offers',
-                              style: AppTextStyles.headlineSmall(isDark),
+                            // 7. Room Configurations Selector
+                            if (controller.availableRooms.isNotEmpty) ...[
+                              Obx(() {
+                                return RoomOptionsSelectorWidget(
+                                  rooms: controller.availableRooms,
+                                  selectedRoomId: controller.selectedRoomId.value,
+                                  onRoomSelected: controller.selectRoom,
+                                );
+                              }),
+                              AppSpacing.gapV24,
+                              const Divider(height: 1),
+                              AppSpacing.gapV24,
+                            ],
+
+                            // 8. Amenities Section with Full Modal Trigger
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Amenities Offered',
+                                  style: AppTextStyles.headlineSmall(isDark).copyWith(
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () => AllAmenitiesModal.show(
+                                    context,
+                                    amenities: stay.amenities,
+                                  ),
+                                  child: Text(
+                                    'View all',
+                                    style: AppTextStyles.labelMedium(isDark).copyWith(
+                                      color: isDark ? AppColors.primaryLight : AppColors.primary,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                             AppSpacing.gapV12,
                             AmenitiesGridWidget(amenities: stay.amenities),
-
                             AppSpacing.gapV24,
                             const Divider(height: 1),
                             AppSpacing.gapV24,
 
-                            // Location Section
+                            // 9. Location with 400m Privacy Radius
                             Text(
-                              'Where you’ll be',
-                              style: AppTextStyles.headlineSmall(isDark),
+                              'Location & Neighborhood',
+                              style: AppTextStyles.headlineSmall(isDark).copyWith(
+                                fontWeight: FontWeight.w800,
+                              ),
                             ),
                             AppSpacing.gapV12,
                             LocationMapPreviewWidget(
@@ -157,34 +227,53 @@ class PropertyDetailsPage extends GetView<PropertyDetailsController> {
                               city: stay.city,
                               distanceText: stay.distanceText,
                             ),
-
                             AppSpacing.gapV24,
                             const Divider(height: 1),
                             AppSpacing.gapV24,
 
-                            // Reviews Section
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Guest Reviews',
-                                  style: AppTextStyles.headlineSmall(isDark),
-                                ),
-                                AppRatingBar(
-                                  rating: stay.rating,
-                                  reviewsCount: stay.reviewsCount,
-                                ),
-                              ],
+                            // 10. Reviews Breakdown (6 Dimensions)
+                            ReviewsBreakdownWidget(
+                              overallRating: stay.rating,
+                              totalReviews: stay.reviewsCount,
                             ),
                             AppSpacing.gapV16,
+
+                            // Top 2 Guest Reviews
                             ListView.separated(
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
-                              itemCount: controller.reviews.length,
+                              itemCount: controller.reviews.take(2).length,
                               separatorBuilder: (context, index) => AppSpacing.gapV12,
                               itemBuilder: (context, index) {
                                 return ReviewItemWidget(review: controller.reviews[index]);
                               },
+                            ),
+                            AppSpacing.gapV12,
+
+                            // "Show all reviews" Button
+                            OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                minimumSize: const Size(double.infinity, 44),
+                              ),
+                              onPressed: () => AllReviewsModal.show(
+                                context,
+                                reviews: controller.reviews,
+                                rating: stay.rating,
+                              ),
+                              child: Text('Show all ${controller.reviews.length} reviews'),
+                            ),
+                            AppSpacing.gapV24,
+                            const Divider(height: 1),
+                            AppSpacing.gapV24,
+
+                            // 11. Similar Accommodations Carousel
+                            SimilarPropertiesWidget(
+                              similarStays: controller.similarStays,
+                              onStayTap: (simStay) => Get.toNamed(
+                                AppRoutes.stayDetails,
+                                arguments: simStay.id,
+                                preventDuplicates: false,
+                              ),
                             ),
                           ],
                         ),
@@ -193,15 +282,15 @@ class PropertyDetailsPage extends GetView<PropertyDetailsController> {
                   ),
                 ),
 
-                // Sticky Bottom Booking Bar
+                // Sticky Bottom Booking Bar with Selected Room Price
                 Positioned(
                   left: 0,
                   right: 0,
                   bottom: 0,
                   child: StickyBookingBarWidget(
-                    pricePerNight: stay.pricePerNight,
+                    pricePerNight: selectedRoom.pricePerNight,
                     pricePerMonth: stay.pricePerMonth,
-                    isBooking: controller.isBooking.value,
+                    isBooking: false,
                     onBookNow: controller.initiateBooking,
                   ),
                 ),
