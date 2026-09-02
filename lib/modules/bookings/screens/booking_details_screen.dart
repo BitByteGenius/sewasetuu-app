@@ -266,6 +266,7 @@ class BookingDetailsScreen extends StatelessWidget {
                 Expanded(
                   child: AppButton.outline(
                     text: 'Download Invoice',
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     onPressed: () {
                       Get.snackbar('Invoice Downloaded', 'PDF invoice saved to your downloads');
                     },
@@ -275,6 +276,7 @@ class BookingDetailsScreen extends StatelessWidget {
                 Expanded(
                   child: AppButton.outline(
                     text: 'Cancel Booking',
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     textColor: AppColors.error,
                     borderColor: AppColors.error,
                     onPressed: () {

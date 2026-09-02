@@ -23,6 +23,7 @@ class AppButton extends StatefulWidget {
   final BorderRadius? borderRadius;
   final Color? textColor;
   final Color? borderColor;
+  final EdgeInsetsGeometry? padding;
 
   const AppButton({
     super.key,
@@ -39,6 +40,7 @@ class AppButton extends StatefulWidget {
     this.borderRadius,
     this.textColor,
     this.borderColor,
+    this.padding,
   });
 
   const AppButton.primary({
@@ -55,6 +57,7 @@ class AppButton extends StatefulWidget {
     this.borderRadius,
     this.textColor,
     this.borderColor,
+    this.padding,
   }) : variant = AppButtonVariant.primary;
 
   const AppButton.secondary({
@@ -71,6 +74,7 @@ class AppButton extends StatefulWidget {
     this.borderRadius,
     this.textColor,
     this.borderColor,
+    this.padding,
   }) : variant = AppButtonVariant.secondary;
 
   const AppButton.outline({
@@ -87,6 +91,7 @@ class AppButton extends StatefulWidget {
     this.borderRadius,
     this.textColor,
     this.borderColor,
+    this.padding,
   }) : variant = AppButtonVariant.outline;
 
   const AppButton.text({
@@ -103,6 +108,7 @@ class AppButton extends StatefulWidget {
     this.borderRadius,
     this.textColor,
     this.borderColor,
+    this.padding,
   }) : variant = AppButtonVariant.text;
 
   @override
@@ -156,26 +162,28 @@ class _AppButtonState extends State<AppButton> with SingleTickerProviderStateMix
 
     // Size parameters
     double height;
-    EdgeInsets padding;
+    EdgeInsets defaultPadding;
     double fontSize;
 
     switch (widget.size) {
       case AppButtonSize.small:
         height = 38.0;
-        padding = const EdgeInsets.symmetric(horizontal: 14);
+        defaultPadding = const EdgeInsets.symmetric(horizontal: 12);
         fontSize = 13.0;
         break;
       case AppButtonSize.large:
         height = 56.0;
-        padding = const EdgeInsets.symmetric(horizontal: 24);
+        defaultPadding = const EdgeInsets.symmetric(horizontal: 24);
         fontSize = 16.0;
         break;
       case AppButtonSize.medium:
         height = 48.0;
-        padding = const EdgeInsets.symmetric(horizontal: 20);
-        fontSize = 14.5;
+        defaultPadding = const EdgeInsets.symmetric(horizontal: 16);
+        fontSize = 14.0;
         break;
     }
+
+    final effectivePadding = widget.padding ?? defaultPadding;
 
     // Styling according to variant
     Color bgColor;
@@ -236,7 +244,7 @@ class _AppButtonState extends State<AppButton> with SingleTickerProviderStateMix
         child: Container(
           width: widget.width,
           height: widget.height ?? height,
-          padding: padding,
+          padding: effectivePadding,
           decoration: BoxDecoration(
             color: bgColor,
             borderRadius: radius,
@@ -259,18 +267,23 @@ class _AppButtonState extends State<AppButton> with SingleTickerProviderStateMix
                     children: [
                       if (effectiveLeadingIcon != null) ...[
                         effectiveLeadingIcon,
-                        const SizedBox(width: 8),
+                        const SizedBox(width: 6),
                       ],
-                      Text(
-                        widget.text,
-                        style: AppTextStyles.labelLarge(isDark).copyWith(
-                          color: fgColor,
-                          fontSize: fontSize,
-                          fontWeight: FontWeight.w600,
+                      Flexible(
+                        child: Text(
+                          widget.text,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                          style: AppTextStyles.labelLarge(isDark).copyWith(
+                            color: fgColor,
+                            fontSize: fontSize,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                       if (widget.suffixIcon != null) ...[
-                        const SizedBox(width: 8),
+                        const SizedBox(width: 6),
                         widget.suffixIcon!,
                       ],
                     ],
