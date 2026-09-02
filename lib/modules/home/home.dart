@@ -1,0 +1,15 @@
+// Central barrel export for Home Module
+export 'bindings/home_binding.dart';
+export 'controllers/home_controller.dart';
+export 'screens/home_screen.dart';
+export 'screens/main_navigation_shell.dart';
+export 'widgets/featured_stays_carousel_widget.dart';
+export 'widgets/home_header_widget.dart';
+export 'widgets/home_search_bar_widget.dart';
+export 'widgets/location_selector_modal.dart';
+export 'widgets/nearby_stays_widget.dart';
+export 'widgets/popular_destinations_widget.dart';
+export 'widgets/recently_viewed_widget.dart';
+export 'widgets/recommended_stays_widget.dart';
+export 'widgets/secondary_services_widget.dart';
+export 'widgets/stay_category_selector_widget.dart';

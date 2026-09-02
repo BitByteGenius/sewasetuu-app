@@ -1,40 +1,18 @@
 import 'package:get/get.dart';
 import 'package:sewasetu/app/routes/app_routes.dart';
-import 'package:sewasetu/modules/auth/presentation/bindings/auth_binding.dart';
-import 'package:sewasetu/modules/auth/presentation/pages/forgot_password_page.dart';
-import 'package:sewasetu/modules/auth/presentation/pages/login_page.dart';
-import 'package:sewasetu/modules/auth/presentation/pages/otp_verification_page.dart';
-import 'package:sewasetu/modules/auth/presentation/pages/signup_page.dart';
-import 'package:sewasetu/modules/booking/presentation/bindings/booking_binding.dart';
-import 'package:sewasetu/modules/booking/presentation/pages/booking_checkout_page.dart';
-import 'package:sewasetu/modules/booking/presentation/pages/booking_confirmation_page.dart';
-import 'package:sewasetu/modules/booking/presentation/pages/booking_details_page.dart';
-import 'package:sewasetu/modules/booking/presentation/pages/booking_list_page.dart';
-import 'package:sewasetu/modules/home/presentation/bindings/home_binding.dart';
-import 'package:sewasetu/modules/home/presentation/pages/home_page.dart';
-import 'package:sewasetu/modules/home/presentation/pages/main_navigation_shell.dart';
-import 'package:sewasetu/modules/notifications/presentation/pages/notifications_page.dart';
-import 'package:sewasetu/modules/onboarding/presentation/bindings/onboarding_binding.dart';
-import 'package:sewasetu/modules/onboarding/presentation/pages/onboarding_page.dart';
-import 'package:sewasetu/modules/payment/presentation/pages/payment_methods_page.dart';
-import 'package:sewasetu/modules/profile/presentation/bindings/profile_binding.dart';
-import 'package:sewasetu/modules/profile/presentation/pages/coupons_page.dart';
-import 'package:sewasetu/modules/profile/presentation/pages/edit_profile_page.dart';
-import 'package:sewasetu/modules/profile/presentation/pages/profile_page.dart';
-import 'package:sewasetu/modules/rentals/presentation/pages/rentals_page.dart';
-import 'package:sewasetu/modules/services/presentation/pages/services_page.dart';
-import 'package:sewasetu/modules/splash/presentation/bindings/splash_binding.dart';
-import 'package:sewasetu/modules/splash/presentation/pages/splash_page.dart';
-import 'package:sewasetu/modules/stay/property/presentation/bindings/stay_list_binding.dart';
-import 'package:sewasetu/modules/stay/property/presentation/pages/stay_list_page.dart';
-import 'package:sewasetu/modules/stay/property_details/presentation/bindings/property_details_binding.dart';
-import 'package:sewasetu/modules/stay/property_details/presentation/pages/full_screen_gallery_page.dart';
-import 'package:sewasetu/modules/stay/property_details/presentation/pages/property_details_page.dart';
-import 'package:sewasetu/modules/stay/search/presentation/bindings/search_binding.dart';
-import 'package:sewasetu/modules/stay/search/presentation/pages/stay_search_page.dart';
-import 'package:sewasetu/modules/trips/presentation/pages/trips_page.dart';
-import 'package:sewasetu/modules/wishlist/presentation/bindings/wishlist_binding.dart';
-import 'package:sewasetu/modules/wishlist/presentation/pages/wishlist_page.dart';
+import 'package:sewasetu/modules/auth/auth.dart';
+import 'package:sewasetu/modules/bookings/bookings.dart';
+import 'package:sewasetu/modules/home/home.dart';
+import 'package:sewasetu/modules/notifications/notifications.dart';
+import 'package:sewasetu/modules/onboarding/onboarding.dart';
+import 'package:sewasetu/modules/payment/payment.dart';
+import 'package:sewasetu/modules/profile/profile.dart';
+import 'package:sewasetu/modules/rentals/rentals.dart';
+import 'package:sewasetu/modules/services/services.dart';
+import 'package:sewasetu/modules/splash/splash.dart';
+import 'package:sewasetu/modules/stay/stay.dart';
+import 'package:sewasetu/modules/trips/trips.dart';
+import 'package:sewasetu/modules/wishlist/wishlist.dart';
 
 /// Centralized GetPage definitions with bindings and transition animations
 abstract class AppPages {
@@ -44,7 +22,7 @@ abstract class AppPages {
     // Splash
     GetPage(
       name: AppRoutes.splash,
-      page: () => const SplashPage(),
+      page: () => const SplashScreen(),
       binding: SplashBinding(),
       transition: Transition.fadeIn,
       transitionDuration: const Duration(milliseconds: 300),
@@ -53,7 +31,7 @@ abstract class AppPages {
     // Onboarding
     GetPage(
       name: AppRoutes.onboarding,
-      page: () => const OnboardingPage(),
+      page: () => const OnboardingScreen(),
       binding: OnboardingBinding(),
       transition: Transition.rightToLeftWithFade,
     ),
@@ -61,25 +39,25 @@ abstract class AppPages {
     // Auth Pages
     GetPage(
       name: AppRoutes.login,
-      page: () => const LoginPage(),
+      page: () => const LoginScreen(),
       binding: AuthBinding(),
       transition: Transition.rightToLeftWithFade,
     ),
     GetPage(
       name: AppRoutes.signUp,
-      page: () => const SignUpPage(),
+      page: () => const SignupScreen(),
       binding: AuthBinding(),
       transition: Transition.rightToLeftWithFade,
     ),
     GetPage(
       name: AppRoutes.otpVerification,
-      page: () => const OtpVerificationPage(),
+      page: () => const OtpVerificationScreen(),
       binding: AuthBinding(),
       transition: Transition.rightToLeftWithFade,
     ),
     GetPage(
       name: AppRoutes.forgotPassword,
-      page: () => const ForgotPasswordPage(),
+      page: () => const ForgotPasswordScreen(),
       binding: AuthBinding(),
       transition: Transition.rightToLeftWithFade,
     ),
@@ -95,7 +73,7 @@ abstract class AppPages {
     // Home
     GetPage(
       name: AppRoutes.home,
-      page: () => const HomePage(),
+      page: () => const HomeScreen(),
       binding: HomeBinding(),
       transition: Transition.fadeIn,
     ),
@@ -103,24 +81,24 @@ abstract class AppPages {
     // Stay / Accommodation (Core Module)
     GetPage(
       name: AppRoutes.stayList,
-      page: () => const StayListPage(),
-      binding: StayListBinding(),
+      page: () => const StayScreen(),
+      binding: StayBinding(),
       transition: Transition.rightToLeftWithFade,
     ),
     GetPage(
       name: AppRoutes.stayDetails,
-      page: () => const PropertyDetailsPage(),
+      page: () => const PropertyDetailsScreen(),
       binding: PropertyDetailsBinding(),
       transition: Transition.rightToLeftWithFade,
     ),
     GetPage(
       name: AppRoutes.fullScreenGallery,
-      page: () => const FullScreenGalleryPage(),
+      page: () => const FullScreenGalleryScreen(),
       transition: Transition.fadeIn,
     ),
     GetPage(
       name: AppRoutes.staySearch,
-      page: () => const StaySearchPage(),
+      page: () => const SearchScreen(),
       binding: SearchBinding(),
       transition: Transition.downToUp,
     ),
@@ -128,30 +106,30 @@ abstract class AppPages {
     // Booking Flow
     GetPage(
       name: AppRoutes.bookingCheckout,
-      page: () => const BookingCheckoutPage(),
+      page: () => const BookingCheckoutScreen(),
       transition: Transition.rightToLeftWithFade,
     ),
     GetPage(
       name: AppRoutes.bookingConfirmation,
-      page: () => const BookingConfirmationPage(),
+      page: () => const BookingConfirmationScreen(),
       transition: Transition.fadeIn,
     ),
     GetPage(
       name: AppRoutes.bookingDetails,
-      page: () => const BookingDetailsPage(),
+      page: () => const BookingDetailsScreen(),
       transition: Transition.rightToLeftWithFade,
     ),
     GetPage(
       name: AppRoutes.booking,
-      page: () => const BookingListPage(),
-      binding: BookingBinding(),
+      page: () => const BookingsScreen(),
+      binding: BookingsBinding(),
       transition: Transition.rightToLeftWithFade,
     ),
 
     // Wishlist
     GetPage(
       name: AppRoutes.wishlist,
-      page: () => const WishlistPage(),
+      page: () => const WishlistScreen(),
       binding: WishlistBinding(),
       transition: Transition.rightToLeftWithFade,
     ),
@@ -159,45 +137,45 @@ abstract class AppPages {
     // Profile & Settings
     GetPage(
       name: AppRoutes.profile,
-      page: () => const ProfilePage(),
+      page: () => const ProfileScreen(),
       binding: ProfileBinding(),
       transition: Transition.rightToLeftWithFade,
     ),
     GetPage(
       name: AppRoutes.editProfile,
-      page: () => const EditProfilePage(),
+      page: () => const EditProfileScreen(),
       transition: Transition.rightToLeftWithFade,
     ),
     GetPage(
       name: AppRoutes.coupons,
-      page: () => const CouponsPage(),
+      page: () => const CouponsScreen(),
       transition: Transition.rightToLeftWithFade,
     ),
     GetPage(
       name: AppRoutes.notifications,
-      page: () => const NotificationsPage(),
+      page: () => const NotificationsScreen(),
       transition: Transition.rightToLeftWithFade,
     ),
 
     // Secondary Marketplace Modules
     GetPage(
       name: AppRoutes.services,
-      page: () => const ServicesPage(),
+      page: () => const ServicesScreen(),
       transition: Transition.rightToLeftWithFade,
     ),
     GetPage(
       name: AppRoutes.rentals,
-      page: () => const RentalsPage(),
+      page: () => const RentalsScreen(),
       transition: Transition.rightToLeftWithFade,
     ),
     GetPage(
       name: AppRoutes.trips,
-      page: () => const TripsPage(),
+      page: () => const TripsScreen(),
       transition: Transition.rightToLeftWithFade,
     ),
     GetPage(
       name: AppRoutes.payment,
-      page: () => const PaymentMethodsPage(),
+      page: () => const PaymentMethodsScreen(),
       transition: Transition.rightToLeftWithFade,
     ),
   ];

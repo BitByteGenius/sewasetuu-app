@@ -4,8 +4,7 @@ import 'package:sewasetu/app/theme/app_radius.dart';
 import 'package:sewasetu/app/theme/app_shadows.dart';
 import 'package:sewasetu/app/theme/app_text_styles.dart';
 import 'package:sewasetu/core/utils/formatters.dart';
-import 'package:sewasetu/modules/stay/property/domain/entities/stay_entity.dart';
-import 'package:sewasetu/modules/stay/property/presentation/widgets/stay_card_widget.dart';
+import 'package:sewasetu/modules/stay/stay.dart';
 
 /// Stylized interactive map canvas with custom property price markers and 400m privacy circle
 class AppInteractiveMapCanvas extends StatefulWidget {

@@ -6,12 +6,13 @@ import '../storage/storage_service.dart';
 class LocationService extends GetxService {
   final IStorageService _storage;
 
-  LocationService(this._storage);
+  LocationService([IStorageService? storage])
+      : _storage = storage ?? (Get.isRegistered<IStorageService>() ? Get.find<IStorageService>() : StorageService());
 
   final RxString selectedCity = 'Guwahati, Assam'.obs;
   final RxString selectedArea = 'GS Road / Christian Basti'.obs;
 
-  final List<String> availableCities = [
+  static const List<String> availableCities = [
     'Guwahati, Assam',
     'Shillong, Meghalaya',
     'Goa, India',
@@ -20,6 +21,9 @@ class LocationService extends GetxService {
     'Bengaluru, Karnataka',
     'Delhi NCR',
   ];
+
+  static List<String> get popularCities => availableCities;
+  List<String> get cities => availableCities;
 
   @override
   void onInit() {
@@ -36,5 +40,11 @@ class LocationService extends GetxService {
       selectedArea.value = area;
     }
     _storage.setString(AppConstants.selectedCityKey, city);
+  }
+
+  void setCity(String city, [String? area]) => updateCity(city, area);
+
+  Future<void> useCurrentGpsLocation() async {
+    updateCity('Guwahati, Assam', 'Current Location (GPS)');
   }
 }

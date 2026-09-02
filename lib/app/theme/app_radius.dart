@@ -19,6 +19,7 @@ abstract class AppRadius {
   static const BorderRadius radiusXl = BorderRadius.all(Radius.circular(xl));
   static const BorderRadius radiusXxl = BorderRadius.all(Radius.circular(xxl));
   static const BorderRadius radiusPill = BorderRadius.all(Radius.circular(pill));
+  static const BorderRadius radiusFull = radiusPill;
 
   // Top Rounded Corners (Sheets, Modal, Bottom Sheets)
   static const BorderRadius topLg = BorderRadius.vertical(top: Radius.circular(lg));
