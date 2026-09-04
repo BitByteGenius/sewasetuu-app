@@ -172,6 +172,7 @@ abstract class AppPages {
     GetPage(
       name: AppRoutes.trips,
       page: () => const TripsScreen(),
+      binding: TripsBinding(),
       transition: Transition.rightToLeftWithFade,
     ),
     GetPage(
