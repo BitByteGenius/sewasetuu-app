@@ -7,11 +7,13 @@ import 'controllers/state_products_controller.dart';
 import 'models/product_model.dart';
 import 'models/shop_order_model.dart';
 import 'models/shop_state_model.dart';
+import 'screens/add_address_screen.dart';
 import 'screens/cart_screen.dart';
 import 'screens/checkout_screen.dart';
 import 'screens/order_success_screen.dart';
 import 'screens/product_details_screen.dart';
 import 'screens/search_products_screen.dart';
+import 'screens/select_address_screen.dart';
 import 'screens/shop_screen.dart';
 import 'screens/state_products_screen.dart';
 import 'screens/states_screen.dart';
@@ -82,6 +84,26 @@ class ShopNavigator {
     CartBinding().dependencies();
     return Get.to<T>(
       () => const CartScreen(),
+      transition: Transition.rightToLeftWithFade,
+      duration: const Duration(milliseconds: 300),
+    );
+  }
+
+  /// Opens the Address Selection screen (Step 1 of Checkout)
+  static Future<T?>? toSelectAddress<T>() {
+    CartBinding().dependencies();
+    return Get.to<T>(
+      () => const SelectAddressScreen(),
+      transition: Transition.rightToLeftWithFade,
+      duration: const Duration(milliseconds: 300),
+    );
+  }
+
+  /// Opens the Add Address screen
+  static Future<T?>? toAddAddress<T>({bool proceedDirectlyToCheckout = false}) {
+    CartBinding().dependencies();
+    return Get.to<T>(
+      () => AddAddressScreen(proceedDirectlyToCheckout: proceedDirectlyToCheckout),
       transition: Transition.rightToLeftWithFade,
       duration: const Duration(milliseconds: 300),
     );

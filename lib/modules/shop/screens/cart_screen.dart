@@ -164,7 +164,7 @@ class CartScreen extends StatelessWidget {
                   child: AppButton.primary(
                     text: 'Proceed to Checkout',
                     icon: const Icon(Icons.lock_outline_rounded, size: 18),
-                    onPressed: () => ShopNavigator.toCheckout(),
+                    onPressed: () => ShopNavigator.toSelectAddress(),
                   ),
                 ),
               ],

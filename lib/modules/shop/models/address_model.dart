@@ -8,6 +8,7 @@ class ShopAddressModel {
   final String city;
   final String state;
   final String pincode;
+  final String type; // 'Home', 'Work', 'Other'
   final bool isDefault;
 
   const ShopAddressModel({
@@ -19,6 +20,7 @@ class ShopAddressModel {
     required this.city,
     required this.state,
     required this.pincode,
+    this.type = 'Home',
     this.isDefault = false,
   });
 
@@ -35,6 +37,7 @@ class ShopAddressModel {
       city: json['city'] as String? ?? '',
       state: json['state'] as String? ?? '',
       pincode: json['pincode'] as String? ?? '',
+      type: json['type'] as String? ?? 'Home',
       isDefault: json['is_default'] as bool? ?? false,
     );
   }
@@ -48,6 +51,7 @@ class ShopAddressModel {
         'city': city,
         'state': state,
         'pincode': pincode,
+        'type': type,
         'is_default': isDefault,
       };
 
@@ -60,6 +64,7 @@ class ShopAddressModel {
     String? city,
     String? state,
     String? pincode,
+    String? type,
     bool? isDefault,
   }) {
     return ShopAddressModel(
@@ -71,6 +76,7 @@ class ShopAddressModel {
       city: city ?? this.city,
       state: state ?? this.state,
       pincode: pincode ?? this.pincode,
+      type: type ?? this.type,
       isDefault: isDefault ?? this.isDefault,
     );
   }

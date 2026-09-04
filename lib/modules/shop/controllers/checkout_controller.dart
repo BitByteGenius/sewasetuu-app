@@ -16,6 +16,7 @@ class ShopCheckoutController extends GetxController {
       city: 'Guwahati',
       state: 'Assam',
       pincode: '781007',
+      type: 'Home',
       isDefault: true,
     ),
     const ShopAddressModel(
@@ -27,6 +28,7 @@ class ShopCheckoutController extends GetxController {
       city: 'Patna',
       state: 'Bihar',
       pincode: '800001',
+      type: 'Work',
       isDefault: false,
     ),
   ].obs;
@@ -45,11 +47,72 @@ class ShopCheckoutController extends GetxController {
 
   final RxBool isPlacingOrder = false.obs;
 
-  ShopAddressModel get currentAddress =>
-      addresses[selectedAddressIndex.value];
+  bool get hasAddress => addresses.isNotEmpty;
+
+  ShopAddressModel? get currentAddress {
+    if (addresses.isEmpty) return null;
+    if (selectedAddressIndex.value >= addresses.length || selectedAddressIndex.value < 0) {
+      selectedAddressIndex.value = 0;
+    }
+    return addresses[selectedAddressIndex.value];
+  }
 
   void selectAddress(int index) {
-    selectedAddressIndex.value = index;
+    if (index >= 0 && index < addresses.length) {
+      selectedAddressIndex.value = index;
+    }
+  }
+
+  void selectAddressById(String id) {
+    final idx = addresses.indexWhere((a) => a.id == id);
+    if (idx != -1) {
+      selectedAddressIndex.value = idx;
+    }
+  }
+
+  void addAddress(ShopAddressModel newAddress) {
+    if (newAddress.isDefault || addresses.isEmpty) {
+      // Clear default flag on existing addresses
+      for (int i = 0; i < addresses.length; i++) {
+        if (addresses[i].isDefault) {
+          addresses[i] = addresses[i].copyWith(isDefault: false);
+        }
+      }
+      addresses.insert(0, newAddress.copyWith(isDefault: true));
+      selectedAddressIndex.value = 0;
+    } else {
+      addresses.add(newAddress);
+      selectedAddressIndex.value = addresses.length - 1;
+    }
+  }
+
+  bool deleteAddress(String id) {
+    final idx = addresses.indexWhere((a) => a.id == id);
+    if (idx == -1) return false;
+
+    final wasSelected = selectedAddressIndex.value == idx;
+    final wasDefault = addresses[idx].isDefault;
+
+    addresses.removeAt(idx);
+
+    if (addresses.isNotEmpty) {
+      if (wasDefault) {
+        addresses[0] = addresses[0].copyWith(isDefault: true);
+      }
+      if (selectedAddressIndex.value >= addresses.length || wasSelected) {
+        selectedAddressIndex.value = 0;
+      }
+    } else {
+      selectedAddressIndex.value = 0;
+    }
+    return true;
+  }
+
+  void setDefaultAddress(String id) {
+    for (int i = 0; i < addresses.length; i++) {
+      addresses[i] = addresses[i].copyWith(isDefault: addresses[i].id == id);
+    }
+    selectAddressById(id);
   }
 
   void selectPaymentMethod(String method) {
@@ -59,6 +122,11 @@ class ShopCheckoutController extends GetxController {
   Future<ShopOrderModel?> placeOrder(CartController cart) async {
     if (cart.cartItems.isEmpty) {
       Get.snackbar('Cart is empty', 'Add items before checking out.');
+      return null;
+    }
+
+    if (currentAddress == null) {
+      Get.snackbar('Address Required', 'Please add or select a delivery address.');
       return null;
     }
 
@@ -75,7 +143,7 @@ class ShopCheckoutController extends GetxController {
         deliveryFee: cart.deliveryFee,
         discount: cart.discount,
         total: cart.totalAmount,
-        deliveryAddress: currentAddress,
+        deliveryAddress: currentAddress!,
         paymentMethod: selectedPaymentMethod.value,
         createdAt: DateTime.now(),
       );
