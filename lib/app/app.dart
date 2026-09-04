@@ -26,6 +26,12 @@ class SewaSetuApp extends StatelessWidget {
       // Routing Configuration
       initialRoute: AppPages.initial,
       getPages: AppPages.routes,
+      unknownRoute: GetPage(
+        name: '/not-found',
+        page: () => const Scaffold(
+          body: Center(child: Text('Page not found')),
+        ),
+      ),
 
       // Default transition animations
       defaultTransition: Transition.cupertino,

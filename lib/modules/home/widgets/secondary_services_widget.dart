@@ -5,6 +5,7 @@ import 'package:sewasetu/app/theme/app_colors.dart';
 import 'package:sewasetu/app/theme/app_radius.dart';
 import 'package:sewasetu/app/theme/app_spacing.dart';
 import 'package:sewasetu/app/theme/app_text_styles.dart';
+import 'package:sewasetu/modules/shop/shop_navigator.dart';
 
 /// Secondary marketplace section highlighting upcoming modules (Services, Rentals, Trips).
 class SecondaryServicesWidget extends StatelessWidget {
@@ -77,7 +78,7 @@ class SecondaryServicesWidget extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 12),
-              // Rentals Card
+              // Shop Card
               Expanded(
                 child: _buildServiceCard(
                   context: context,
@@ -86,7 +87,7 @@ class SecondaryServicesWidget extends StatelessWidget {
                   subtitle: 'Traditional & Modern Products',
                   emoji: '🛒',
                   color: const Color(0xFFF59E0B),
-                  onTap: () => Get.toNamed(AppRoutes.shop),
+                  onTap: () => ShopNavigator.toShop(),
                 ),
               ),
             ],

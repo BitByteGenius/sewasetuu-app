@@ -9,7 +9,7 @@ import 'package:sewasetu/modules/payment/payment.dart';
 import 'package:sewasetu/modules/profile/profile.dart';
 import 'package:sewasetu/modules/rentals/rentals.dart';
 import 'package:sewasetu/modules/services/services.dart';
-import 'package:sewasetu/modules/shop/screens/shop_screen.dart';
+import 'package:sewasetu/modules/shop/shop.dart';
 import 'package:sewasetu/modules/splash/splash.dart';
 import 'package:sewasetu/modules/stay/stay.dart';
 import 'package:sewasetu/modules/trips/trips.dart';
@@ -177,6 +177,7 @@ abstract class AppPages {
     GetPage(
       name: AppRoutes.shop,
       page: () => const ShopScreen(),
+      binding: ShopBinding(),
       transition: Transition.rightToLeftWithFade,
     ),
     GetPage(
