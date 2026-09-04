@@ -76,6 +76,19 @@ class SecondaryServicesWidget extends StatelessWidget {
                   onTap: () => Get.toNamed(AppRoutes.rentals),
                 ),
               ),
+              const SizedBox(width: 12),
+              // Rentals Card
+              Expanded(
+                child: _buildServiceCard(
+                  context: context,
+                  isDark: isDark,
+                  title: 'Shop',
+                  subtitle: 'Traditional & Modern Products',
+                  emoji: '🛒',
+                  color: const Color(0xFFF59E0B),
+                  onTap: () => Get.toNamed(AppRoutes.shop),
+                ),
+              ),
             ],
           ),
         ),

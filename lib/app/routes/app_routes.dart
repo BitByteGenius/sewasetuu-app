@@ -30,6 +30,7 @@ abstract class AppRoutes {
   static const String services = '/services';
   static const String rentals = '/rentals';
   static const String trips = '/trips';
+  static const String shop = '/shop';
 
   // User & Auxiliary
   static const String wishlist = '/wishlist';
