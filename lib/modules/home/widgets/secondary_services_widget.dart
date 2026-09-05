@@ -83,8 +83,8 @@ class SecondaryServicesWidget extends StatelessWidget {
                 child: _buildServiceCard(
                   context: context,
                   isDark: isDark,
-                  title: 'Shop',
-                  subtitle: 'Traditional & Modern Products',
+                  title: 'Shop Local Products',
+                  subtitle: 'Traditional & Modern Products from Local Vendors',
                   emoji: '🛒',
                   color: const Color(0xFFF59E0B),
                   onTap: () => ShopNavigator.toShop(),
