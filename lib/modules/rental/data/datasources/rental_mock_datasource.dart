@@ -1074,42 +1074,87 @@ class RentalMockDatasource {
     RentalReviewModel(
       id: 'rev_01',
       userName: 'Pranab Bora',
+      userAvatar:
+          'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=250&q=80',
       rating: 5.0,
       date: DateTime.now().subtract(const Duration(days: 4)),
       comment:
-          'Took the Thar 4x4 from Guwahati for a 4-day trip to Cherrapunji and Dawki. Car was immaculate, full tank, zero paperwork friction. Best rental in Assam!',
+          'Booked the Thar 4x4 from Guwahati for a 4-day trip to Cherrapunji and Dawki. Car was immaculate, full tank, zero paperwork friction. Conquering Meghalaya foggy hills was effortless. Best rental in Assam!',
       verifiedRental: true,
       vehicleModelName: 'Mahindra Thar 4x4',
+      tripPhoto:
+          'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=900&q=80',
+      tripRoute: 'Guwahati ➔ Cherrapunji & Dawki',
+      cityName: 'Guwahati',
+      duration: '4-Day Road Trip',
     ),
     RentalReviewModel(
       id: 'rev_02',
-      userName: 'Rhea Sen',
+      userName: 'Rhea Sengupta',
+      userAvatar:
+          'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=250&q=80',
       rating: 5.0,
       date: DateTime.now().subtract(const Duration(days: 9)),
       comment:
-          'Rented the BMW 3 Series for a business wedding in Kolkata. The doorstep delivery was punctual and the car was in showroom condition. Truly premium!',
+          'Rented the BMW 3 Series for a premier wedding weekend in Kolkata. Doorstep delivery at Salt Lake was right on the dot. Showroom condition, velvet smooth drive, and zero security deposit fuss. Truly 5-star experience!',
       verifiedRental: true,
       vehicleModelName: 'BMW 3 Series Gran Limousine',
+      tripPhoto:
+          'https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=900&q=80',
+      tripRoute: 'Kolkata ➔ Mandarmani Coast',
+      cityName: 'Kolkata',
+      duration: '3-Day Luxury Getaway',
     ),
     RentalReviewModel(
       id: 'rev_03',
       userName: 'Amitav Das',
-      rating: 4.8,
+      userAvatar:
+          'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=250&q=80',
+      rating: 4.9,
       date: DateTime.now().subtract(const Duration(days: 14)),
       comment:
-          'Himalayan 450 ride was super smooth. Helmet and riding gear provided were clean and high quality. Will book again when in Dibrugarh.',
+          'Himalayan 450 tackled the tea garden trails and river bridges like a dream. Sanitized helmet and puncture kit provided saved our peace of mind. Best bike rental experience in Upper Assam!',
       verifiedRental: true,
       vehicleModelName: 'Royal Enfield Himalayan 450',
+      tripPhoto:
+          'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=900&q=80',
+      tripRoute: 'Dibrugarh ➔ Roing Valley Circuit',
+      cityName: 'Dibrugarh',
+      duration: '5-Day Explorer Tour',
     ),
     RentalReviewModel(
       id: 'rev_04',
       userName: 'Sneha Roy',
+      userAvatar:
+          'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=250&q=80',
       rating: 5.0,
       date: DateTime.now().subtract(const Duration(days: 20)),
       comment:
-          'Ather 450X made exploring Guwahati city so easy! Fast charging hub at Paltan Bazar was convenient and no petrol cost.',
+          'Quiet, powerful, and astonishingly economical! Took Nexon EV on the expressway to Kaziranga. Battery range easily covered the journey, and the AC kept us fresh all day. Highly recommended!',
       verifiedRental: true,
-      vehicleModelName: 'Ather 450X Gen 3',
+      vehicleModelName: 'Tata Nexon EV Max',
+      tripPhoto:
+          'https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=900&q=80',
+      tripRoute: 'Guwahati ➔ Kaziranga National Park',
+      cityName: 'Guwahati',
+      duration: '2-Day Eco Safari',
+    ),
+    RentalReviewModel(
+      id: 'rev_05',
+      userName: 'Vikramaditya & Family',
+      userAvatar:
+          'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=250&q=80',
+      rating: 4.9,
+      date: DateTime.now().subtract(const Duration(days: 25)),
+      comment:
+          'Spacious boot accommodated all our family luggage. Child safety seat was fitted beforehand as requested. Transparent fuel policy with zero hidden charges. Made our Bihar heritage road trip seamless!',
+      verifiedRental: true,
+      vehicleModelName: 'Hyundai Creta SX',
+      tripPhoto:
+          'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=900&q=80',
+      tripRoute: 'Patna ➔ Nalanda & Rajgir Circuit',
+      cityName: 'Patna',
+      duration: '3-Day Heritage Tour',
     ),
   ];
 

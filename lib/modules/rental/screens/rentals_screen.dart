@@ -11,6 +11,7 @@ import '../models/vehicle_model.dart';
 import '../widgets/premium_vehicle_card.dart';
 import '../widgets/rental_banner_carousel.dart';
 import '../widgets/rental_empty_state.dart';
+import '../widgets/rental_happy_customers_widget.dart';
 import '../widgets/rental_header_widget.dart';
 import '../widgets/rental_loading_skeleton.dart';
 import '../widgets/rental_search_card.dart';
@@ -297,6 +298,15 @@ class RentalScreen extends StatelessWidget {
               ),
 
               const SliverToBoxAdapter(
+                child: SizedBox(height: AppSpacing.xxl),
+              ),
+
+              // 9. Happy Customers & Road Trip Stories Section
+              const SliverToBoxAdapter(
+                child: RentalHappyCustomersWidget(),
+              ),
+
+              const SliverToBoxAdapter(
                 child: SizedBox(height: AppSpacing.massive),
               ),
             ],
@@ -414,6 +424,7 @@ class RentalScreen extends StatelessWidget {
           }),
         ],
       ),
+     
     );
   }
 }

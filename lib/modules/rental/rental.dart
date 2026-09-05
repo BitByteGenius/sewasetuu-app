@@ -50,6 +50,7 @@ export 'widgets/premium_vehicle_card.dart';
 export 'widgets/rental_banner_carousel.dart';
 export 'widgets/rental_empty_state.dart';
 export 'widgets/rental_filter_sheet.dart';
+export 'widgets/rental_happy_customers_widget.dart';
 export 'widgets/rental_header_widget.dart';
 export 'widgets/rental_loading_skeleton.dart';
 export 'widgets/rental_search_card.dart';
