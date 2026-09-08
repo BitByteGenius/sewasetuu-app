@@ -2,7 +2,7 @@
 enum ServiceType {
   electrician('Electrician', 'Wiring, repair & maintenance', '⚡'),
   plumber('Plumber', 'Pipes, leakage & fixtures', '🔧'),
-  driver('Driver', 'Daily & outstation drivers', '🚗'),
+  driver('Home Tuition', 'Learn & Teach', '🚗'),
   cleaning('Deep Cleaning', 'Home, bathroom & sofa sanitization', '🧹'),
   carRental('Car Rental', 'Self-drive & chauffeur cars', '🚘'),
   bikeRental('Bike Rental', 'Scooters & geared motorbikes', '🏍️'),

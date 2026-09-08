@@ -289,22 +289,24 @@ class _TripsScreenState extends State<TripsScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Top Destinations',
-                    style: AppTextStyles.titleMedium(isDark).copyWith(
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: -0.2,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Top Destinations',
+                      style: AppTextStyles.titleMedium(isDark).copyWith(
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: -0.2,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    'Iconic hill stations, coastal paradises & valleys',
-                    style: AppTextStyles.bodySmall(isDark),
-                  ),
-                ],
+                    const SizedBox(height: 2),
+                    Text(
+                      'Iconic hill stations, coastal paradises & valleys',
+                      style: AppTextStyles.bodySmall(isDark),
+                    ),
+                  ],
+                ),
               ),
               TextButton(
                 onPressed: () => TripsNavigator.toDestinations(),
@@ -375,22 +377,24 @@ class _TripsScreenState extends State<TripsScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Curated Tour Packages',
-                    style: AppTextStyles.titleMedium(isDark).copyWith(
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: -0.2,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Curated Tour Packages',
+                      style: AppTextStyles.titleMedium(isDark).copyWith(
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: -0.2,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    'All-inclusive multi-day itineraries with stays & meals',
-                    style: AppTextStyles.bodySmall(isDark),
-                  ),
-                ],
+                    const SizedBox(height: 2),
+                    Text(
+                      'All-inclusive multi-day itineraries with stays & meals',
+                      style: AppTextStyles.bodySmall(isDark),
+                    ),
+                  ],
+                ),
               ),
               TextButton(
                 onPressed: () => TripsNavigator.toTripList(
@@ -400,12 +404,11 @@ class _TripsScreenState extends State<TripsScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      'Browse All (${allPackages.length})',
+                      'Browse All', //(${allPackages.length})',
                       style: TextStyle(
                         color: isDark
                             ? AppColors.primaryLight
                             : AppColors.primary,
-                        fontWeight: FontWeight.w700,
                         fontSize: 13,
                       ),
                     ),
