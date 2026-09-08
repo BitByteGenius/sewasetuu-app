@@ -107,6 +107,24 @@ class HomeController extends GetxController {
 
   void selectService(HomeService service) {
     selectedService.value = service;
+    switch (service) {
+      case HomeService.stay:
+        await Get.toNamed(AppRoutes.stayList);
+        selectedService.value = HomeService.stay;
+        break;
+      case HomeService.trips:
+        await (TripsNavigator.toTrips() ?? Get.toNamed(AppRoutes.trips));
+        selectedService.value = HomeService.stay;
+        break;
+      case HomeService.shop:
+        await (ShopNavigator.toShop() ?? Get.toNamed(AppRoutes.shop));
+        selectedService.value = HomeService.stay;
+        break;
+      case HomeService.rental:
+        await Get.toNamed(AppRoutes.rentals);
+        selectedService.value = HomeService.stay;
+        break;
+    }
   }
 
   void onSearchTap() {
