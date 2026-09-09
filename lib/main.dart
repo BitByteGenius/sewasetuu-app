@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:sewasetu/app/app.dart';
 import 'package:sewasetu/app/config/app_config.dart';
 import 'package:sewasetu/app/config/environment.dart';
@@ -29,6 +30,7 @@ void main() async {
   // Initialize local persistent storage
   final storageService = StorageService();
   await storageService.init();
+  Get.put<IStorageService>(storageService, permanent: true);
 
   runApp(const SewaSetuApp());
 }

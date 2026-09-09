@@ -15,22 +15,34 @@ class OnboardingController extends GetxController {
 
   final List<OnboardingSlideModel> slides = const [
     OnboardingSlideModel(
-      badgeText: 'CORE STAY PLATFORM',
-      title: 'Find Perfect Rooms, PGs & Homestays',
-      subtitle: 'Discover verified accommodation with transparent pricing, zero brokerage, hygienic meals, and instant booking.',
-      imageUrl: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80',
+      badgeText: '',
+      title: 'Find Perfect Stays',
+      subtitle: '',
+      imageUrl: 'https://images.unsplash.com/photo-1587061949409-02df41d5e562?auto=format&fit=crop&w=1000&q=80',
+      cardTitle: 'Pine Ridge Cottage',
+      cardSubtitle: 'Shillong',
+      cardPrice: '₹2,400/nt',
+      cardRating: '4.95',
     ),
     OnboardingSlideModel(
-      badgeText: 'MULTI-SERVICE MARKETPLACE',
-      title: 'Reliable Local Services at Your Doorstep',
-      subtitle: 'Easily book trusted electricians, plumbers, home cleaners, and experienced drivers on-demand.',
-      imageUrl: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80',
+      badgeText: '',
+      title: 'Explore Curated Treks',
+      subtitle: '',
+      imageUrl: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1000&q=80',
+      cardTitle: 'Root Bridges Trek',
+      cardSubtitle: 'Meghalaya',
+      cardPrice: '₹3,200',
+      cardRating: '4.98',
     ),
     OnboardingSlideModel(
-      badgeText: 'RENTALS & TRAVEL',
-      title: 'Rent Vehicles & Explore Dream Destinations',
-      subtitle: 'Book self-drive cars, bikes, and curated tour packages for Goa, Manali, Shillong, and beyond.',
-      imageUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80',
+      badgeText: '',
+      title: 'Rent 4x4s & Shop Local',
+      subtitle: '',
+      imageUrl: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1000&q=80',
+      cardTitle: 'Thar 4x4 SUV',
+      cardSubtitle: 'Guwahati',
+      cardPrice: '₹3,800/d',
+      cardRating: '4.92',
     ),
   ];
 
@@ -55,8 +67,19 @@ class OnboardingController extends GetxController {
     }
   }
 
-  void completeOnboarding() {
-    _storageService.setBool(AppConstants.isFirstTimeKey, false);
+  bool _isCompleting = false;
+
+  Future<void> completeOnboarding() async {
+    if (_isCompleting) return;
+    _isCompleting = true;
+
+    try {
+      await _storageService.setBool(AppConstants.hasSeenOnboardingKey, true);
+      await _storageService.setBool(AppConstants.isFirstTimeKey, false);
+    } catch (e) {
+      debugPrint('Error saving onboarding state: $e');
+    }
+
     Get.offAllNamed(AppRoutes.main);
   }
 }

@@ -39,4 +39,5 @@ abstract class AppRoutes {
   static const String coupons = '/profile/coupons';
   static const String notifications = '/notifications';
   static const String payment = '/payment';
+  static const String noInternet = '/no-internet';
 }

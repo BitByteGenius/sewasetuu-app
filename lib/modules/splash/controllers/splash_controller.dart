@@ -1,32 +1,56 @@
+import 'dart:async';
 import 'package:get/get.dart';
 import 'package:sewasetu/app/routes/app_routes.dart';
 import 'package:sewasetu/core/constants/app_constants.dart';
 import 'package:sewasetu/core/storage/storage_service.dart';
 
-/// Controller handling splash animation timing and initial route determination.
+/// Controller handling splash route determination and navigation.
 class SplashController extends GetxController {
   final IStorageService _storageService;
+  bool _hasNavigated = false;
+  Timer? _fallbackTimer;
 
   SplashController(this._storageService);
 
   @override
-  void onReady() {
-    super.onReady();
-    _navigateToNext();
+  void onInit() {
+    super.onInit();
+    _storageService.init();
   }
 
-  Future<void> _navigateToNext() async {
-    await Future.delayed(const Duration(milliseconds: 2200));
+  @override
+  void onReady() {
+    super.onReady();
+    // Fallback timer ensures navigation even in headless tests or if animation ticker is paused
+    _fallbackTimer = Timer(const Duration(milliseconds: 2400), () {
+      navigateToNext();
+    });
+  }
 
-    final isFirstTime = _storageService.getBool(AppConstants.isFirstTimeKey) ?? true;
-    final token = _storageService.getString(AppConstants.tokenKey);
+  @override
+  void onClose() {
+    _fallbackTimer?.cancel();
+    _fallbackTimer = null;
+    super.onClose();
+  }
 
-    if (isFirstTime) {
-      Get.offAllNamed(AppRoutes.onboarding);
-    } else if (token != null && token.isNotEmpty) {
+  /// Navigates to the initial screen based on stored user state.
+  /// Preserves the core routing logic:
+  /// - First-time user -> Onboarding
+  /// - Existing user -> Main marketplace shell
+  void navigateToNext() {
+    if (_hasNavigated) return;
+    _hasNavigated = true;
+    _fallbackTimer?.cancel();
+    _fallbackTimer = null;
+
+    final hasSeenOnboarding = _storageService.getBool(AppConstants.hasSeenOnboardingKey) ??
+        !(_storageService.getBool(AppConstants.isFirstTimeKey) ?? true);
+
+    if (hasSeenOnboarding) {
       Get.offAllNamed(AppRoutes.main);
     } else {
-      Get.offAllNamed(AppRoutes.main); // Direct access to explore marketplace
+      Get.offAllNamed(AppRoutes.onboarding);
     }
   }
 }

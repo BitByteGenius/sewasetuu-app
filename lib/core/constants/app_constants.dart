@@ -7,6 +7,7 @@ abstract class AppConstants {
   static const String tokenKey = 'app_auth_token';
   static const String userKey = 'app_user_data';
   static const String isFirstTimeKey = 'app_is_first_time';
+  static const String hasSeenOnboardingKey = 'has_seen_onboarding';
   static const String isDarkModeKey = 'app_is_dark_mode';
   static const String selectedCityKey = 'app_selected_city';
   

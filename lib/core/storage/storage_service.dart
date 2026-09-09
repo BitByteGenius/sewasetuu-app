@@ -12,6 +12,8 @@ abstract class IStorageService {
   Future<bool> remove(String key);
   Future<bool> clear();
   bool hasKey(String key);
+  Future<bool> setHasSeenOnboarding(bool value);
+  bool hasSeenOnboarding();
 }
 
 /// SharedPreferences based implementation of IStorageService.
@@ -101,5 +103,15 @@ class StorageService implements IStorageService {
       return _prefs!.containsKey(key);
     }
     return _memoryFallback.containsKey(key);
+  }
+
+  @override
+  Future<bool> setHasSeenOnboarding(bool value) async {
+    return await setBool('has_seen_onboarding', value);
+  }
+
+  @override
+  bool hasSeenOnboarding() {
+    return getBool('has_seen_onboarding') ?? false;
   }
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sewasetu/app/routes/app_routes.dart';
 import 'package:sewasetu/modules/auth/auth.dart';
@@ -14,6 +15,37 @@ import 'package:sewasetu/modules/splash/splash.dart';
 import 'package:sewasetu/modules/stay/stay.dart';
 import 'package:sewasetu/modules/trips/trips.dart';
 import 'package:sewasetu/modules/wishlist/wishlist.dart';
+import 'package:sewasetu/modules/connectivity/connectivity.dart';
+
+/// Premium transition providing a smooth, fluid pop-in animation (scale 0.90 -> 1.0 with easeOutCubic + soft fade)
+class SmoothPopTransition extends CustomTransition {
+  @override
+  Widget buildTransition(
+    BuildContext context,
+    Curve? curve,
+    Alignment? alignment,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) {
+    return FadeTransition(
+      opacity: CurvedAnimation(
+        parent: animation,
+        curve: const Interval(0.0, 0.75, curve: Curves.easeOut),
+      ),
+      child: ScaleTransition(
+        scale: Tween<double>(begin: 0.90, end: 1.0).animate(
+          CurvedAnimation(
+            parent: animation,
+            curve: Curves.easeOutCubic,
+          ),
+        ),
+        alignment: Alignment.center,
+        child: child,
+      ),
+    );
+  }
+}
 
 /// Centralized GetPage definitions with bindings and transition animations
 abstract class AppPages {
@@ -34,7 +66,8 @@ abstract class AppPages {
       name: AppRoutes.onboarding,
       page: () => const OnboardingScreen(),
       binding: OnboardingBinding(),
-      transition: Transition.rightToLeftWithFade,
+      customTransition: SmoothPopTransition(),
+      transitionDuration: const Duration(milliseconds: 400),
     ),
 
     // Auth Pages
@@ -68,7 +101,8 @@ abstract class AppPages {
       name: AppRoutes.main,
       page: () => const MainNavigationShell(),
       binding: HomeBinding(),
-      transition: Transition.fadeIn,
+      customTransition: SmoothPopTransition(),
+      transitionDuration: const Duration(milliseconds: 400),
     ),
 
     // Home
@@ -185,6 +219,12 @@ abstract class AppPages {
       name: AppRoutes.payment,
       page: () => const PaymentMethodsScreen(),
       transition: Transition.rightToLeftWithFade,
+    ),
+    GetPage(
+      name: AppRoutes.noInternet,
+      page: () => const NoInternetScreen(),
+      transition: Transition.fadeIn,
+      transitionDuration: const Duration(milliseconds: 300),
     ),
   ];
 }
