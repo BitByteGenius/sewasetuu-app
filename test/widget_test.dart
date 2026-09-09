@@ -75,7 +75,7 @@ void main() {
     expect(find.text('Next'), findsOneWidget);
   });
 
-  testWidgets('When has_seen_onboarding is true, splash navigates directly to main and skips onboarding', (WidgetTester tester) async {
+  testWidgets('When has_seen_onboarding is true but unauthenticated, splash navigates to login screen', (WidgetTester tester) async {
     final storage = Get.find<IStorageService>();
     await storage.setHasSeenOnboarding(true);
 
@@ -84,8 +84,23 @@ void main() {
     await tester.pump(const Duration(seconds: 2));
     await tester.pumpAndSettle();
 
-    // Verify onboarding screen is NOT shown
-    expect(find.text('Skip'), findsNothing);
+    // Verify onboarding screen is NOT shown, but Login screen is displayed
     expect(find.text('Find Perfect Stays'), findsNothing);
+    expect(find.text('Welcome Back'), findsOneWidget);
+  });
+
+  testWidgets('When authenticated, splash navigates directly to main marketplace', (WidgetTester tester) async {
+    final storage = Get.find<IStorageService>();
+    await storage.setHasSeenOnboarding(true);
+    await storage.setBool('is_authenticated', true);
+
+    await tester.pumpWidget(const SewaSetuApp());
+    // Pump through splash navigation
+    await tester.pump(const Duration(seconds: 2));
+    await tester.pumpAndSettle();
+
+    // Verify neither onboarding nor login is shown
+    expect(find.text('Find Perfect Stays'), findsNothing);
+    expect(find.text('Welcome Back'), findsNothing);
   });
 }

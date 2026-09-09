@@ -80,6 +80,6 @@ class OnboardingController extends GetxController {
       debugPrint('Error saving onboarding state: $e');
     }
 
-    Get.offAllNamed(AppRoutes.main);
+    Get.offAllNamed(AppRoutes.login);
   }
 }

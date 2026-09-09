@@ -48,7 +48,13 @@ class SplashController extends GetxController {
         !(_storageService.getBool(AppConstants.isFirstTimeKey) ?? true);
 
     if (hasSeenOnboarding) {
-      Get.offAllNamed(AppRoutes.main);
+      final isAuthenticated = _storageService.getBool('is_authenticated') ?? false;
+      final token = _storageService.getString(AppConstants.tokenKey);
+      if (isAuthenticated || (token != null && token.isNotEmpty)) {
+        Get.offAllNamed(AppRoutes.main);
+      } else {
+        Get.offAllNamed(AppRoutes.login);
+      }
     } else {
       Get.offAllNamed(AppRoutes.onboarding);
     }

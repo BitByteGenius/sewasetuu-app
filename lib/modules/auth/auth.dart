@@ -6,3 +6,4 @@ export 'screens/forgot_password_screen.dart';
 export 'screens/login_screen.dart';
 export 'screens/otp_verification_screen.dart';
 export 'screens/signup_screen.dart';
+export 'widgets/auth_top_curved_header.dart';

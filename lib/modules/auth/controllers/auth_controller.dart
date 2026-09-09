@@ -2,9 +2,17 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sewasetu/app/routes/app_routes.dart';
+import 'package:sewasetu/core/constants/app_constants.dart';
+import 'package:sewasetu/core/storage/storage_service.dart';
 
 /// Controller for User Authentication (Login, Sign-Up, OTP Verification, Password Recovery)
 class AuthController extends GetxController {
+  final IStorageService? _storageService;
+
+  AuthController([IStorageService? storageService])
+      : _storageService = storageService ??
+            (Get.isRegistered<IStorageService>() ? Get.find<IStorageService>() : null);
+
   // Keys & Controllers
   final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
   final GlobalKey<FormState> signupFormKey = GlobalKey<FormState>();
@@ -65,6 +73,9 @@ class AuthController extends GetxController {
 
   /// Send OTP and navigate to dedicated OTP verification page
   Future<void> sendOtp({String? targetPhone}) async {
+    FocusManager.instance.primaryFocus?.unfocus();
+    if (isLoading.value) return;
+
     final phone = targetPhone ?? phoneController.text.trim();
     if (phone.isEmpty) {
       Get.snackbar('Error', 'Please enter your mobile number', snackPosition: SnackPosition.BOTTOM);
@@ -92,6 +103,9 @@ class AuthController extends GetxController {
 
   /// Verify entered 6-digit OTP
   Future<void> verifyOtp(String phone) async {
+    FocusManager.instance.primaryFocus?.unfocus();
+    if (isLoading.value) return;
+
     final enteredOtp = otpDigits.map((c) => c.text).join();
     if (enteredOtp.length < 6) {
       Get.snackbar('Invalid OTP', 'Please enter the complete 6-digit code', snackPosition: SnackPosition.BOTTOM);
@@ -100,7 +114,14 @@ class AuthController extends GetxController {
 
     isLoading.value = true;
     try {
-      await Future.delayed(const Duration(milliseconds: 600));
+      // Natural 900ms interval allowing keyboard dismissal and displaying shimmering loader
+      await Future.delayed(const Duration(milliseconds: 900));
+
+      // Persist authenticated state
+      await _storageService?.setBool('is_authenticated', true);
+      await _storageService?.setString(AppConstants.tokenKey, 'jwt_token_${DateTime.now().millisecondsSinceEpoch}');
+      await _storageService?.setString('user_phone', phone);
+
       Get.offAllNamed(AppRoutes.main);
       Get.snackbar('Welcome to SewaSetu', 'You are now signed in successfully!', snackPosition: SnackPosition.BOTTOM);
     } catch (_) {
