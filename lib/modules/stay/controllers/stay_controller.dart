@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:sewasetu/app/routes/app_routes.dart';
+import 'package:sewasetu/core/services/location_service.dart';
 import 'package:sewasetu/modules/stay/models/property_model.dart';
 import 'package:sewasetu/modules/stay/models/stay_filter_criteria.dart';
 import 'package:sewasetu/modules/stay/services/stay_service.dart';
@@ -14,6 +16,11 @@ class StayController extends GetxController {
 
   final Rx<ViewState> state = ViewState.initial.obs;
   final RxList<PropertyModel> stays = <PropertyModel>[].obs;
+  final RxList<PropertyModel> featuredStays = <PropertyModel>[].obs;
+  final RxList<PropertyModel> nearbyStays = <PropertyModel>[].obs;
+  final RxList<PropertyModel> recommendedStays = <PropertyModel>[].obs;
+  final RxList<PropertyModel> recentlyViewedStays = <PropertyModel>[].obs;
+
   final Rx<StayType?> selectedCategory = Rx<StayType?>(null);
   final Rx<StayFilterCriteria> currentFilter = const StayFilterCriteria().obs;
   final Rx<StayViewMode> viewMode = StayViewMode.list.obs;
@@ -30,17 +37,43 @@ class StayController extends GetxController {
       selectedCategory.value = currentFilter.value.stayType;
     }
     loadStays();
+    if (Get.isRegistered<LocationService>()) {
+      ever(Get.find<LocationService>().selectedCity, (_) => _loadNearbyStays());
+    }
+  }
+
+  Future<void> _loadNearbyStays() async {
+    try {
+      if (Get.isRegistered<LocationService>()) {
+        final city = Get.find<LocationService>().selectedCity.value;
+        final nearby = await stayService.getNearbyStays(city: city);
+        nearbyStays.assignAll(nearby);
+      }
+    } catch (_) {}
   }
 
   Future<void> loadStays() async {
     try {
       state.value = ViewState.loading;
       final result = await stayService.getStays(filter: currentFilter.value);
+      final allStays = await stayService.getStays();
+      final featured = await stayService.getFeaturedStays();
+
+      String currentCity = 'Guwahati';
+      if (Get.isRegistered<LocationService>()) {
+        currentCity = Get.find<LocationService>().selectedCity.value;
+      }
+      final nearby = await stayService.getNearbyStays(city: currentCity);
+
+      featuredStays.assignAll(featured);
+      nearbyStays.assignAll(nearby);
+      recommendedStays.assignAll(allStays.reversed.take(4).toList());
+      recentlyViewedStays.assignAll(allStays.take(3).toList());
 
       // Apply in-memory sort
       _applySorting(result);
 
-      if (stays.isEmpty) {
+      if (stays.isEmpty && result.isEmpty) {
         state.value = ViewState.empty;
       } else {
         state.value = ViewState.loaded;
@@ -48,6 +81,16 @@ class StayController extends GetxController {
     } catch (_) {
       state.value = ViewState.error;
     }
+  }
+
+  void onSelectStayType(StayType type) {
+    selectedCategory.value = type;
+    currentFilter.value = currentFilter.value.copyWith(stayType: type);
+    Get.toNamed(AppRoutes.stayList, arguments: type);
+  }
+
+  void onSelectDestination(String destination) {
+    Get.toNamed(AppRoutes.staySearch, arguments: destination);
   }
 
   void onCategorySelected(StayType? type) {

@@ -16,5 +16,5 @@ export 'widgets/popular_destinations_widget.dart';
 export 'widgets/recently_viewed_widget.dart';
 export 'widgets/recommended_stays_widget.dart';
 export 'widgets/secondary_services_widget.dart';
-export 'widgets/stay_category_selector_widget.dart';
-
+export 'widgets/service_tab.dart';
+export '../stay/widgets/stay_category_selector_widget.dart';
