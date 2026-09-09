@@ -48,6 +48,61 @@ extension HomeServiceExtension on HomeService {
         return "Search cars and bikes for rent...";
     }
   }
+
+  String get shortTitle {
+    switch (this) {
+      case HomeService.stay:
+        return 'Stays';
+      case HomeService.trips:
+        return 'Trips';
+      case HomeService.shop:
+        return 'Shop';
+      case HomeService.rental:
+        return 'Rental';
+    }
+  }
+
+  String get iconAssetPath {
+    switch (this) {
+      case HomeService.stay:
+        return 'assets/images/service_stay_3d.jpg';
+      case HomeService.trips:
+        return 'assets/images/service_trips_3d.jpg';
+      case HomeService.shop:
+        return 'assets/images/service_shop_3d.jpg';
+      case HomeService.rental:
+        return 'assets/images/service_rental_3d.jpg';
+    }
+  }
+
+  Color themeColor(bool isDark) {
+    if (!isDark) return Colors.white;
+    switch (this) {
+      case HomeService.stay:
+        return const Color(0xFF0D1E20);
+      case HomeService.trips:
+        return const Color(0xFF13162C);
+      case HomeService.shop:
+        return const Color(0xFF1C140D);
+      case HomeService.rental:
+        return const Color(0xFF0E1A2C);
+    }
+  }
+
+  Color headerBgColor(bool isDark) => themeColor(isDark);
+
+  Color get accentColor {
+    switch (this) {
+      case HomeService.stay:
+        return const Color(0xFF14B8A6);
+      case HomeService.trips:
+        return const Color(0xFF818CF8);
+      case HomeService.shop:
+        return const Color(0xFFF97316);
+      case HomeService.rental:
+        return const Color(0xFF38BDF8);
+    }
+  }
 }
 
 /// Controller for Home Discovery screen and Main Shell navigation
@@ -115,6 +170,8 @@ class HomeController extends GetxController {
     super.onInit();
     loadHomeData();
     ever(locationService.selectedCity, (_) => loadNearbyStays());
+    // Auto-detect and set user GPS location on startup
+    locationService.initAutoLocation();
   }
 
   Future<void> loadHomeData() async {
@@ -221,22 +278,18 @@ class HomeController extends GetxController {
 
   String get locationTitle {
     final area = locationService.selectedArea.value;
-    if (area.isNotEmpty && area != 'GS Road / Christian Basti') {
+    if (area.isNotEmpty) {
       return area;
     }
-    final city = locationService.selectedCity.value;
-    if (!city.contains('Guwahati')) {
-      return city.split(',').first.trim();
-    }
-    return 'Kamakhya Gate';
+    return locationService.selectedCity.value.split(',').first.trim();
   }
 
   String get locationSubtitle {
     final city = locationService.selectedCity.value;
-    if (city.contains('Guwahati')) {
-      return 'Fatashil Hills, Guwahati, Assam, India';
+    if (city.isNotEmpty) {
+      return city;
     }
-    return '$city, India';
+    return 'Guwahati, Assam, India';
   }
 
   void onSelectStayType(StayType type) {

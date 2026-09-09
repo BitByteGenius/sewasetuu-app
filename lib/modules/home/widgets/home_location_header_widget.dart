@@ -71,7 +71,10 @@ class _HomeLocationHeaderWidgetState extends State<HomeLocationHeaderWidget> {
                     Expanded(
                       child: Obx(() {
                         final title = controller.locationTitle;
-                        final subtitle = controller.locationSubtitle;
+                        final subtitle = controller.locationService.isLocating.value
+                            ? 'Detecting GPS location...'
+                            : controller.locationSubtitle;
+                        final isDark = Theme.of(context).brightness == Brightness.dark;
 
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -87,7 +90,7 @@ class _HomeLocationHeaderWidgetState extends State<HomeLocationHeaderWidget> {
                                     style: GoogleFonts.plusJakartaSans(
                                       fontSize: 17,
                                       fontWeight: FontWeight.w800,
-                                      color: Colors.white,
+                                      color: isDark ? Colors.white : const Color(0xFF0F172A),
                                       letterSpacing: -0.3,
                                     ),
                                     maxLines: 1,
@@ -95,9 +98,9 @@ class _HomeLocationHeaderWidgetState extends State<HomeLocationHeaderWidget> {
                                   ),
                                 ),
                                 const SizedBox(width: 4),
-                                const Icon(
+                                Icon(
                                   Icons.keyboard_arrow_down_rounded,
-                                  color: Colors.white,
+                                  color: isDark ? Colors.white : const Color(0xFF0F172A),
                                   size: 20,
                                 ),
                               ],
@@ -109,8 +112,8 @@ class _HomeLocationHeaderWidgetState extends State<HomeLocationHeaderWidget> {
                               subtitle,
                               style: GoogleFonts.plusJakartaSans(
                                 fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                color: const Color(0xFF94A3B8), // Slate 400
+                                fontWeight: FontWeight.w500,
+                                color: isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B),
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
@@ -136,44 +139,53 @@ class _HomeLocationHeaderWidgetState extends State<HomeLocationHeaderWidget> {
             child: AnimatedScale(
               scale: _isProfilePressed ? 0.92 : 1.0,
               duration: const Duration(milliseconds: 150),
-              child: Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: const Color(0xFF1E293B), // Dark slate
-                  border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.22),
-                    width: 1.5,
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.35),
-                      blurRadius: 8,
-                      offset: const Offset(0, 2),
+              child: Builder(
+                builder: (context) {
+                  final isDark = Theme.of(context).brightness == Brightness.dark;
+                  return Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9),
+                      border: Border.all(
+                        color: isDark
+                            ? Colors.white.withValues(alpha: 0.22)
+                            : const Color(0xFFCBD5E1),
+                        width: 1.5,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: isDark ? 0.35 : 0.06),
+                          blurRadius: 8,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                child: ClipOval(
-                  child: Center(
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [Color(0xFF334155), Color(0xFF1E293B)],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
+                    child: ClipOval(
+                      child: Center(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: isDark
+                                  ? const [Color(0xFF334155), Color(0xFF1E293B)]
+                                  : const [Color(0xFFFFFFFF), Color(0xFFE2E8F0)],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                          ),
+                          child: Center(
+                            child: Icon(
+                              Icons.person_rounded,
+                              color: isDark ? AppColors.primaryLight : AppColors.primary,
+                              size: 22,
+                            ),
+                          ),
                         ),
                       ),
-                      child: const Center(
-                        child: Icon(
-                          Icons.person_rounded,
-                          color: AppColors.primaryLight,
-                          size: 22,
-                        ),
-                      ),
                     ),
-                  ),
-                ),
+                  );
+                },
               ),
             ),
           ),

@@ -24,15 +24,16 @@ class StayScreen extends GetView<StayController> {
 
     return StayNavigationShell(
       exploreView: SingleChildScrollView(
-        padding: const EdgeInsets.only(bottom: 90),
+        physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+        padding: const EdgeInsets.only(bottom: 100),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-                    AppSpacing.gapV24,
-          // 1. Category Selector
-          StayCategorySelectorWidget(
-            onCategorySelected: controller.onSelectStayType,
-          ),
+          children: [
+            AppSpacing.gapV16,
+            // 1. Category Selector
+            StayCategorySelectorWidget(
+              onCategorySelected: controller.onSelectStayType,
+            ),
           AppSpacing.gapV24,
 
           // 2. State-driven Content

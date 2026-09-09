@@ -38,31 +38,24 @@ class _ShopScreenState extends State<ShopScreen> {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    final discoverView = Scaffold(
-      body: Obx(() {
-        if (controller.state.value == ViewState.loading &&
-            controller.allStates.isEmpty) {
-          return _buildLoadingShimmer();
-        }
+    final discoverView = Obx(() {
+      final isLoading = controller.state.value == ViewState.loading &&
+          controller.allStates.isEmpty;
 
-        return RefreshIndicator(
-          onRefresh: controller.refreshFeed,
-          color: isDark ? AppColors.primaryLight : AppColors.primary,
-          child: SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            padding: const EdgeInsets.only(bottom: 96),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // 1. Search Bar (Read-only trigger)
-                // Padding(
-                //   padding: AppSpacing.screenPadding,
-                //   child: ShopSearchBar(
-                //     readOnly: true,
-                //     onTap: () => ShopNavigator.toSearch(),
-                //   ),
-                // ),
-                AppSpacing.gapV16,
+      return RefreshIndicator(
+        onRefresh: controller.refreshFeed,
+        color: isDark ? AppColors.primaryLight : AppColors.primary,
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+          padding: const EdgeInsets.only(bottom: 100),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AppSpacing.gapV16,
+
+              if (isLoading)
+                _buildLoadingShimmer()
+              else ...[
 
                 // 2. Featured States Carousel
                 _buildSectionTitle(
@@ -228,11 +221,11 @@ class _ShopScreenState extends State<ShopScreen> {
                   ),
                 ),
               ],
-            ),
+            ],
           ),
-        );
-      }),
-    );
+        ),
+      );
+    });
 
     return ShopNavigationShell(discoverView: discoverView);
   }
@@ -291,7 +284,7 @@ class _ShopScreenState extends State<ShopScreen> {
   }
 
   Widget _buildLoadingShimmer() {
-    return SingleChildScrollView(
+    return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
         children: [

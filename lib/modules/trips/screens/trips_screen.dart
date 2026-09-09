@@ -56,23 +56,22 @@ class _TripsScreenState extends State<TripsScreen> {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    final discoverView = Scaffold(
-      body: Obx(() {
-        final isLoading = controller.state.value == ViewState.loading &&
-            controller.featuredPackages.isEmpty;
+    final discoverView = Obx(() {
+      final isLoading = controller.state.value == ViewState.loading &&
+          controller.featuredPackages.isEmpty;
 
-        return RefreshIndicator(
-          onRefresh: controller.refreshFeed,
-          color: isDark ? AppColors.primaryLight : AppColors.primary,
-          child: SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            padding: const EdgeInsets.only(bottom: 96),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                AppSpacing.gapV24,
+      return RefreshIndicator(
+        onRefresh: controller.refreshFeed,
+        color: isDark ? AppColors.primaryLight : AppColors.primary,
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+          padding: const EdgeInsets.only(bottom: 100),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AppSpacing.gapV16,
 
-                if (isLoading) ...[
+              if (isLoading) ...[
                   _buildShimmerSection(isDark),
                 ] else ...[
                   // 2. Travel Themes Horizontal Carousel
@@ -110,8 +109,7 @@ class _TripsScreenState extends State<TripsScreen> {
             ),
           ),
         );
-      }),
-    );
+      });
 
     return TripsNavigationShell(discoverView: discoverView);
   }

@@ -33,23 +33,20 @@ class RentalScreen extends StatelessWidget {
     final rentalCtrl = Get.find<RentalController>();
     final cityCtrl = Get.find<RentalCityController>();
 
-    final discoverView = Scaffold(
-      backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
-      body: SafeArea(
-        child: RefreshIndicator(
-          onRefresh: () async {
-            await rentalCtrl.loadDashboardData();
-          },
-          color: AppColors.primary,
-          child: CustomScrollView(
-            physics: const AlwaysScrollableScrollPhysics(
-              parent: BouncingScrollPhysics(),
-            ),
-            slivers: [
-              // 1. Automotive Header
-              const SliverToBoxAdapter(
-                child: RentalHeaderWidget(),
-              ),
+    final discoverView = RefreshIndicator(
+      onRefresh: () async {
+        await rentalCtrl.loadDashboardData();
+      },
+      color: AppColors.primary,
+      child: CustomScrollView(
+        physics: const BouncingScrollPhysics(
+          parent: AlwaysScrollableScrollPhysics(),
+        ),
+        slivers: [
+          // 1. Automotive Header
+          const SliverToBoxAdapter(
+            child: RentalHeaderWidget(),
+          ),
 
               // 2. Hero Animated Banner Carousel (Mandatory)
               SliverToBoxAdapter(
@@ -326,9 +323,7 @@ class RentalScreen extends StatelessWidget {
               ),
             ],
           ),
-        ),
-      ),
-    );
+        );
 
     return RentalNavigationShell(discoverView: discoverView);
   }

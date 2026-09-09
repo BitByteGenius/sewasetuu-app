@@ -10,6 +10,8 @@ export 'widgets/home_location_header_widget.dart';
 export 'widgets/home_search_bar_widget.dart';
 export 'widgets/home_service_switcher_widget.dart';
 export 'widgets/home_service_tab_widget.dart';
+export 'widgets/home_service_vector_graphic.dart';
+export 'widgets/swiggy_connected_tab_bar.dart';
 export 'widgets/location_selector_modal.dart';
 export 'widgets/nearby_stays_widget.dart';
 export 'widgets/popular_destinations_widget.dart';

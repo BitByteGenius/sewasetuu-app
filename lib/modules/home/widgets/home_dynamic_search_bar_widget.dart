@@ -19,6 +19,7 @@ class _HomeDynamicSearchBarWidgetState extends State<HomeDynamicSearchBarWidget>
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<HomeController>();
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0),
@@ -35,25 +36,28 @@ class _HomeDynamicSearchBarWidgetState extends State<HomeDynamicSearchBarWidget>
             height: 52,
             padding: const EdgeInsets.symmetric(horizontal: 14),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: isDark ? const Color(0xFF1E293B) : Colors.white,
               borderRadius: BorderRadius.circular(16),
               border: Border.all(
-                color: const Color(0xFFE2E8F0),
+                color: isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0),
                 width: 1.2,
               ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.16),
-                  blurRadius: 14,
-                  offset: const Offset(0, 4),
-                  spreadRadius: -1,
-                ),
-                BoxShadow(
-                  color: AppColors.primary.withValues(alpha: 0.08),
-                  blurRadius: 6,
-                  offset: const Offset(0, 1),
-                ),
-              ],
+              boxShadow: isDark
+                  ? [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.25),
+                        blurRadius: 10,
+                        offset: const Offset(0, 2),
+                      ),
+                    ]
+                  : [
+                      BoxShadow(
+                        color: const Color(0xFF0F172A).withValues(alpha: 0.06),
+                        blurRadius: 14,
+                        offset: const Offset(0, 3),
+                        spreadRadius: -1,
+                      ),
+                    ],
             ),
             child: Row(
               children: [
@@ -61,12 +65,12 @@ class _HomeDynamicSearchBarWidgetState extends State<HomeDynamicSearchBarWidget>
                 Container(
                   padding: const EdgeInsets.all(6),
                   decoration: BoxDecoration(
-                    color: AppColors.primary.withValues(alpha: 0.1),
+                    color: AppColors.primary.withValues(alpha: isDark ? 0.20 : 0.10),
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.search_rounded,
-                    color: AppColors.primary,
+                    color: isDark ? AppColors.primaryLight : AppColors.primary,
                     size: 20,
                   ),
                 ),
@@ -98,7 +102,7 @@ class _HomeDynamicSearchBarWidgetState extends State<HomeDynamicSearchBarWidget>
                         style: GoogleFonts.plusJakartaSans(
                           fontSize: 13.5,
                           fontWeight: FontWeight.w500,
-                          color: const Color(0xFF64748B), // Slate 500
+                          color: isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B),
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -112,7 +116,7 @@ class _HomeDynamicSearchBarWidgetState extends State<HomeDynamicSearchBarWidget>
                   height: 22,
                   width: 1,
                   margin: const EdgeInsets.symmetric(horizontal: 8),
-                  color: const Color(0xFFCBD5E1),
+                  color: isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0),
                 ),
 
                 // Voice Search Action with interactive tap feedback
@@ -130,13 +134,13 @@ class _HomeDynamicSearchBarWidgetState extends State<HomeDynamicSearchBarWidget>
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: _isMicPressed
-                            ? AppColors.primaryContainer
-                            : const Color(0xFFF1F5F9), // Slate 100
+                            ? (isDark ? AppColors.primaryContainerDark : AppColors.primaryContainer)
+                            : (isDark ? const Color(0xFF334155) : const Color(0xFFF1F5F9)),
                       ),
-                      child: const Icon(
+                      child: Icon(
                         Icons.mic_none_rounded,
                         size: 19,
-                        color: AppColors.primary,
+                        color: isDark ? AppColors.primaryLight : AppColors.primary,
                       ),
                     ),
                   ),
