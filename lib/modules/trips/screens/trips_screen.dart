@@ -14,7 +14,6 @@ import '../widgets/destination_card.dart';
 import '../widgets/trip_loading_card.dart';
 import '../widgets/trip_package_card.dart';
 import '../widgets/trip_theme_card.dart';
-import '../widgets/trips_hero_widget.dart';
 
 /// Primary discovery hub for the Travel and Trips marketplace
 class TripsScreen extends StatefulWidget {
@@ -70,14 +69,14 @@ class _TripsScreenState extends State<TripsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // 1. Hero Widget with Search Bar & Trust Badges
-                TripsHeroWidget(
-                  onSearchTap: () => TripsNavigator.toTripSearch(),
-                  onExploreDestinationsTap: () =>
-                      TripsNavigator.toDestinations(),
-                  onBackTap: Navigator.canPop(context)
-                      ? () => Navigator.pop(context)
-                      : null,
-                ),
+                // TripsHeroWidget(
+                //   onSearchTap: () => TripsNavigator.toTripSearch(),
+                //   onExploreDestinationsTap: () =>
+                //       TripsNavigator.toDestinations(),
+                //   onBackTap: Navigator.canPop(context)
+                //       ? () => Navigator.pop(context)
+                //       : null,
+                // ),
 
                 AppSpacing.gapV24,
 

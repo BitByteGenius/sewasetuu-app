@@ -5,6 +5,7 @@ import 'package:sewasetu/core/services/location_service.dart';
 import 'package:sewasetu/modules/shop/shop_navigator.dart';
 import 'package:sewasetu/modules/stay/models/property_model.dart';
 import 'package:sewasetu/modules/stay/services/stay_service.dart';
+import 'package:sewasetu/modules/trips/trips_navigator.dart';
 import 'package:sewasetu/shared/enums/stay_type.dart';
 import 'package:sewasetu/shared/enums/view_state.dart';
 
@@ -105,7 +106,7 @@ class HomeController extends GetxController {
     selectedNavIndex.value = index;
   }
 
-  void selectService(HomeService service) {
+  Future<void> selectService(HomeService service) async {
     selectedService.value = service;
     switch (service) {
       case HomeService.stay:
@@ -133,7 +134,7 @@ class HomeController extends GetxController {
         Get.toNamed(AppRoutes.staySearch);
         break;
       case HomeService.trips:
-        Get.toNamed(AppRoutes.trips);
+        TripsNavigator.toTripSearch();
         break;
       case HomeService.shop:
         ShopNavigator.toSearch();

@@ -10,8 +10,7 @@ import '../widgets/featured_state_card.dart';
 import '../widgets/loading_product_card.dart';
 import '../widgets/product_card.dart';
 import '../widgets/shop_category_card.dart';
-import '../widgets/shop_header_widget.dart';
-import '../widgets/shop_search_bar.dart';
+
 import '../widgets/state_card.dart';
 
 /// Main Discovery Screen for the State-Wise Cultural Shop Module
@@ -40,11 +39,11 @@ class _ShopScreenState extends State<ShopScreen> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      appBar: const ShopHeaderWidget(
-        title: 'SewaSetu Bazaar',
-        subtitle: 'Authentic Crafts, Silks & Regional Foods',
-        showBackButton: true,
-      ),
+      // appBar: const ShopHeaderWidget(
+      //   title: 'SewaSetu Bazaar',
+       //     subtitle: 'Authentic Crafts, Silks & Regional Foods',
+      //   showBackButton: true,
+      // ),
       body: Obx(() {
         if (controller.state.value == ViewState.loading &&
             controller.allStates.isEmpty) {
@@ -61,13 +60,13 @@ class _ShopScreenState extends State<ShopScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // 1. Search Bar (Read-only trigger)
-                Padding(
-                  padding: AppSpacing.screenPadding,
-                  child: ShopSearchBar(
-                    readOnly: true,
-                    onTap: () => ShopNavigator.toSearch(),
-                  ),
-                ),
+                // Padding(
+                //   padding: AppSpacing.screenPadding,
+                //   child: ShopSearchBar(
+                //     readOnly: true,
+                //     onTap: () => ShopNavigator.toSearch(),
+                //   ),
+                // ),
                 AppSpacing.gapV16,
 
                 // 2. Featured States Carousel

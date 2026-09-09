@@ -20,7 +20,7 @@ import 'package:sewasetu/modules/home/widgets/stay_category_selector_widget.dart
 import 'package:sewasetu/shared/enums/view_state.dart';
 import 'package:sewasetu/shared/widgets/app_skeleton.dart';
 
-/// Main Marketplace Home Page with Stay prioritised as the core business.
+/// Main Marketplace Home Page with Swiggy-Style Service Switcher.
 class HomeScreen extends GetView<HomeController> {
   const HomeScreen({super.key});
 
@@ -52,7 +52,7 @@ class HomeScreen extends GetView<HomeController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // 1. Premium Dark Swiggy-Style Header Area (Location + 4-Service Switcher + Dynamic Search Bar)
+                // This section remains fully scrollable with the page content!
                 Container(
                   decoration: const BoxDecoration(
                     gradient: LinearGradient(
@@ -97,7 +97,7 @@ class HomeScreen extends GetView<HomeController> {
                 ),
                 AppSpacing.gapV24,
 
-                // State-driven Content (Featured + Recommended + Nearby + Destinations + Recently Viewed)
+                // 3. State-driven Content (Featured + Recommended + Nearby + Destinations + Recently Viewed)
                 Obx(() {
                   if (controller.state.value == ViewState.loading) {
                     return Padding(
@@ -114,7 +114,7 @@ class HomeScreen extends GetView<HomeController> {
 
                   return Column(
                     children: [
-                      // 4. Featured Accommodations
+                      // Featured Accommodations
                       FeaturedStaysCarouselWidget(
                         stays: controller.featuredStays,
                         onStayTap: (stay) => Get.toNamed(
@@ -125,7 +125,7 @@ class HomeScreen extends GetView<HomeController> {
                       ),
                       AppSpacing.gapV24,
 
-                      // 5. Recommended Stays (Top Picks)
+                      // Recommended Stays (Top Picks)
                       RecommendedStaysWidget(
                         stays: controller.recommendedStays,
                         onStayTap: (stay) => Get.toNamed(
@@ -136,13 +136,13 @@ class HomeScreen extends GetView<HomeController> {
                       ),
                       AppSpacing.gapV24,
 
-                      // 6. Popular Destinations (Goa, Manali, Shillong, Jaipur)
+                      // Popular Destinations (Goa, Manali, Shillong, Jaipur)
                       PopularDestinationsWidget(
                         onSelectDestination: controller.onSelectDestination,
                       ),
                       AppSpacing.gapV24,
 
-                      // 7. Nearby Stays in selected city
+                      // Nearby Stays in selected city
                       Obx(() {
                         return NearbyStaysWidget(
                           stays: controller.nearbyStays,
@@ -156,7 +156,7 @@ class HomeScreen extends GetView<HomeController> {
                       }),
                       AppSpacing.gapV24,
 
-                      // 8. Recently Viewed Stays
+                      // Recently Viewed Stays
                       RecentlyViewedWidget(
                         stays: controller.recentlyViewedStays,
                         onStayTap: (stay) => Get.toNamed(
@@ -166,7 +166,7 @@ class HomeScreen extends GetView<HomeController> {
                       ),
                       AppSpacing.gapV24,
 
-                      // 9. Secondary Services Banner (Services, Rentals, Trips)
+                      // Secondary Services Banner (Services, Rentals, Trips)
                       const SecondaryServicesWidget(),
                       AppSpacing.gapV32,
                     ],

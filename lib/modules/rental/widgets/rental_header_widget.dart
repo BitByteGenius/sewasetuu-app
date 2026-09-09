@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_radius.dart';
 import '../../../app/theme/app_spacing.dart';
 import '../../../app/theme/app_text_styles.dart';
-import '../screens/rental_bookings_screen.dart';
-import 'city_selector_widget.dart';
 
 /// Top bar header for the Rental module with greeting, city pill, and bookings action.
 class RentalHeaderWidget extends StatelessWidget {
@@ -64,37 +61,37 @@ class RentalHeaderWidget extends StatelessWidget {
               ],
             ),
           ),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const CitySelectorWidget(isCompact: true),
-              const SizedBox(width: AppSpacing.sm),
-              Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: () => Get.to(() => const RentalBookingsScreen()),
-                  borderRadius: AppRadius.radiusFull,
-                  child: Container(
-                    padding: const EdgeInsets.all(AppSpacing.sm),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariantLight,
-                      border: Border.all(
-                        color: isDark ? AppColors.borderDark : AppColors.borderLight,
-                      ),
-                    ),
-                    child: const Icon(
-                      Icons.receipt_long_outlined,
-                      size: 20,
-                      color: AppColors.primary,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
+      //     Row(
+      //       mainAxisSize: MainAxisSize.min,
+      //       children: [
+      //         const CitySelectorWidget(isCompact: true),
+      //         const SizedBox(width: AppSpacing.sm),
+      //         Material(
+      //           color: Colors.transparent,
+      //           child: InkWell(
+      //             onTap: () => Get.to(() => const RentalBookingsScreen()),
+      //             borderRadius: AppRadius.radiusFull,
+      //             child: Container(
+      //               padding: const EdgeInsets.all(AppSpacing.sm),
+      //               decoration: BoxDecoration(
+      //                 shape: BoxShape.circle,
+      //                 color: isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariantLight,
+      //                 border: Border.all(
+      //                   color: isDark ? AppColors.borderDark : AppColors.borderLight,
+      //                 ),
+      //               ),
+      //               child: const Icon(
+      //                 Icons.receipt_long_outlined,
+      //                 size: 20,
+      //                 color: AppColors.primary,
+      //               ),
+      //             ),
+      //           ),
+      //         ),
+      //       ],
+      //     ),
+         ],
+       ),
     );
   }
 }

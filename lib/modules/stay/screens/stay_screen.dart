@@ -34,30 +34,30 @@ class StayScreen extends GetView<StayController> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Accommodations',
-          style: AppTextStyles.headlineSmall(isDark),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search_rounded),
-            onPressed: () => Get.toNamed(AppRoutes.staySearch),
-          ),
-          // Sort action button
-          IconButton(
-            icon: const Icon(Icons.sort_rounded),
-            tooltip: 'Sort Stays',
-            onPressed: () {
-              StaySortingSheet.show(
-                context,
-                currentSort: controller.currentSort.value,
-                onSelectSort: controller.applySort,
-              );
-            },
-          ),
-        ],
-      ),
+      // appBar: AppBar(
+      //   title: Text(
+      //     'Accommodations',
+      //     style: AppTextStyles.headlineSmall(isDark),
+      //   ),
+      //   actions: [
+      //     IconButton(
+      //       icon: const Icon(Icons.search_rounded),
+      //       onPressed: () => Get.toNamed(AppRoutes.staySearch),
+      //     ),
+      //     // Sort action button
+      //     IconButton(
+      //       icon: const Icon(Icons.sort_rounded),
+      //       tooltip: 'Sort Stays',
+      //       onPressed: () {
+      //         StaySortingSheet.show(
+      //           context,
+      //           currentSort: controller.currentSort.value,
+      //           onSelectSort: controller.applySort,
+      //         );
+      //       },
+      //     ),
+      //   ],
+      // ),
       body: Column(
         children: [
           AppSpacing.gapV8,
