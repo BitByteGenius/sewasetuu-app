@@ -96,7 +96,7 @@ class LoginPage extends GetView<AuthController> {
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(isDark ? 0.20 : 0.04),
+                            color: Colors.black.withValues(alpha: isDark ? 0.20 : 0.04),
                             blurRadius: 10,
                             offset: const Offset(0, 3),
                           ),
@@ -183,7 +183,7 @@ class LoginPage extends GetView<AuthController> {
                           borderRadius: BorderRadius.circular(16),
                           boxShadow: [
                             BoxShadow(
-                              color: const Color(0xFF0F766E).withOpacity(0.38),
+                              color: const Color(0xFF0F766E).withValues(alpha: 0.38),
                               blurRadius: 16,
                               offset: const Offset(0, 6),
                             ),

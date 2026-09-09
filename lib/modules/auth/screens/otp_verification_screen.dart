@@ -151,7 +151,7 @@ class OtpVerificationPage extends GetView<AuthController> {
                       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
                       decoration: BoxDecoration(
                         color: isDark
-                            ? const Color(0xFF334155).withOpacity(0.5)
+                            ? const Color(0xFF334155).withValues(alpha: 0.5)
                             : const Color(0xFFF1F5F9),
                         borderRadius: BorderRadius.circular(20),
                       ),
@@ -193,7 +193,7 @@ class OtpVerificationPage extends GetView<AuthController> {
                         borderRadius: BorderRadius.circular(16),
                         boxShadow: [
                           BoxShadow(
-                            color: const Color(0xFF0F766E).withOpacity(0.38),
+                            color: const Color(0xFF0F766E).withValues(alpha: 0.38),
                             blurRadius: 16,
                             offset: const Offset(0, 6),
                           ),
