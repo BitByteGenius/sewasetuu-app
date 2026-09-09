@@ -28,27 +28,34 @@ class StayCategorySelectorWidget extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              GestureDetector(
-                onTap: () => Get.toNamed(AppRoutes.stayList),
-                behavior: HitTestBehavior.opaque,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'Explore by Category',
-                      style: AppTextStyles.headlineSmall(isDark).copyWith(
-                        fontWeight: FontWeight.w800,
+              Expanded(
+                child: GestureDetector(
+                  onTap: () => Get.toNamed(AppRoutes.stayList),
+                  behavior: HitTestBehavior.opaque,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          'Explore by Category',
+                          style: AppTextStyles.headlineSmall(isDark).copyWith(
+                            fontWeight: FontWeight.w800,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                    ),
-                    AppSpacing.gapH8,
-                    Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      size: 14,
-                      color: isDark ? AppColors.textMutedDark : AppColors.textMutedLight,
-                    ),
-                  ],
+                      AppSpacing.gapH8,
+                      Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        size: 14,
+                        color: isDark ? AppColors.textMutedDark : AppColors.textMutedLight,
+                      ),
+                    ],
+                  ),
                 ),
               ),
+              AppSpacing.gapH8,
               TextButton(
                 onPressed: () => Get.toNamed(AppRoutes.stayList),
                 style: TextButton.styleFrom(

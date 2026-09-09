@@ -14,6 +14,7 @@ import '../widgets/destination_card.dart';
 import '../widgets/trip_loading_card.dart';
 import '../widgets/trip_package_card.dart';
 import '../widgets/trip_theme_card.dart';
+import 'trips_navigation_shell.dart';
 
 /// Primary discovery hub for the Travel and Trips marketplace
 class TripsScreen extends StatefulWidget {
@@ -55,7 +56,7 @@ class _TripsScreenState extends State<TripsScreen> {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return Scaffold(
+    final discoverView = Scaffold(
       body: Obx(() {
         final isLoading = controller.state.value == ViewState.loading &&
             controller.featuredPackages.isEmpty;
@@ -65,19 +66,10 @@ class _TripsScreenState extends State<TripsScreen> {
           color: isDark ? AppColors.primaryLight : AppColors.primary,
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
+            padding: const EdgeInsets.only(bottom: 96),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // 1. Hero Widget with Search Bar & Trust Badges
-                // TripsHeroWidget(
-                //   onSearchTap: () => TripsNavigator.toTripSearch(),
-                //   onExploreDestinationsTap: () =>
-                //       TripsNavigator.toDestinations(),
-                //   onBackTap: Navigator.canPop(context)
-                //       ? () => Navigator.pop(context)
-                //       : null,
-                // ),
-
                 AppSpacing.gapV24,
 
                 if (isLoading) ...[
@@ -120,6 +112,8 @@ class _TripsScreenState extends State<TripsScreen> {
         );
       }),
     );
+
+    return TripsNavigationShell(discoverView: discoverView);
   }
 
   // ---------------------------------------------------------------------------
@@ -136,38 +130,47 @@ class _TripsScreenState extends State<TripsScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Explore By Travel Style',
-                    style: AppTextStyles.titleMedium(isDark).copyWith(
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: -0.2,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Explore By Travel Style',
+                      style: AppTextStyles.titleMedium(isDark).copyWith(
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: -0.2,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    'Pick your preferred holiday mood & experience',
-                    style: AppTextStyles.bodySmall(isDark),
-                  ),
-                ],
+                    const SizedBox(height: 2),
+                    Text(
+                      'Pick your preferred holiday mood & experience',
+                      style: AppTextStyles.bodySmall(isDark),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
               ),
               if (controller.selectedTheme.value != null)
-                TextButton(
-                  onPressed: () => controller.selectTheme(null),
-                  style: TextButton.styleFrom(
-                    padding: EdgeInsets.zero,
-                    minimumSize: const Size(50, 30),
-                  ),
-                  child: Text(
-                    'Clear',
-                    style: TextStyle(
-                      color: isDark
-                          ? AppColors.primaryLight
-                          : AppColors.primary,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w700,
+                Padding(
+                  padding: const EdgeInsets.only(left: 8),
+                  child: TextButton(
+                    onPressed: () => controller.selectTheme(null),
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      minimumSize: const Size(50, 30),
+                    ),
+                    child: Text(
+                      'Clear',
+                      style: TextStyle(
+                        color: isDark
+                            ? AppColors.primaryLight
+                            : AppColors.primary,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ),
                 ),

@@ -78,10 +78,13 @@ class _RentalBookingsScreenState extends State<RentalBookingsScreen> {
       appBar: AppBar(
         backgroundColor: isDark ? AppColors.surfaceDark : AppColors.surfaceLight,
         elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: isDark ? Colors.white : Colors.black87),
-          onPressed: () => Navigator.pop(context),
-        ),
+        automaticallyImplyLeading: false,
+        leading: Navigator.canPop(context)
+            ? IconButton(
+                icon: Icon(Icons.arrow_back, color: isDark ? Colors.white : Colors.black87),
+                onPressed: () => Navigator.pop(context),
+              )
+            : null,
         title: Text(
           'My Rental Bookings',
           style: AppTextStyles.titleLarge(isDark).copyWith(fontWeight: FontWeight.w800),
@@ -115,7 +118,7 @@ class _RentalBookingsScreenState extends State<RentalBookingsScreen> {
                         onRefresh: _loadBookings,
                         color: AppColors.primary,
                         child: ListView.builder(
-                          padding: const EdgeInsets.all(AppSpacing.lg),
+                          padding: const EdgeInsets.fromLTRB(AppSpacing.lg, AppSpacing.lg, AppSpacing.lg, 96),
                           itemCount: _filteredBookings.length,
                           itemBuilder: (context, index) {
                             return _buildBookingCard(_filteredBookings[index], isDark);

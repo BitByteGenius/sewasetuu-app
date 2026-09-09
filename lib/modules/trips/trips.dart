@@ -33,6 +33,7 @@ export 'controllers/trip_details_controller.dart';
 export 'controllers/trip_filter_controller.dart';
 export 'controllers/trip_search_controller.dart';
 export 'controllers/trips_controller.dart';
+export 'controllers/trips_navigation_controller.dart';
 
 // Bindings
 export 'bindings/destination_binding.dart';
@@ -47,6 +48,7 @@ export 'screens/trip_checkout_screen.dart';
 export 'screens/trip_details_screen.dart';
 export 'screens/trip_list_screen.dart';
 export 'screens/trip_search_screen.dart';
+export 'screens/trips_navigation_shell.dart';
 export 'screens/trips_screen.dart';
 
 // Widgets
@@ -66,6 +68,8 @@ export 'widgets/trip_search_bar.dart';
 export 'widgets/trip_sorting_sheet.dart';
 export 'widgets/trip_theme_card.dart';
 export 'widgets/trips_hero_widget.dart';
+export 'widgets/trips_navigation_bar.dart';
+export 'widgets/trips_navigation_item.dart';
 
 // Navigator
 export 'trips_navigator.dart';

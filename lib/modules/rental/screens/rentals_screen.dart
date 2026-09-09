@@ -17,6 +17,7 @@ import '../widgets/rental_loading_skeleton.dart';
 import '../widgets/rental_search_card.dart';
 import '../widgets/vehicle_card.dart';
 import '../widgets/vehicle_type_selector.dart';
+import 'rental_navigation_shell.dart';
 import 'vehicle_list_screen.dart';
 
 /// The central flagship home screen for the SewaSetu Rental module.
@@ -32,7 +33,7 @@ class RentalScreen extends StatelessWidget {
     final rentalCtrl = Get.find<RentalController>();
     final cityCtrl = Get.find<RentalCityController>();
 
-    return Scaffold(
+    final discoverView = Scaffold(
       backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
       body: SafeArea(
         child: RefreshIndicator(
@@ -95,30 +96,38 @@ class RentalScreen extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'AVAILABLE IN $cityName'.toUpperCase(),
-                              style: TextStyle(
-                                fontSize: 11,
-                                fontWeight: FontWeight.w800,
-                                letterSpacing: 0.8,
-                                color: isDark ? AppColors.textMutedDark : AppColors.textSecondaryLight,
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'AVAILABLE IN $cityName'.toUpperCase(),
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w800,
+                                  letterSpacing: 0.8,
+                                  color: isDark ? AppColors.textMutedDark : AppColors.textSecondaryLight,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                               ),
-                            ),
-                            const SizedBox(height: 2),
-                            Text(
-                              'Instant Bookings',
-                              style: AppTextStyles.headlineSmall(isDark).copyWith(
-                                fontWeight: FontWeight.w800,
+                              const SizedBox(height: 2),
+                              Text(
+                                'Instant Bookings',
+                                style: AppTextStyles.headlineSmall(isDark).copyWith(
+                                  fontWeight: FontWeight.w800,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
+                        const SizedBox(width: 8),
                         TextButton(
                           onPressed: () => Get.to(() => const VehicleListScreen()),
                           child: const Row(
+                            mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
                                 'View All',
@@ -193,26 +202,32 @@ class RentalScreen extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  'PREMIUM COLLECTION',
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w800,
-                                    letterSpacing: 0.8,
-                                    color: Color(0xFFF59E0B),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    'PREMIUM COLLECTION',
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w800,
+                                      letterSpacing: 0.8,
+                                      color: Color(0xFFF59E0B),
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                ),
-                                const SizedBox(height: 2),
-                                Text(
-                                  'Luxury & Flagship Rides',
-                                  style: AppTextStyles.headlineSmall(isDark).copyWith(
-                                    fontWeight: FontWeight.w800,
+                                  const SizedBox(height: 2),
+                                  Text(
+                                    'Luxury & Flagship Rides',
+                                    style: AppTextStyles.headlineSmall(isDark).copyWith(
+                                      fontWeight: FontWeight.w800,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -314,6 +329,8 @@ class RentalScreen extends StatelessWidget {
         ),
       ),
     );
+
+    return RentalNavigationShell(discoverView: discoverView);
   }
 
   Widget _buildWhyRentWithUs(bool isDark) {

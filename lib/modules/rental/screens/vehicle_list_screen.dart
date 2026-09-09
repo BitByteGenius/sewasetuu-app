@@ -36,10 +36,13 @@ class VehicleListScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: isDark ? AppColors.surfaceDark : AppColors.surfaceLight,
         elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: isDark ? Colors.white : Colors.black87),
-          onPressed: () => Navigator.pop(context),
-        ),
+        automaticallyImplyLeading: false,
+        leading: Navigator.canPop(context)
+            ? IconButton(
+                icon: Icon(Icons.arrow_back, color: isDark ? Colors.white : Colors.black87),
+                onPressed: () => Navigator.pop(context),
+              )
+            : null,
         title: Obx(() {
           final s = searchCtrl.searchModel.value;
           return Column(
@@ -233,6 +236,7 @@ class VehicleListScreen extends StatelessWidget {
                 color: AppColors.primary,
                 child: VehicleGrid(
                   vehicles: listCtrl.vehicles,
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 96),
                 ),
               );
             }),

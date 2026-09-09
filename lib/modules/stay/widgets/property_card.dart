@@ -287,13 +287,18 @@ class StayCardWidget extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        '${AppFormatters.formatCurrency(stay.pricePerNight)} / night',
-                        style: AppTextStyles.labelMedium(isDark).copyWith(
-                          color: isDark ? AppColors.primaryLight : AppColors.primary,
-                          fontWeight: FontWeight.w800,
+                      Expanded(
+                        child: Text(
+                          '${AppFormatters.formatCurrency(stay.pricePerNight)} / night',
+                          style: AppTextStyles.labelMedium(isDark).copyWith(
+                            color: isDark ? AppColors.primaryLight : AppColors.primary,
+                            fontWeight: FontWeight.w800,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
+                      const SizedBox(width: 8),
                       _buildFavoriteButton(isDark, size: 28),
                     ],
                   ),
@@ -328,13 +333,18 @@ class StayCardWidget extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      stay.stayType.label,
-                      style: AppTextStyles.labelSmall(isDark).copyWith(
-                        color: isDark ? AppColors.primaryLight : AppColors.primary,
-                        fontWeight: FontWeight.w700,
+                    Expanded(
+                      child: Text(
+                        stay.stayType.label,
+                        style: AppTextStyles.labelSmall(isDark).copyWith(
+                          color: isDark ? AppColors.primaryLight : AppColors.primary,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
+                    const SizedBox(width: 6),
                     AppRatingBar(
                       rating: stay.rating,
                       iconSize: 12,

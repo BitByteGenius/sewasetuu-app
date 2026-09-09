@@ -10,8 +10,8 @@ import '../widgets/featured_state_card.dart';
 import '../widgets/loading_product_card.dart';
 import '../widgets/product_card.dart';
 import '../widgets/shop_category_card.dart';
-
 import '../widgets/state_card.dart';
+import 'shop_navigation_shell.dart';
 
 /// Main Discovery Screen for the State-Wise Cultural Shop Module
 class ShopScreen extends StatefulWidget {
@@ -38,12 +38,7 @@ class _ShopScreenState extends State<ShopScreen> {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return Scaffold(
-      // appBar: const ShopHeaderWidget(
-      //   title: 'SewaSetu Bazaar',
-       //     subtitle: 'Authentic Crafts, Silks & Regional Foods',
-      //   showBackButton: true,
-      // ),
+    final discoverView = Scaffold(
       body: Obx(() {
         if (controller.state.value == ViewState.loading &&
             controller.allStates.isEmpty) {
@@ -55,7 +50,7 @@ class _ShopScreenState extends State<ShopScreen> {
           color: isDark ? AppColors.primaryLight : AppColors.primary,
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
-            padding: const EdgeInsets.only(bottom: 40),
+            padding: const EdgeInsets.only(bottom: 96),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -238,6 +233,8 @@ class _ShopScreenState extends State<ShopScreen> {
         );
       }),
     );
+
+    return ShopNavigationShell(discoverView: discoverView);
   }
 
   Widget _buildSectionTitle({

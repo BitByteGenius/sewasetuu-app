@@ -35,6 +35,7 @@ export 'controllers/product_details_controller.dart';
 export 'controllers/shop_controller.dart';
 export 'controllers/shop_search_controller.dart';
 export 'controllers/state_products_controller.dart';
+export 'controllers/shop_navigation_controller.dart';
 
 // Bindings
 export 'bindings/cart_binding.dart';
@@ -49,9 +50,14 @@ export 'screens/order_success_screen.dart';
 export 'screens/product_details_screen.dart';
 export 'screens/search_products_screen.dart';
 export 'screens/select_address_screen.dart';
+export 'screens/shop_navigation_shell.dart';
 export 'screens/shop_screen.dart';
 export 'screens/state_products_screen.dart';
 export 'screens/states_screen.dart';
+
+// Widgets
+export 'widgets/shop_navigation_bar.dart';
+export 'widgets/shop_navigation_item.dart';
 
 // Internal Navigator
 export 'shop_navigator.dart';

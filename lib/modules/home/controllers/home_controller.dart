@@ -104,6 +104,20 @@ class HomeController extends GetxController {
 
   void switchNavTab(int index) {
     selectedNavIndex.value = index;
+    switch (index) {
+      case 1:
+        Get.toNamed(AppRoutes.stayList);
+        break;
+      case 2:
+        Get.toNamed(AppRoutes.booking);
+        break;
+      case 3:
+        Get.toNamed(AppRoutes.wishlist);
+        break;
+      case 4:
+        Get.toNamed(AppRoutes.profile);
+        break;
+    }
   }
 
   void selectService(HomeService service) {

@@ -13,6 +13,8 @@ import 'package:sewasetu/modules/stay/controllers/stay_controller.dart';
 import 'package:sewasetu/shared/enums/view_state.dart';
 import 'package:sewasetu/shared/widgets/app_skeleton.dart';
 
+import 'package:sewasetu/modules/stay/screens/stay_navigation_shell.dart';
+
 class StayScreen extends GetView<StayController> {
   const StayScreen({super.key});
 
@@ -20,10 +22,13 @@ class StayScreen extends GetView<StayController> {
   Widget build(BuildContext context) {
     final locationService = Get.find<LocationService>();
 
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    return StayNavigationShell(
+      exploreView: SingleChildScrollView(
+        padding: const EdgeInsets.only(bottom: 90),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+                    AppSpacing.gapV24,
           // 1. Category Selector
           StayCategorySelectorWidget(
             onCategorySelected: controller.onSelectStayType,
@@ -101,6 +106,7 @@ class StayScreen extends GetView<StayController> {
           }),
         ],
       ),
+    ),
     );
   }
 }
