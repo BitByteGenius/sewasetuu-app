@@ -122,7 +122,8 @@ void main() {
     expect(find.byType(HomeLocationHeaderWidget), findsOneWidget);
     expect(find.byType(ServiceTab), findsOneWidget);
 
-    // Drain pending mock network timers with bounded pump (longest simulated delay is 350ms)
+    // Drain pending mock network timers with bounded pump (including chained async callbacks)
+    await tester.pump(const Duration(seconds: 1));
     await tester.pump(const Duration(seconds: 1));
   });
 }

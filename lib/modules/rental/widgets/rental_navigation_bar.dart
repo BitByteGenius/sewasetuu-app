@@ -68,7 +68,6 @@ class RentalNavigationBar extends StatelessWidget {
                         label: 'Explore',
                         isSelected: currentIndex == 0,
                         onTap: () => controller.changeTab(0),
-                        activeColor: themeAccent,
                       ),
 
                       // 1: Vehicles
@@ -78,7 +77,6 @@ class RentalNavigationBar extends StatelessWidget {
                         label: 'Vehicles',
                         isSelected: currentIndex == 1,
                         onTap: () => controller.changeTab(1),
-                        activeColor: themeAccent,
                       ),
 
                       // 2: Bookings
@@ -88,7 +86,6 @@ class RentalNavigationBar extends StatelessWidget {
                         label: 'Bookings',
                         isSelected: currentIndex == 2,
                         onTap: () => controller.changeTab(2),
-                        activeColor: themeAccent,
                       ),
 
                       // 3: Favorites
@@ -98,7 +95,6 @@ class RentalNavigationBar extends StatelessWidget {
                         label: 'Favorites',
                         isSelected: currentIndex == 3,
                         onTap: () => controller.changeTab(3),
-                        activeColor: themeAccent,
                       ),
                     ],
                   );

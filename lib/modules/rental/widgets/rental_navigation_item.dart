@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sewasetu/app/theme/app_colors.dart';
 import 'package:sewasetu/app/theme/app_radius.dart';
 
-/// Automotive styled navigation item for the Vehicle Rental navigation bar
+/// Single navigation destination item for the Vehicle Rental module navigation bar
 class RentalNavigationItem extends StatelessWidget {
   final IconData outlineIcon;
   final IconData activeIcon;
   final String label;
   final bool isSelected;
   final VoidCallback onTap;
+  final int? badgeCount;
   final Color? activeColor;
 
   const RentalNavigationItem({
@@ -18,6 +20,7 @@ class RentalNavigationItem extends StatelessWidget {
     required this.label,
     required this.isSelected,
     required this.onTap,
+    this.badgeCount,
     this.activeColor,
   });
 
@@ -40,7 +43,7 @@ class RentalNavigationItem extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 2),
           decoration: BoxDecoration(
             color: isSelected
-                ? effectiveActiveColor.withValues(alpha: isDark ? 0.16 : 0.08)
+                ? effectiveActiveColor.withValues(alpha: isDark ? 0.18 : 0.10)
                 : Colors.transparent,
             borderRadius: AppRadius.radiusPill,
           ),
@@ -50,47 +53,78 @@ class RentalNavigationItem extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                AnimatedScale(
-                  scale: isSelected ? 1.08 : 1.0,
-                  duration: const Duration(milliseconds: 220),
-                  curve: Curves.easeOutBack,
-                  child: Icon(
-                    isSelected ? activeIcon : outlineIcon,
-                    size: 22,
-                    color: isSelected ? effectiveActiveColor : inactiveColor,
-                  ),
+                // Icon with optional live badge
+                Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    AnimatedScale(
+                      scale: isSelected ? 1.08 : 1.0,
+                      duration: const Duration(milliseconds: 220),
+                      curve: Curves.easeOutBack,
+                      child: Icon(
+                        isSelected ? activeIcon : outlineIcon,
+                        size: 21,
+                        color: isSelected ? effectiveActiveColor : inactiveColor,
+                      ),
+                    ),
+
+                    // Reactive badge
+                    if (badgeCount != null && badgeCount! > 0)
+                      Positioned(
+                        top: -5,
+                        right: -8,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 4.5,
+                            vertical: 1.0,
+                          ),
+                          constraints: const BoxConstraints(
+                            minWidth: 15,
+                            minHeight: 15,
+                          ),
+                          decoration: BoxDecoration(
+                            color: effectiveActiveColor,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                color: effectiveActiveColor.withValues(alpha: 0.4),
+                                blurRadius: 4,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: Center(
+                            child: Text(
+                              badgeCount! > 9 ? '9+' : '$badgeCount',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 9.0,
+                                fontWeight: FontWeight.w800,
+                                height: 1.1,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
+
                 const SizedBox(height: 2),
+
+                // Text Label
                 AnimatedDefaultTextStyle(
                   duration: const Duration(milliseconds: 200),
-                  style: TextStyle(
+                  style: GoogleFonts.plusJakartaSans(
                     fontSize: isSelected ? 11.0 : 10.5,
                     fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
                     color: isSelected ? effectiveActiveColor : inactiveColor,
-                    letterSpacing: -0.1,
+                    letterSpacing: -0.2,
+                    height: 1.15,
                   ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  child: Text(label),
-                ),
-                const SizedBox(height: 2),
-                // Subtle cockpit neon bar indicator
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 250),
-                  width: isSelected ? 14 : 0,
-                  height: 2,
-                  decoration: BoxDecoration(
-                    color: isSelected ? effectiveActiveColor : Colors.transparent,
-                    borderRadius: BorderRadius.circular(2),
-                    boxShadow: isSelected
-                        ? [
-                            BoxShadow(
-                              color: effectiveActiveColor.withValues(alpha: 0.6),
-                              blurRadius: 4,
-                              spreadRadius: 0.5,
-                            ),
-                          ]
-                        : null,
+                  child: Text(
+                    label,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ],

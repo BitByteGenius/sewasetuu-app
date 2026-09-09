@@ -1,76 +1,117 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sewasetu/app/theme/app_colors.dart';
+import 'package:sewasetu/app/theme/app_radius.dart';
 
-/// Individual navigation tab item for the Tours & Trips module
+/// Single navigation destination item for the Tours & Trips module navigation bar
 class TripsNavigationItem extends StatelessWidget {
-  final IconData icon;
+  final IconData? icon;
+  final IconData outlineIcon;
+  final IconData activeIcon;
   final String label;
   final bool isSelected;
   final VoidCallback onTap;
+  final int? badgeCount;
 
   const TripsNavigationItem({
     super.key,
-    required this.icon,
+    this.icon,
+    IconData? outlineIcon,
+    IconData? activeIcon,
     required this.label,
     required this.isSelected,
     required this.onTap,
-  });
+    this.badgeCount,
+  })  : outlineIcon = outlineIcon ?? icon ?? Icons.circle_outlined,
+        activeIcon = activeIcon ?? icon ?? Icons.circle;
 
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final effectiveActiveColor = isDark ? AppColors.primaryLight : AppColors.primary;
-    final inactiveColor = isDark ? AppColors.textMutedDark : AppColors.textSecondaryLight;
+    final inactiveColor = isDark
+        ? AppColors.textMutedDark
+        : AppColors.textSecondaryLight;
 
     return Expanded(
       child: GestureDetector(
-        onTap: onTap,
         behavior: HitTestBehavior.opaque,
+        onTap: onTap,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 250),
-          curve: Curves.easeOutCubic,
+          curve: Curves.easeInOut,
           padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 2),
+          decoration: BoxDecoration(
+            color: isSelected
+                ? effectiveActiveColor.withValues(alpha: isDark ? 0.18 : 0.10)
+                : Colors.transparent,
+            borderRadius: AppRadius.radiusPill,
+          ),
           child: FittedBox(
             fit: BoxFit.scaleDown,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Top active indicator dot
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 240),
-                  width: isSelected ? 12 : 0,
-                  height: 2.5,
-                  decoration: BoxDecoration(
-                    color: isSelected ? effectiveActiveColor : Colors.transparent,
-                    borderRadius: BorderRadius.circular(2),
-                  ),
+                // Icon with optional live badge
+                Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    AnimatedScale(
+                      scale: isSelected ? 1.08 : 1.0,
+                      duration: const Duration(milliseconds: 220),
+                      curve: Curves.easeOutBack,
+                      child: Icon(
+                        isSelected ? activeIcon : outlineIcon,
+                        size: 21,
+                        color: isSelected ? effectiveActiveColor : inactiveColor,
+                      ),
+                    ),
+
+                    // Reactive badge
+                    if (badgeCount != null && badgeCount! > 0)
+                      Positioned(
+                        top: -5,
+                        right: -8,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 4.5,
+                            vertical: 1.0,
+                          ),
+                          constraints: const BoxConstraints(
+                            minWidth: 15,
+                            minHeight: 15,
+                          ),
+                          decoration: BoxDecoration(
+                            color: effectiveActiveColor,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                color: effectiveActiveColor.withValues(alpha: 0.4),
+                                blurRadius: 4,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: Center(
+                            child: Text(
+                              badgeCount! > 9 ? '9+' : '$badgeCount',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 9.0,
+                                fontWeight: FontWeight.w800,
+                                height: 1.1,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
+
                 const SizedBox(height: 2),
 
-                AnimatedScale(
-                  scale: isSelected ? 1.08 : 1.0,
-                  duration: const Duration(milliseconds: 220),
-                  curve: Curves.easeOutBack,
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 240),
-                    padding: const EdgeInsets.all(4),
-                    decoration: BoxDecoration(
-                      color: isSelected
-                          ? effectiveActiveColor.withValues(alpha: isDark ? 0.20 : 0.12)
-                          : Colors.transparent,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      icon,
-                      size: 21,
-                      color: isSelected ? effectiveActiveColor : inactiveColor,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 2),
-
+                // Text Label
                 AnimatedDefaultTextStyle(
                   duration: const Duration(milliseconds: 200),
                   style: GoogleFonts.plusJakartaSans(

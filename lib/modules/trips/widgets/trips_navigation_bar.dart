@@ -60,25 +60,29 @@ class TripsNavigationBar extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       TripsNavigationItem(
-                        icon: Icons.explore_rounded,
+                        outlineIcon: Icons.explore_outlined,
+                        activeIcon: Icons.explore_rounded,
                         label: 'Discover',
                         isSelected: activeIndex == 0,
                         onTap: () => controller.changeTab(0),
                       ),
                       TripsNavigationItem(
-                        icon: Icons.map_rounded,
+                        outlineIcon: Icons.map_outlined,
+                        activeIcon: Icons.map_rounded,
                         label: 'Destinations',
                         isSelected: activeIndex == 1,
                         onTap: () => controller.changeTab(1),
                       ),
                       TripsNavigationItem(
-                        icon: Icons.flight_takeoff_rounded,
+                        outlineIcon: Icons.flight_takeoff_outlined,
+                        activeIcon: Icons.flight_takeoff_rounded,
                         label: 'My Trips',
                         isSelected: activeIndex == 2,
                         onTap: () => controller.changeTab(2),
                       ),
                       TripsNavigationItem(
-                        icon: Icons.bookmark_rounded,
+                        outlineIcon: Icons.bookmark_border_rounded,
+                        activeIcon: Icons.bookmark_rounded,
                         label: 'Saved',
                         isSelected: activeIndex == 3,
                         onTap: () => controller.changeTab(3),

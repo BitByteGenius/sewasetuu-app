@@ -60,25 +60,29 @@ class StayNavigationBar extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       StayNavigationItem(
-                        icon: Icons.explore_rounded,
+                        outlineIcon: Icons.explore_outlined,
+                        activeIcon: Icons.explore_rounded,
                         label: 'Explore',
                         isSelected: activeIndex == 0,
                         onTap: () => controller.changeTab(0),
                       ),
                       StayNavigationItem(
-                        icon: Icons.search_rounded,
+                        outlineIcon: Icons.search_outlined,
+                        activeIcon: Icons.search_rounded,
                         label: 'Search',
                         isSelected: activeIndex == 1,
                         onTap: () => controller.changeTab(1),
                       ),
                       StayNavigationItem(
-                        icon: Icons.favorite_rounded,
+                        outlineIcon: Icons.favorite_border_rounded,
+                        activeIcon: Icons.favorite_rounded,
                         label: 'Saved',
                         isSelected: activeIndex == 2,
                         onTap: () => controller.changeTab(2),
                       ),
                       StayNavigationItem(
-                        icon: Icons.calendar_month_rounded,
+                        outlineIcon: Icons.calendar_month_outlined,
+                        activeIcon: Icons.calendar_month_rounded,
                         label: 'Bookings',
                         isSelected: activeIndex == 3,
                         onTap: () => controller.changeTab(3),
