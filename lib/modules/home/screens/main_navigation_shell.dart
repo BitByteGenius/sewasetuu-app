@@ -19,7 +19,7 @@ class MainNavigationShell extends GetView<HomeController> {
 
     final pages = const [
       HomeScreen(),
-      StayScreen(),
+      Staylist(),
       BookingsScreen(),
       WishlistScreen(),
       ProfileScreen(),

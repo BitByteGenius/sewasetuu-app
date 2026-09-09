@@ -82,7 +82,7 @@ abstract class AppPages {
     // Stay / Accommodation (Core Module)
     GetPage(
       name: AppRoutes.stayList,
-      page: () => const StayScreen(),
+      page: () => const Staylist(),
       binding: StayBinding(),
       transition: Transition.rightToLeftWithFade,
     ),

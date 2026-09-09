@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:sewasetu/app/routes/app_routes.dart';
 import 'package:sewasetu/app/theme/app_colors.dart';
 import 'package:sewasetu/app/theme/app_radius.dart';
 import 'package:sewasetu/app/theme/app_spacing.dart';
@@ -26,10 +28,40 @@ class StayCategorySelectorWidget extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                'Explore by Category',
-                style: AppTextStyles.headlineSmall(isDark).copyWith(
-                  fontWeight: FontWeight.w800,
+              GestureDetector(
+                onTap: () => Get.toNamed(AppRoutes.stayList),
+                behavior: HitTestBehavior.opaque,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Explore by Category',
+                      style: AppTextStyles.headlineSmall(isDark).copyWith(
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    AppSpacing.gapH8,
+                    Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      size: 14,
+                      color: isDark ? AppColors.textMutedDark : AppColors.textMutedLight,
+                    ),
+                  ],
+                ),
+              ),
+              TextButton(
+                onPressed: () => Get.toNamed(AppRoutes.stayList),
+                style: TextButton.styleFrom(
+                  padding: EdgeInsets.zero,
+                  minimumSize: const Size(50, 30),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+                child: Text(
+                  'See All',
+                  style: AppTextStyles.labelMedium(isDark).copyWith(
+                    color: isDark ? AppColors.primaryLight : AppColors.primary,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             ],
