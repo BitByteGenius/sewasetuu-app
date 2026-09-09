@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sewasetu/modules/home/widgets/home_dynamic_search_bar_widget.dart';
-import 'package:sewasetu/modules/home/widgets/home_location_header_widget.dart';
 import 'package:sewasetu/modules/home/widgets/home_service_switcher_widget.dart';
 
 class ServiceTab extends StatelessWidget {
@@ -30,18 +29,13 @@ class ServiceTab extends StatelessWidget {
           ),
         ],
       ),
-      child: SafeArea(
-        bottom: false,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            SizedBox(height: 6),
-            HomeLocationHeaderWidget(),
-            SizedBox(height: 6),
-            HomeServiceSwitcherWidget(),
-            HomeDynamicSearchBarWidget(),
-          ],
-        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const [
+          SizedBox(height: 4),
+          HomeServiceSwitcherWidget(),
+          HomeDynamicSearchBarWidget(),
+        ],
       ),
     );
   }
