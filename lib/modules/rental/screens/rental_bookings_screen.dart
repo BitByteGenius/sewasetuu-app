@@ -41,13 +41,16 @@ class _RentalBookingsScreenState extends State<RentalBookingsScreen> {
     });
     try {
       final list = await _repository.getUserBookings();
+      if (!mounted) return;
       setState(() {
         _bookings = list;
       });
     } finally {
-      setState(() {
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 

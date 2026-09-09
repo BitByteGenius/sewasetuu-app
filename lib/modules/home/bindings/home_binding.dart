@@ -30,5 +30,19 @@ class HomeBinding extends Bindings {
     TripsBinding().dependencies();
     ShopBinding().dependencies();
     RentalBinding.ensureInitialized();
+
+    // Register all 4 service navigation controllers
+    if (!Get.isRegistered<StayNavigationController>()) {
+      Get.put<StayNavigationController>(StayNavigationController(), permanent: true);
+    }
+    if (!Get.isRegistered<TripsNavigationController>()) {
+      Get.put<TripsNavigationController>(TripsNavigationController(), permanent: true);
+    }
+    if (!Get.isRegistered<ShopNavigationController>()) {
+      Get.put<ShopNavigationController>(ShopNavigationController(), permanent: true);
+    }
+    if (!Get.isRegistered<RentalNavigationController>()) {
+      Get.put<RentalNavigationController>(RentalNavigationController(), permanent: true);
+    }
   }
 }

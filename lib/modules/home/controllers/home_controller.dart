@@ -5,6 +5,10 @@ import 'package:sewasetu/core/services/location_service.dart';
 import 'package:sewasetu/modules/shop/shop_navigator.dart';
 import 'package:sewasetu/modules/stay/models/property_model.dart';
 import 'package:sewasetu/modules/stay/services/stay_service.dart';
+import 'package:sewasetu/modules/rental/controllers/rental_navigation_controller.dart';
+import 'package:sewasetu/modules/shop/controllers/shop_navigation_controller.dart';
+import 'package:sewasetu/modules/stay/controllers/stay_navigation_controller.dart';
+import 'package:sewasetu/modules/trips/controllers/trips_navigation_controller.dart';
 import 'package:sewasetu/modules/trips/trips_navigator.dart';
 import 'package:sewasetu/shared/enums/stay_type.dart';
 import 'package:sewasetu/shared/enums/view_state.dart';
@@ -70,6 +74,40 @@ class HomeController extends GetxController {
   // Service Switcher Observable
   final Rx<HomeService> selectedService = HomeService.stay.obs;
 
+  /// Returns whether the active primary service's bottom navigation bar is currently on its
+  /// main discovery feed (tab 0: Stay Explore, Trips Discover, Shop Home, Rental Explore).
+  ///
+  /// When true: The sticky HomeLocationHeaderWidget and scrolling ServiceTab (service switcher + search) are displayed.
+  /// When false (user navigated to Search, Saved, Bookings, Categories, Cart, Orders, Vehicles, Favorites):
+  /// The HomeLocationHeaderWidget and ServiceTab are hidden so the sub-tab view takes full screen.
+  bool get isMainFeedActive {
+    switch (selectedService.value) {
+      case HomeService.stay:
+        final stayNav = Get.isRegistered<StayNavigationController>()
+            ? Get.find<StayNavigationController>()
+            : Get.put(StayNavigationController(), permanent: true);
+        return stayNav.selectedIndex.value == 0;
+
+      case HomeService.trips:
+        final tripsNav = Get.isRegistered<TripsNavigationController>()
+            ? Get.find<TripsNavigationController>()
+            : Get.put(TripsNavigationController(), permanent: true);
+        return tripsNav.selectedIndex.value == 0;
+
+      case HomeService.shop:
+        final shopNav = Get.isRegistered<ShopNavigationController>()
+            ? Get.find<ShopNavigationController>()
+            : Get.put(ShopNavigationController(), permanent: true);
+        return shopNav.currentIndex.value == 0;
+
+      case HomeService.rental:
+        final rentalNav = Get.isRegistered<RentalNavigationController>()
+            ? Get.find<RentalNavigationController>()
+            : Get.put(RentalNavigationController(), permanent: true);
+        return rentalNav.currentIndex.value == 0;
+    }
+  }
+
   String get currentSearchPlaceholder => selectedService.value.searchPlaceholder;
 
   @override
@@ -122,6 +160,28 @@ class HomeController extends GetxController {
 
   void selectService(HomeService service) {
     selectedService.value = service;
+    switch (service) {
+      case HomeService.stay:
+        if (Get.isRegistered<StayNavigationController>()) {
+          Get.find<StayNavigationController>().toExplore();
+        }
+        break;
+      case HomeService.trips:
+        if (Get.isRegistered<TripsNavigationController>()) {
+          Get.find<TripsNavigationController>().toDiscover();
+        }
+        break;
+      case HomeService.shop:
+        if (Get.isRegistered<ShopNavigationController>()) {
+          Get.find<ShopNavigationController>().toHome();
+        }
+        break;
+      case HomeService.rental:
+        if (Get.isRegistered<RentalNavigationController>()) {
+          Get.find<RentalNavigationController>().toExplore();
+        }
+        break;
+    }
   }
 
   void onSearchTap() {

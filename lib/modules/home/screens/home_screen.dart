@@ -31,65 +31,90 @@ class HomeScreen extends GetView<HomeController> {
 
     return Scaffold(
       backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
-      body: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: const SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent,
-          statusBarIconBrightness: Brightness.light,
-          statusBarBrightness: Brightness.dark,
-        ),
-        child: Column(
-          children: [
-            // 1. Only Home Location Header remains sticky at the very top
-            Container(
-              decoration: const BoxDecoration(
-                color: Color(0xFF090D16),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black26,
-                    blurRadius: 4,
-                    offset: Offset(0, 2),
-                  ),
-                ],
-              ),
-              child: const SafeArea(
-                bottom: false,
-                child: Padding(
-                  padding: EdgeInsets.only(top: 6, bottom: 4),
-                  child: HomeLocationHeaderWidget(),
-                ),
-              ),
-            ),
+      body: Obx(() {
+        final isMainFeed = controller.isMainFeedActive;
 
-            // 2. Rest of the content (Service Switcher, Search Bar & Tabs) scrolls
-            Expanded(
-              child: NestedScrollView(
-                headerSliverBuilder: (context, innerBoxIsScrolled) {
-                  return [
-                    const SliverToBoxAdapter(
-                      child: ServiceTab(),
-                    ),
-                  ];
-                },
-                body: MediaQuery.removePadding(
-                  context: context,
-                  removeTop: true,
-                  child: Obx(() {
-                    return IndexedStack(
-                      index: controller.selectedService.value.index,
-                      children: const [
-                        StayScreen(),
-                        TripsScreen(),
-                        ShopScreen(),
-                        RentalScreen(),
-                      ],
-                    );
-                  }),
+        return AnnotatedRegion<SystemUiOverlayStyle>(
+          value: SystemUiOverlayStyle(
+            statusBarColor: Colors.transparent,
+            statusBarIconBrightness: isMainFeed ? Brightness.light : (isDark ? Brightness.light : Brightness.dark),
+            statusBarBrightness: isMainFeed ? Brightness.dark : (isDark ? Brightness.dark : Brightness.light),
+          ),
+          child: Column(
+            children: [
+              // 1. Sticky Location Header - slot 0 is never shifted, avoiding child re-indexing
+              isMainFeed
+                  ? _buildStickyLocationHeader()
+                  : const SizedBox.shrink(),
+
+              // 2. Main Content
+              // NestedScrollView is permanently mounted so the 4 heavy module screens
+              // (StayScreen, TripsScreen, ShopScreen, RentalScreen) are NEVER unmounted
+              // or re-inflated when switching tabs.
+              Expanded(
+                key: const ValueKey('home_main_expanded'),
+                child: NestedScrollView(
+                  key: const ValueKey('home_nested_scroll_view'),
+                  headerSliverBuilder: (context, innerBoxIsScrolled) {
+                    if (!isMainFeed) {
+                      return const [];
+                    }
+                    return const [
+                      SliverToBoxAdapter(
+                        child: ServiceTab(),
+                      ),
+                    ];
+                  },
+                  body: MediaQuery.removePadding(
+                    context: context,
+                    removeTop: isMainFeed,
+                    child: _buildServiceStack(),
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
+        );
+      }),
+    );
+  }
+
+  Widget _buildStickyLocationHeader() {
+    return Container(
+      decoration: const BoxDecoration(
+        color: Color(0xFF090D16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 4,
+            offset: Offset(0, 2),
+          ),
+        ],
+      ),
+      child: const SafeArea(
+        bottom: false,
+        child: Padding(
+          padding: EdgeInsets.only(top: 6, bottom: 4),
+          child: HomeLocationHeaderWidget(),
         ),
       ),
+    );
+  }
+
+  Widget _buildServiceStack() {
+    return RepaintBoundary(
+      child: Obx(() {
+        return IndexedStack(
+          key: const ValueKey('service_stack_indexed'),
+          index: controller.selectedService.value.index,
+          children: const [
+            StayScreen(),
+            TripsScreen(),
+            ShopScreen(),
+            RentalScreen(),
+          ],
+        );
+      }),
     );
   }
 }
