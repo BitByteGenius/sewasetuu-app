@@ -16,6 +16,7 @@ import 'package:sewasetu/modules/home/widgets/popular_destinations_widget.dart';
 import 'package:sewasetu/modules/home/widgets/recently_viewed_widget.dart';
 import 'package:sewasetu/modules/home/widgets/recommended_stays_widget.dart';
 import 'package:sewasetu/modules/home/widgets/secondary_services_widget.dart';
+import 'package:sewasetu/modules/home/widgets/service_tab.dart';
 import 'package:sewasetu/modules/home/widgets/stay_category_selector_widget.dart';
 import 'package:sewasetu/shared/enums/view_state.dart';
 import 'package:sewasetu/shared/widgets/app_skeleton.dart';
@@ -53,42 +54,7 @@ class HomeScreen extends GetView<HomeController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // This section remains fully scrollable with the page content!
-                Container(
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Color(0xFF090D16),
-                        Color(0xFF0F172A),
-                        Color(0xFF142033),
-                      ],
-                    ),
-                    borderRadius: BorderRadius.vertical(
-                      bottom: Radius.circular(24),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black26,
-                        blurRadius: 16,
-                        offset: Offset(0, 8),
-                      ),
-                    ],
-                  ),
-                  child: SafeArea(
-                    bottom: false,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        SizedBox(height: 6),
-                        HomeLocationHeaderWidget(),
-                        SizedBox(height: 6),
-                        HomeServiceSwitcherWidget(),
-                        HomeDynamicSearchBarWidget(),
-                      ],
-                    ),
-                  ),
-                ),
+                const ServiceTab(),
                 AppSpacing.gapV20,
 
                 // 2. Primary Stay Categories (Rooms, PG, Mess, Homestay, Hotel)
@@ -180,5 +146,7 @@ class HomeScreen extends GetView<HomeController> {
     );
   }
 }
+
+
 
 typedef HomePage = HomeScreen;
