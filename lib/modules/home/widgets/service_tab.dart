@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sewasetu/modules/home/controllers/home_controller.dart';
 import 'package:sewasetu/modules/home/widgets/home_dynamic_search_bar_widget.dart';
-import 'package:sewasetu/modules/home/widgets/home_location_header_widget.dart';
 import 'package:sewasetu/modules/home/widgets/home_service_switcher_widget.dart';
 
 /// connected service tab switcher, and dynamic search bar into one continuous surface.
@@ -43,21 +42,14 @@ class ServiceTab extends StatelessWidget {
                   ),
                 ],
         ),
-        child: SafeArea(
-          bottom: false,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: const [
-              Padding(
-                padding: EdgeInsets.only(top: 4, bottom: 2),
-                child: HomeLocationHeaderWidget(),
-              ),
-              HomeServiceSwitcherWidget(),
-              HomeDynamicSearchBarWidget(),
-              SizedBox(height: 6),
-            ],
-          ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: const [
+            HomeServiceSwitcherWidget(),
+            HomeDynamicSearchBarWidget(),
+            SizedBox(height: 6),
+          ],
         ),
       );
     });
