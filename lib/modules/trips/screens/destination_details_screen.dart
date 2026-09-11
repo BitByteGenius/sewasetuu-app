@@ -4,6 +4,7 @@ import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_radius.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_text_styles.dart';
+import '../../../../shared/widgets/app_bar/app_bar.dart';
 import '../../../../shared/widgets/app_card.dart';
 import '../../../../shared/widgets/app_network_image.dart';
 import '../controllers/destination_controller.dart';
@@ -55,31 +56,24 @@ class _DestinationDetailsScreenState extends State<DestinationDetailsScreen>
             SliverAppBar(
               expandedHeight: 280,
               pinned: true,
-              leading: IconButton(
-                icon: Container(
-                  padding: const EdgeInsets.all(6),
-                  decoration: BoxDecoration(
-                    color: Colors.black.withAlpha(120),
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Icon(Icons.arrow_back_ios_new_rounded,
-                      color: Colors.white, size: 16),
+              leading: Center(
+                child: SewaFrostedActionButton(
+                  icon: Icons.arrow_back_ios_new_rounded,
+                  iconSize: 16,
+                  onTap: () => Get.back(),
                 ),
-                onPressed: () => Get.back(),
               ),
               actions: [
-                IconButton(
-                  icon: Container(
-                    padding: const EdgeInsets.all(6),
-                    decoration: BoxDecoration(
-                      color: Colors.black.withAlpha(120),
-                      shape: BoxShape.circle,
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 8),
+                    child: SewaFrostedActionButton(
+                      icon: Icons.search_rounded,
+                      iconSize: 18,
+                      onTap: () => TripsNavigator.toTripSearch(
+                        initialQuery: dest.name,
+                      ),
                     ),
-                    child: const Icon(Icons.search_rounded,
-                        color: Colors.white, size: 18),
-                  ),
-                  onPressed: () => TripsNavigator.toTripSearch(
-                    initialQuery: dest.name,
                   ),
                 ),
               ],

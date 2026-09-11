@@ -7,6 +7,7 @@ import 'package:sewasetu/modules/trips/screens/destinations_screen.dart';
 import 'package:sewasetu/modules/trips/trips_navigator.dart';
 import 'package:sewasetu/modules/trips/widgets/trip_package_card.dart';
 import 'package:sewasetu/modules/trips/widgets/trips_navigation_bar.dart';
+import 'package:sewasetu/shared/widgets/app_bar/app_bar.dart';
 import 'package:sewasetu/shared/widgets/app_empty_state.dart';
 
 /// Navigation shell managing tabs and the floating bottom navigation bar for the Tours & Trips module
@@ -64,9 +65,9 @@ class TripsNavigationShell extends StatelessWidget {
 
   Widget _buildMyTripsTab(TripsNavigationController navCtrl) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('My Expeditions & Trips'),
-        automaticallyImplyLeading: false,
+      appBar: const SewaAppBar(
+        titleText: 'My Expeditions & Trips',
+        showBackButton: false,
       ),
       body: AppEmptyState(
         icon: Icons.flight_takeoff_rounded,
@@ -80,9 +81,9 @@ class TripsNavigationShell extends StatelessWidget {
 
   Widget _buildSavedTripsTab(TripsController controller, TripsNavigationController navCtrl) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Saved Packages'),
-        automaticallyImplyLeading: false,
+      appBar: const SewaAppBar(
+        titleText: 'Saved Packages',
+        showBackButton: false,
       ),
       body: Obx(() {
         final saved = controller.featuredPackages.take(3).toList();

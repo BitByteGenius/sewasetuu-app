@@ -7,6 +7,7 @@ import 'package:sewasetu/modules/stay/controllers/stay_navigation_controller.dar
 import 'package:sewasetu/modules/stay/screens/stay_list_screen.dart';
 import 'package:sewasetu/modules/stay/widgets/property_card.dart';
 import 'package:sewasetu/modules/stay/widgets/stay_navigation_bar.dart';
+import 'package:sewasetu/shared/widgets/app_bar/app_bar.dart';
 import 'package:sewasetu/shared/widgets/app_empty_state.dart';
 
 /// Navigation shell managing tabs and the floating bottom navigation bar for the Stay module
@@ -64,9 +65,9 @@ class StayNavigationShell extends StatelessWidget {
 
   Widget _buildSavedStaysTab(StayController controller) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Saved Stays'),
-        automaticallyImplyLeading: false,
+      appBar: const SewaAppBar(
+        titleText: 'Saved Stays',
+        showBackButton: false,
       ),
       body: Obx(() {
         final favorites = controller.stays.where((s) => s.isFavorite).toList();
@@ -103,9 +104,9 @@ class StayNavigationShell extends StatelessWidget {
 
   Widget _buildStayBookingsTab() {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Stay Bookings'),
-        automaticallyImplyLeading: false,
+      appBar: const SewaAppBar(
+        titleText: 'Stay Bookings',
+        showBackButton: false,
       ),
       body: AppEmptyState(
         icon: Icons.calendar_today_rounded,

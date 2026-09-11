@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../../../app/theme/app_radius.dart';
 import '../../../app/theme/app_shadows.dart';
 import '../../../app/theme/app_spacing.dart';
+import '../../../shared/widgets/app_bar/app_bar.dart';
 import '../controllers/rental_favorites_controller.dart';
 import '../models/vehicle_model.dart';
 
@@ -149,48 +150,19 @@ class _VehicleImageGalleryState extends State<VehicleImageGallery> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               // Back Button
-              Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: () => Navigator.pop(context),
-                  borderRadius: AppRadius.radiusFull,
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.black.withAlpha((255 * 0.45).round()),
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.arrow_back,
-                      color: Colors.white,
-                      size: 22,
-                    ),
-                  ),
-                ),
+              SewaFrostedActionButton(
+                icon: Icons.arrow_back_ios_new_rounded,
+                onPressed: () => Navigator.pop(context),
               ),
 
               // Favorite Action
               if (favCtrl != null)
                 Obx(() {
                   final isFav = favCtrl.isFavorite(widget.vehicle.id);
-                  return Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: () => favCtrl.toggleFavorite(widget.vehicle),
-                      borderRadius: AppRadius.radiusFull,
-                      child: Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: Colors.black.withAlpha((255 * 0.45).round()),
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          isFav ? Icons.favorite : Icons.favorite_border,
-                          color: isFav ? Colors.redAccent : Colors.white,
-                          size: 22,
-                        ),
-                      ),
-                    ),
+                  return SewaFrostedActionButton(
+                    icon: isFav ? Icons.favorite_rounded : Icons.favorite_border_rounded,
+                    iconColor: isFav ? Colors.redAccent : Colors.white,
+                    onPressed: () => favCtrl.toggleFavorite(widget.vehicle),
                   );
                 }),
             ],

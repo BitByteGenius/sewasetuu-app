@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_text_styles.dart';
+import '../../../../shared/widgets/app_bar/app_bar.dart';
 import '../controllers/trips_controller.dart';
 import '../models/destination_model.dart';
 import '../trips_navigator.dart';
@@ -69,20 +70,13 @@ class _DestinationsScreenState extends State<DestinationsScreen> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded),
-          onPressed: () => Get.back(),
-        ),
-        title: Text(
-          'Explore Destinations',
-          style: AppTextStyles.titleMedium(isDark).copyWith(
-            fontWeight: FontWeight.w800,
-          ),
-        ),
+      appBar: SewaAppBar(
+        titleText: 'Explore Destinations',
+        showBackButton: true,
         actions: [
           IconButton(
             icon: const Icon(Icons.search_rounded),
+            tooltip: 'Search Destinations',
             onPressed: () => TripsNavigator.toTripSearch(),
           ),
         ],

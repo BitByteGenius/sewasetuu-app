@@ -4,6 +4,7 @@ import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_radius.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_text_styles.dart';
+import '../../../../shared/widgets/app_bar/app_bar.dart';
 import '../../../../shared/widgets/app_card.dart';
 import '../controllers/cart_controller.dart';
 import '../controllers/product_details_controller.dart';
@@ -52,17 +53,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     final product = widget.product;
 
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded),
-          onPressed: () => Get.back(),
-        ),
-        title: Text(
-          product.stateName,
-          style: AppTextStyles.titleMedium(isDark).copyWith(
-            fontWeight: FontWeight.w800,
-          ),
-        ),
+      appBar: SewaAppBar(
+        titleText: product.stateName,
+        subtitleText: '${product.categoryName} • Handcrafted',
+        showBackButton: true,
         actions: [
           // Live cart icon
           Obx(() {
@@ -75,6 +69,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               children: [
                 IconButton(
                   icon: const Icon(Icons.shopping_bag_outlined),
+                  tooltip: 'Shopping Bag',
                   onPressed: () => ShopNavigator.toCart(),
                 ),
                 if (cartCount > 0)
@@ -106,7 +101,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               ],
             );
           }),
-          const SizedBox(width: 8),
         ],
       ),
       body: SingleChildScrollView(

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_text_styles.dart';
+import '../../../../shared/widgets/app_bar/app_bar.dart';
 import '../../../../shared/widgets/app_button.dart';
 import '../../../../shared/widgets/app_card.dart';
 import '../../../../shared/widgets/app_text_field.dart';
@@ -109,17 +110,9 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded),
-          onPressed: () => Get.back(),
-        ),
-        title: Text(
-          'Add Delivery Address',
-          style: AppTextStyles.titleMedium(isDark).copyWith(
-            fontWeight: FontWeight.w800,
-          ),
-        ),
+      appBar: const SewaAppBar(
+        titleText: 'Add Delivery Address',
+        showBackButton: true,
       ),
       body: SingleChildScrollView(
         padding: AppSpacing.screenPadding,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sewasetu/app/theme/app_colors.dart';
 import 'package:sewasetu/app/theme/app_radius.dart';
 import 'package:sewasetu/app/theme/app_text_styles.dart';
+import 'package:sewasetu/shared/widgets/app_bar/app_bar.dart';
 import 'package:sewasetu/shared/widgets/app_network_image.dart';
 
 /// Interactive image gallery carousel with page indicators and Hero transition.
@@ -84,24 +85,21 @@ class _PropertyImageGalleryState extends State<PropertyImageGallery> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _buildCircularAction(
+              SewaFrostedActionButton(
                 icon: Icons.arrow_back_ios_new_rounded,
                 onTap: widget.onBackTap ?? () => Navigator.of(context).pop(),
-                isDark: isDark,
               ),
               Row(
                 children: [
-                  _buildCircularAction(
+                  SewaFrostedActionButton(
                     icon: Icons.share_outlined,
                     onTap: () {},
-                    isDark: isDark,
                   ),
                   const SizedBox(width: 10),
-                  _buildCircularAction(
+                  SewaFrostedActionButton(
                     icon: widget.isFavorite ? Icons.favorite_rounded : Icons.favorite_border_rounded,
                     iconColor: widget.isFavorite ? AppColors.error : null,
                     onTap: widget.onFavoriteTap ?? () {},
-                    isDark: isDark,
                   ),
                 ],
               ),
@@ -128,39 +126,6 @@ class _PropertyImageGalleryState extends State<PropertyImageGallery> {
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildCircularAction({
-    required IconData icon,
-    required VoidCallback onTap,
-    required bool isDark,
-    Color? iconColor,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-          color: isDark ? AppColors.surfaceDark.withAlpha(220) : Colors.white.withAlpha(230),
-          shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withAlpha(30),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Center(
-          child: Icon(
-            icon,
-            size: 18,
-            color: iconColor ?? (isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight),
-          ),
-        ),
-      ),
     );
   }
 }

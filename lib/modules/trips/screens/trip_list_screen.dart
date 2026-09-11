@@ -5,6 +5,7 @@ import '../../../../app/theme/app_radius.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_text_styles.dart';
 import '../../../../shared/enums/view_state.dart';
+import '../../../../shared/widgets/app_bar/app_bar.dart';
 import '../../../../shared/widgets/app_button.dart';
 import '../controllers/trip_filter_controller.dart';
 import '../trips_navigator.dart';
@@ -87,20 +88,13 @@ class _TripListScreenState extends State<TripListScreen> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded),
-          onPressed: () => Get.back(),
-        ),
-        title: Text(
-          widget.title ?? 'All Trip Packages',
-          style: AppTextStyles.titleMedium(isDark).copyWith(
-            fontWeight: FontWeight.w800,
-          ),
-        ),
+      appBar: SewaAppBar(
+        titleText: widget.title ?? 'All Trip Packages',
+        showBackButton: true,
         actions: [
           IconButton(
             icon: const Icon(Icons.search_rounded),
+            tooltip: 'Search Packages',
             onPressed: () => TripsNavigator.toTripSearch(),
           ),
         ],

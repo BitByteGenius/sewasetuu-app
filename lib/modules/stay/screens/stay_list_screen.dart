@@ -14,6 +14,7 @@ import 'package:sewasetu/modules/stay/widgets/stay_category_bar_widget.dart';
 import 'package:sewasetu/modules/stay/widgets/stay_sorting_sheet.dart';
 import 'package:sewasetu/shared/enums/stay_type.dart';
 import 'package:sewasetu/shared/enums/view_state.dart';
+import 'package:sewasetu/shared/widgets/app_bar/app_bar.dart';
 import 'package:sewasetu/shared/widgets/app_empty_state.dart';
 import 'package:sewasetu/shared/widgets/app_interactive_map_canvas.dart';
 import 'package:sewasetu/shared/widgets/app_skeleton.dart';
@@ -42,17 +43,15 @@ class Staylist extends GetView<StayController> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Accommodations',
-          style: AppTextStyles.headlineSmall(isDark),
-        ),
+      appBar: SewaAppBar(
+        titleText: 'Accommodations',
+        showBackButton: true,
         actions: [
           IconButton(
             icon: const Icon(Icons.search_rounded),
+            tooltip: 'Search Stays',
             onPressed: () => Get.toNamed(AppRoutes.staySearch),
           ),
-          // Sort action button
           IconButton(
             icon: const Icon(Icons.sort_rounded),
             tooltip: 'Sort Stays',

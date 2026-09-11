@@ -6,6 +6,7 @@ import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_radius.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_text_styles.dart';
+import '../../../../shared/widgets/app_bar/app_bar.dart';
 import '../../../../shared/widgets/app_button.dart';
 import '../../../../shared/widgets/app_card.dart';
 import '../../../../shared/widgets/app_network_image.dart';
@@ -169,17 +170,9 @@ class _TripCheckoutScreenState extends State<TripCheckoutScreen> {
         : widget.detailsController.grandTotal;
 
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded),
-          onPressed: () => Get.back(),
-        ),
-        title: Text(
-          'Confirm & Review Booking',
-          style: AppTextStyles.titleMedium(isDark).copyWith(
-            fontWeight: FontWeight.w800,
-          ),
-        ),
+      appBar: const SewaAppBar(
+        titleText: 'Confirm & Review Booking',
+        showBackButton: true,
       ),
       body: SingleChildScrollView(
         padding: AppSpacing.screenPadding,

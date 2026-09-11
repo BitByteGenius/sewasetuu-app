@@ -6,6 +6,7 @@ import '../../../app/theme/app_radius.dart';
 import '../../../app/theme/app_shadows.dart';
 import '../../../app/theme/app_spacing.dart';
 import '../../../app/theme/app_text_styles.dart';
+import '../../../shared/widgets/app_bar/app_bar.dart';
 import '../data/repositories/rental_repository.dart';
 import '../data/repositories/rental_repository_impl.dart';
 import '../models/rental_booking_model.dart';
@@ -78,20 +79,9 @@ class _RentalBookingsScreenState extends State<RentalBookingsScreen> {
 
     return Scaffold(
       backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
-      appBar: AppBar(
-        backgroundColor: isDark ? AppColors.surfaceDark : AppColors.surfaceLight,
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        leading: Navigator.canPop(context)
-            ? IconButton(
-                icon: Icon(Icons.arrow_back, color: isDark ? Colors.white : Colors.black87),
-                onPressed: () => Navigator.pop(context),
-              )
-            : null,
-        title: Text(
-          'My Rental Bookings',
-          style: AppTextStyles.titleLarge(isDark).copyWith(fontWeight: FontWeight.w800),
-        ),
+      appBar: const SewaAppBar(
+        titleText: 'My Rental Bookings',
+        showBackButton: true,
       ),
       body: Column(
         children: [

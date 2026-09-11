@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_text_styles.dart';
+import '../../../../shared/widgets/app_bar/app_bar.dart';
 import '../../../../shared/widgets/app_button.dart';
 import '../controllers/cart_controller.dart';
 import '../shop_navigator.dart';
@@ -22,31 +23,10 @@ class CartScreen extends StatelessWidget {
         : Get.put(CartController(), permanent: true);
 
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded),
-          onPressed: () => Get.back(),
-        ),
-        title: Obx(() {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Shopping Bag',
-                style: AppTextStyles.titleMedium(isDark).copyWith(
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-              Text(
-                '${cartCtrl.totalUnits} items in bag',
-                style: AppTextStyles.bodySmall(isDark).copyWith(
-                  fontSize: 11,
-                  color: isDark ? AppColors.textMutedDark : AppColors.textSecondaryLight,
-                ),
-              ),
-            ],
-          );
-        }),
+      appBar: SewaAppBar(
+        titleText: 'Shopping Bag',
+        subtitleText: '${cartCtrl.totalUnits} items in bag',
+        showBackButton: true,
         actions: [
           Obx(() {
             if (cartCtrl.cartItems.isEmpty) return const SizedBox.shrink();

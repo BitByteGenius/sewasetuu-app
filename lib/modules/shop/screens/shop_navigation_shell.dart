@@ -4,6 +4,7 @@ import 'package:sewasetu/app/theme/app_colors.dart';
 import 'package:sewasetu/app/theme/app_radius.dart';
 import 'package:sewasetu/app/theme/app_spacing.dart';
 import 'package:sewasetu/app/theme/app_text_styles.dart';
+import 'package:sewasetu/shared/widgets/app_bar/app_bar.dart';
 import 'package:sewasetu/shared/widgets/app_button.dart';
 import 'package:sewasetu/shared/widgets/app_card.dart';
 import 'package:sewasetu/shared/widgets/app_empty_state.dart';
@@ -74,16 +75,9 @@ class _ShopOrdersTabView extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        elevation: 0,
-        backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
-        title: Text(
-          'My Orders',
-          style: AppTextStyles.headlineSmall(isDark).copyWith(
-            fontWeight: FontWeight.w800,
-          ),
-        ),
+      appBar: const SewaAppBar(
+        titleText: 'My Orders',
+        showBackButton: false,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),

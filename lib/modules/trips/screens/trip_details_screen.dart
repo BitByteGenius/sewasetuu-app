@@ -4,6 +4,7 @@ import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_radius.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_text_styles.dart';
+import '../../../../shared/widgets/app_bar/app_bar.dart';
 import '../../../../shared/widgets/app_card.dart';
 import '../../../../shared/widgets/app_network_image.dart';
 import '../controllers/trip_details_controller.dart';
@@ -62,41 +63,34 @@ class _TripDetailsScreenState extends State<TripDetailsScreen> {
           SliverAppBar(
             expandedHeight: 300,
             pinned: true,
-            leading: IconButton(
-              icon: Container(
-                padding: const EdgeInsets.all(6),
-                decoration: BoxDecoration(
-                  color: Colors.black.withAlpha(120),
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(Icons.arrow_back_ios_new_rounded,
-                    color: Colors.white, size: 16),
+            leading: Center(
+              child: SewaFrostedActionButton(
+                icon: Icons.arrow_back_ios_new_rounded,
+                iconSize: 16,
+                onTap: () => Get.back(),
               ),
-              onPressed: () => Get.back(),
             ),
             actions: [
-              IconButton(
-                icon: Container(
-                  padding: const EdgeInsets.all(6),
-                  decoration: BoxDecoration(
-                    color: Colors.black.withAlpha(120),
-                    shape: BoxShape.circle,
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: SewaFrostedActionButton(
+                    icon: Icons.share_outlined,
+                    iconSize: 18,
+                    onTap: () {
+                      Get.snackbar(
+                        'Share Itinerary',
+                        'Trip itinerary link copied to clipboard!',
+                        snackPosition: SnackPosition.BOTTOM,
+                        backgroundColor: Colors.black.withAlpha(200),
+                        colorText: Colors.white,
+                        margin: const EdgeInsets.all(16),
+                        borderRadius: 12,
+                        duration: const Duration(seconds: 2),
+                      );
+                    },
                   ),
-                  child: const Icon(Icons.share_outlined,
-                      color: Colors.white, size: 18),
                 ),
-                onPressed: () {
-                  Get.snackbar(
-                    'Share Itinerary',
-                    'Trip itinerary link copied to clipboard!',
-                    snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: Colors.black.withAlpha(200),
-                    colorText: Colors.white,
-                    margin: const EdgeInsets.all(16),
-                    borderRadius: 12,
-                    duration: const Duration(seconds: 2),
-                  );
-                },
               ),
             ],
             flexibleSpace: FlexibleSpaceBar(

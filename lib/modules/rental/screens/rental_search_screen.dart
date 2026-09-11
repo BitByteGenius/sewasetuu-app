@@ -4,6 +4,7 @@ import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_radius.dart';
 import '../../../app/theme/app_spacing.dart';
 import '../../../app/theme/app_text_styles.dart';
+import '../../../shared/widgets/app_bar/app_bar.dart';
 import '../bindings/rental_binding.dart';
 import '../controllers/rental_city_controller.dart';
 import '../controllers/rental_search_controller.dart';
@@ -77,17 +78,9 @@ class RentalSearchScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
-      appBar: AppBar(
-        backgroundColor: isDark ? AppColors.surfaceDark : AppColors.surfaceLight,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: isDark ? Colors.white : Colors.black87),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: Text(
-          'Rental Schedule & Location',
-          style: AppTextStyles.titleLarge(isDark).copyWith(fontWeight: FontWeight.w800),
-        ),
+      appBar: const SewaAppBar(
+        titleText: 'Rental Schedule & Location',
+        showBackButton: true,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(AppSpacing.lg),

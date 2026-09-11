@@ -11,6 +11,7 @@ import 'package:sewasetu/modules/stay/widgets/search_dates_step.dart';
 import 'package:sewasetu/modules/stay/widgets/search_guests_step.dart';
 import 'package:sewasetu/modules/stay/widgets/search_location_step.dart';
 import 'package:sewasetu/shared/enums/stay_type.dart';
+import 'package:sewasetu/shared/widgets/app_bar/app_bar.dart';
 import 'package:sewasetu/shared/widgets/app_button.dart';
 
 /// Complete Multi-Step Search Experience with Destination, Dates, Guests and Stay Types
@@ -23,11 +24,8 @@ class SearchScreen extends GetView<stay_search.SearchController> {
     final dateFormatter = DateFormat('dd MMM');
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Find Your Ideal Stay',
-          style: AppTextStyles.headlineSmall(isDark),
-        ),
+      appBar: SewaAppBar(
+        titleText: 'Find Your Ideal Stay',
         actions: [
           TextButton(
             onPressed: controller.clearAll,

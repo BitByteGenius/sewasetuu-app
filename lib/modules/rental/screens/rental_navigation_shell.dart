@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sewasetu/app/theme/app_colors.dart';
-import 'package:sewasetu/app/theme/app_text_styles.dart';
+import '../../../../shared/widgets/app_bar/app_bar.dart';
 import '../controllers/rental_controller.dart';
 import '../controllers/rental_favorites_controller.dart';
 import '../controllers/rental_navigation_controller.dart';
@@ -81,16 +81,9 @@ class _RentalFavoritesTabView extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        elevation: 0,
-        backgroundColor: isDark ? AppColors.surfaceDark : AppColors.surfaceLight,
-        title: Text(
-          'Saved Vehicles',
-          style: AppTextStyles.headlineSmall(isDark).copyWith(
-            fontWeight: FontWeight.w800,
-          ),
-        ),
+      appBar: const SewaAppBar(
+        titleText: 'Saved Vehicles',
+        showBackButton: false,
       ),
       body: Obx(() {
         final favoriteIds = favCtrl.favoriteIds;

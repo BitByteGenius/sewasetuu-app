@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_radius.dart';
 import '../../../app/theme/app_spacing.dart';
-import '../../../app/theme/app_text_styles.dart';
+import '../../../shared/widgets/app_bar/app_bar.dart';
 import '../bindings/rental_binding.dart';
 import '../controllers/rental_filter_controller.dart';
 import '../controllers/rental_search_controller.dart';
@@ -33,42 +33,23 @@ class VehicleListScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
-      appBar: AppBar(
-        backgroundColor: isDark ? AppColors.surfaceDark : AppColors.surfaceLight,
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        leading: Navigator.canPop(context)
-            ? IconButton(
-                icon: Icon(Icons.arrow_back, color: isDark ? Colors.white : Colors.black87),
-                onPressed: () => Navigator.pop(context),
-              )
-            : null,
-        title: Obx(() {
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(kToolbarHeight + 8),
+        child: Obx(() {
           final s = searchCtrl.searchModel.value;
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Available in ${s.cityName}',
-                style: AppTextStyles.titleMedium(isDark).copyWith(fontWeight: FontWeight.w800),
-              ),
-              Text(
-                '${searchCtrl.formattedPickup} • ${s.durationDays}d',
-                style: TextStyle(
-                  fontSize: 11,
-                  color: isDark ? AppColors.textMutedDark : AppColors.textSecondaryLight,
-                ),
+          return SewaAppBar(
+            titleText: 'Available in ${s.cityName}',
+            subtitleText: '${searchCtrl.formattedPickup} • ${s.durationDays}d',
+            showBackButton: true,
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.edit_calendar_outlined, color: AppColors.primary),
+                tooltip: 'Modify Search Dates',
+                onPressed: () => Get.to(() => const RentalSearchScreen()),
               ),
             ],
           );
         }),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.edit_calendar_outlined, color: AppColors.primary),
-            tooltip: 'Modify Search Dates',
-            onPressed: () => Get.to(() => const RentalSearchScreen()),
-          ),
-        ],
       ),
       body: Column(
         children: [
