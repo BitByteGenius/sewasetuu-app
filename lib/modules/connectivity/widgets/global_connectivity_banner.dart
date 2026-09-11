@@ -28,12 +28,12 @@ class GlobalConnectivityBanner extends StatelessWidget {
           : (isDark ? const Color(0xFF064E3B) : Colors.white);
 
       final borderColor = isOffline
-          ? const Color(0xFFF59E0B).withOpacity(isDark ? 0.38 : 0.32)
-          : const Color(0xFF10B981).withOpacity(isDark ? 0.45 : 0.36);
+          ? const Color(0xFFF59E0B).withValues(alpha: isDark ? 0.38 : 0.32)
+          : const Color(0xFF10B981).withValues(alpha: isDark ? 0.45 : 0.36);
 
       final iconBadgeBg = isOffline
-          ? (isDark ? const Color(0xFFF59E0B).withOpacity(0.18) : const Color(0xFFFEF3C7))
-          : (isDark ? const Color(0xFF10B981).withOpacity(0.22) : const Color(0xFFD1FAE5));
+          ? (isDark ? const Color(0xFFF59E0B).withValues(alpha: 0.18) : const Color(0xFFFEF3C7))
+          : (isDark ? const Color(0xFF10B981).withValues(alpha: 0.22) : const Color(0xFFD1FAE5));
 
       final iconColor = isOffline
           ? (isDark ? const Color(0xFFFBBF24) : const Color(0xFFD97706))
@@ -46,8 +46,8 @@ class GlobalConnectivityBanner extends StatelessWidget {
           : (isDark ? const Color(0xFF6EE7B7) : const Color(0xFF059669));
 
       final shadowColor = isOffline
-          ? (isDark ? Colors.black.withOpacity(0.40) : const Color(0xFFF59E0B).withOpacity(0.12))
-          : (isDark ? Colors.black.withOpacity(0.40) : const Color(0xFF10B981).withOpacity(0.14));
+          ? (isDark ? Colors.black.withValues(alpha: 0.40) : const Color(0xFFF59E0B).withValues(alpha: 0.12))
+          : (isDark ? Colors.black.withValues(alpha: 0.40) : const Color(0xFF10B981).withValues(alpha: 0.14));
 
       return Positioned(
         top: 0,
@@ -85,7 +85,7 @@ class GlobalConnectivityBanner extends StatelessWidget {
                               offset: const Offset(0, 6),
                             ),
                             BoxShadow(
-                              color: Colors.black.withOpacity(isDark ? 0.20 : 0.04),
+                              color: Colors.black.withValues(alpha: isDark ? 0.20 : 0.04),
                               blurRadius: 8,
                               offset: const Offset(0, 2),
                             ),

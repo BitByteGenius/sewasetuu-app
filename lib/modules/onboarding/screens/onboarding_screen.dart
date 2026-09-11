@@ -127,7 +127,7 @@ class OnboardingScreen extends GetView<OnboardingController> {
                           borderRadius: BorderRadius.circular(16),
                           boxShadow: [
                             BoxShadow(
-                              color: const Color(0xFF0F766E).withOpacity(0.38),
+                              color: const Color(0xFF0F766E).withValues(alpha: 0.38),
                               blurRadius: 14,
                               offset: const Offset(0, 5),
                             ),

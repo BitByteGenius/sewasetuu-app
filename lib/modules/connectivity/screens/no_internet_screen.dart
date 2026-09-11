@@ -48,11 +48,11 @@ class _NoInternetScreenState extends State<NoInternetScreen> {
 
     // Outer & inner icon container styling for both themes
     final outerBadgeBg = isDark
-        ? const Color(0xFF134E4A).withOpacity(0.40)
+        ? const Color(0xFF134E4A).withValues(alpha: 0.40)
         : const Color(0xFFCCFBF1);
     final outerBorderColor = isDark
-        ? const Color(0xFF14B8A6).withOpacity(0.35)
-        : const Color(0xFF0F766E).withOpacity(0.25);
+        ? const Color(0xFF14B8A6).withValues(alpha: 0.35)
+        : const Color(0xFF0F766E).withValues(alpha: 0.25);
     final innerBadgeBg = isDark ? const Color(0xFF1E293B) : Colors.white;
     final iconColor = isDark ? AppColors.primaryLight : AppColors.primary;
 
@@ -60,10 +60,10 @@ class _NoInternetScreenState extends State<NoInternetScreen> {
     final subtitleColor = isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight;
 
     final errorCardBg = isDark
-        ? const Color(0xFF450A0A).withOpacity(0.60)
+        ? const Color(0xFF450A0A).withValues(alpha: 0.60)
         : const Color(0xFFFEF2F2);
     final errorBorderColor = isDark
-        ? const Color(0xFFEF4444).withOpacity(0.40)
+        ? const Color(0xFFEF4444).withValues(alpha: 0.40)
         : const Color(0xFFFCA5A5);
     final errorTextColor = isDark
         ? const Color(0xFFFCA5A5)
@@ -98,7 +98,7 @@ class _NoInternetScreenState extends State<NoInternetScreen> {
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: const Color(0xFF0F766E).withOpacity(isDark ? 0.25 : 0.12),
+                            color: const Color(0xFF0F766E).withValues(alpha: isDark ? 0.25 : 0.12),
                             blurRadius: 32,
                             offset: const Offset(0, 10),
                           ),
@@ -113,7 +113,7 @@ class _NoInternetScreenState extends State<NoInternetScreen> {
                             shape: BoxShape.circle,
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(isDark ? 0.35 : 0.06),
+                                color: Colors.black.withValues(alpha: isDark ? 0.35 : 0.06),
                                 blurRadius: 16,
                                 offset: const Offset(0, 4),
                               ),
@@ -223,7 +223,7 @@ class _NoInternetScreenState extends State<NoInternetScreen> {
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0xFF0F766E).withOpacity(0.35),
+                          color: const Color(0xFF0F766E).withValues(alpha: 0.35),
                           blurRadius: 16,
                           offset: const Offset(0, 6),
                         ),

@@ -5,7 +5,6 @@ import 'package:sewasetu/modules/home/widgets/home_dynamic_search_bar_widget.dar
 import 'package:sewasetu/modules/home/widgets/home_location_header_widget.dart';
 import 'package:sewasetu/modules/home/widgets/home_service_switcher_widget.dart';
 
-/// Unified Swiggy-style top header canopy combining location header,
 /// connected service tab switcher, and dynamic search bar into one continuous surface.
 class ServiceTab extends StatelessWidget {
   const ServiceTab({super.key});
@@ -24,22 +23,19 @@ class ServiceTab extends StatelessWidget {
         curve: Curves.easeInOut,
         decoration: BoxDecoration(
           color: themeColor,
-          borderRadius: const BorderRadius.vertical(
-            bottom: Radius.circular(26),
-          ),
           boxShadow: isDark
               ? [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.35),
-                    blurRadius: 16,
-                    offset: const Offset(0, 6),
+                    color: Colors.black.withValues(alpha: 0.25),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
                   ),
                 ]
               : [
                   BoxShadow(
                     color: const Color(0xFF0F172A).withValues(alpha: 0.06),
-                    blurRadius: 16,
-                    offset: const Offset(0, 6),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
                   ),
                 ],
         ),

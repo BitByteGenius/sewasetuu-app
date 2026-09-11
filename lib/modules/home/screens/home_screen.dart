@@ -30,28 +30,35 @@ class HomeScreen extends GetView<HomeController> {
 
     return Scaffold(
       backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
-      body: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent,
-          statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
-          statusBarBrightness: isDark ? Brightness.dark : Brightness.light,
-        ),
-        child: Column(
-          children: [
-            // 1. Permanent Top Canopy: Location, 4-Service Switcher, Dynamic Search Bar
-            const ServiceTab(),
+      body: Obx(() {
+        final isMainFeed = controller.isMainFeedActive;
 
-            // 2. Active Service Feed with smooth native scrolling
-            Expanded(
-              child: MediaQuery.removePadding(
-                context: context,
-                removeTop: true,
-                child: _buildServiceStack(),
-              ),
+        return AnnotatedRegion<SystemUiOverlayStyle>(
+          value: SystemUiOverlayStyle(
+            statusBarColor: Colors.transparent,
+            statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
+            statusBarBrightness: isDark ? Brightness.dark : Brightness.light,
+          ),
+          child: NestedScrollView(
+            key: const ValueKey('home_nested_scroll_view'),
+            headerSliverBuilder: (context, innerBoxIsScrolled) {
+              if (!isMainFeed) {
+                return const [];
+              }
+              return const [
+                SliverToBoxAdapter(
+                  child: ServiceTab(),
+                ),
+              ];
+            },
+            body: MediaQuery.removePadding(
+              context: context,
+              removeTop: isMainFeed,
+              child: _buildServiceStack(),
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      }),
     );
   }
 

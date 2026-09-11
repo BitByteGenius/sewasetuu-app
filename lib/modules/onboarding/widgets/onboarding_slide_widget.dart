@@ -79,10 +79,10 @@ class OnboardingSlideWidget extends StatelessWidget {
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
                             colors: [
-                              backgroundColor.withOpacity(0.0),
-                              backgroundColor.withOpacity(0.18),
-                              backgroundColor.withOpacity(0.55),
-                              backgroundColor.withOpacity(0.90),
+                              backgroundColor.withValues(alpha: 0.0),
+                              backgroundColor.withValues(alpha: 0.18),
+                              backgroundColor.withValues(alpha: 0.55),
+                              backgroundColor.withValues(alpha: 0.90),
                               backgroundColor,
                             ],
                             stops: const [0.0, 0.28, 0.58, 0.85, 1.0],
@@ -137,7 +137,7 @@ class IPhoneMockupWidget extends StatelessWidget {
               borderRadius: const BorderRadius.horizontal(left: Radius.circular(2)),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.35),
+                  color: Colors.black.withValues(alpha: 0.35),
                   blurRadius: 2,
                   offset: const Offset(-1, 1),
                 ),
@@ -158,7 +158,7 @@ class IPhoneMockupWidget extends StatelessWidget {
               borderRadius: const BorderRadius.horizontal(left: Radius.circular(2)),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.35),
+                  color: Colors.black.withValues(alpha: 0.35),
                   blurRadius: 2,
                   offset: const Offset(-1, 1),
                 ),
@@ -179,7 +179,7 @@ class IPhoneMockupWidget extends StatelessWidget {
               borderRadius: const BorderRadius.horizontal(left: Radius.circular(2)),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.35),
+                  color: Colors.black.withValues(alpha: 0.35),
                   blurRadius: 2,
                   offset: const Offset(-1, 1),
                 ),
@@ -200,7 +200,7 @@ class IPhoneMockupWidget extends StatelessWidget {
               borderRadius: const BorderRadius.horizontal(right: Radius.circular(2)),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.35),
+                  color: Colors.black.withValues(alpha: 0.35),
                   blurRadius: 2,
                   offset: const Offset(1, 1),
                 ),
@@ -223,13 +223,13 @@ class IPhoneMockupWidget extends StatelessWidget {
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(isDark ? 0.45 : 0.24),
+                  color: Colors.black.withValues(alpha: isDark ? 0.45 : 0.24),
                   blurRadius: 30,
                   offset: const Offset(0, 16),
                   spreadRadius: -2,
                 ),
                 BoxShadow(
-                  color: AppColors.primary.withOpacity(0.14),
+                  color: AppColors.primary.withValues(alpha: 0.14),
                   blurRadius: 38,
                   offset: const Offset(0, 8),
                 ),
@@ -269,7 +269,7 @@ class IPhoneMockupWidget extends StatelessWidget {
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            Colors.black.withOpacity(0.65),
+                            Colors.black.withValues(alpha: 0.65),
                             Colors.transparent,
                           ],
                         ),
@@ -290,7 +290,7 @@ class IPhoneMockupWidget extends StatelessWidget {
                           end: Alignment.bottomCenter,
                           colors: [
                             Colors.transparent,
-                            Colors.black.withOpacity(0.80),
+                            Colors.black.withValues(alpha: 0.80),
                           ],
                         ),
                       ),
@@ -359,15 +359,15 @@ class IPhoneMockupWidget extends StatelessWidget {
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                       decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.72),
+                        color: Colors.black.withValues(alpha: 0.72),
                         borderRadius: BorderRadius.circular(14),
                         border: Border.all(
-                          color: Colors.white.withOpacity(0.20),
+                          color: Colors.white.withValues(alpha: 0.20),
                           width: 1,
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.40),
+                            color: Colors.black.withValues(alpha: 0.40),
                             blurRadius: 14,
                             offset: const Offset(0, 4),
                           ),
@@ -413,7 +413,7 @@ class IPhoneMockupWidget extends StatelessWidget {
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
-                                    color: Colors.white.withOpacity(0.75),
+                                    color: Colors.white.withValues(alpha: 0.75),
                                     fontSize: 9.5,
                                     fontWeight: FontWeight.w500,
                                   ),
@@ -427,7 +427,7 @@ class IPhoneMockupWidget extends StatelessWidget {
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
                             decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.12),
+                              color: Colors.white.withValues(alpha: 0.12),
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: Row(
@@ -461,7 +461,7 @@ class IPhoneMockupWidget extends StatelessWidget {
                         width: 90,
                         height: 3.5,
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.70),
+                          color: Colors.white.withValues(alpha: 0.70),
                           borderRadius: BorderRadius.circular(2),
                         ),
                       ),
