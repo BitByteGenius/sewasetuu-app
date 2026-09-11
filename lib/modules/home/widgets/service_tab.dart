@@ -21,21 +21,25 @@ class ServiceTab extends StatelessWidget {
       return AnimatedContainer(
         duration: const Duration(milliseconds: 320),
         curve: Curves.easeInOut,
+        clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
           color: themeColor,
+          borderRadius: const BorderRadius.vertical(
+            bottom: Radius.circular(24),
+          ),
           boxShadow: isDark
               ? [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.25),
-                    blurRadius: 8,
-                    offset: const Offset(0, 2),
+                    color: Colors.black.withValues(alpha: 0.22),
+                    blurRadius: 10,
+                    offset: const Offset(0, 3),
                   ),
                 ]
               : [
                   BoxShadow(
                     color: const Color(0xFF0F172A).withValues(alpha: 0.06),
-                    blurRadius: 8,
-                    offset: const Offset(0, 2),
+                    blurRadius: 10,
+                    offset: const Offset(0, 3),
                   ),
                 ],
         ),
@@ -51,6 +55,7 @@ class ServiceTab extends StatelessWidget {
               ),
               HomeServiceSwitcherWidget(),
               HomeDynamicSearchBarWidget(),
+              SizedBox(height: 6),
             ],
           ),
         ),
