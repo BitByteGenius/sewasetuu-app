@@ -199,15 +199,6 @@ class ProfileScreen extends GetView<ProfileController> {
 
                   _buildMenuItem(
                     isDark: isDark,
-                    icon: Icons.notifications_none_rounded,
-                    title: 'Notifications',
-                    subtitle: 'Manage alert preferences',
-                    onTap: () => Get.toNamed(AppRoutes.notifications),
-                  ),
-                  const Divider(height: 1),
-
-                  _buildMenuItem(
-                    isDark: isDark,
                     icon: Icons.security_outlined,
                     title: 'Privacy & Security',
                     subtitle: 'Account protection & permissions',

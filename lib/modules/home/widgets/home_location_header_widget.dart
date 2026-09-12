@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sewasetu/app/routes/app_routes.dart';
 import 'package:sewasetu/app/theme/app_colors.dart';
 import 'package:sewasetu/app/theme/app_spacing.dart';
 import 'package:sewasetu/modules/home/controllers/home_controller.dart';
@@ -17,6 +18,7 @@ class HomeLocationHeaderWidget extends StatefulWidget {
 class _HomeLocationHeaderWidgetState extends State<HomeLocationHeaderWidget> {
   bool _isLocationPressed = false;
   bool _isProfilePressed = false;
+  bool _isNotificationPressed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +129,81 @@ class _HomeLocationHeaderWidgetState extends State<HomeLocationHeaderWidget> {
               ),
             ),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: 8),
+
+           GestureDetector(
+            onTapDown: (_) => setState(() => _isNotificationPressed = true),
+            onTapUp: (_) => setState(() => _isNotificationPressed = false),
+            onTapCancel: () => setState(() => _isNotificationPressed = false),
+            onTap: () => Get.toNamed(AppRoutes.notifications),
+            behavior: HitTestBehavior.opaque,
+            child: AnimatedScale(
+              scale: _isNotificationPressed ? 0.92 : 1.0,
+              duration: const Duration(milliseconds: 150),
+              child: Builder(
+                builder: (context) {
+                  final isDark = Theme.of(context).brightness == Brightness.dark;
+                  return Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      Container(
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9),
+                          border: Border.all(
+                            color: isDark
+                                ? Colors.white.withValues(alpha: 0.22)
+                                : const Color(0xFFCBD5E1),
+                            width: 1.5,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withValues(alpha: isDark ? 0.35 : 0.06),
+                              blurRadius: 8,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: ClipOval(
+                          child: Center(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: isDark
+                                      ? const [Color(0xFF334155), Color(0xFF1E293B)]
+                                      : const [Color(0xFFFFFFFF), Color(0xFFE2E8F0)],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                              ),
+                              child: Center(
+                                child: Icon(
+                                  Icons.notifications_none_rounded,
+                                  color: isDark ? AppColors.primaryLight : AppColors.primary,
+                                  size: 22,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      // Blinking small dot
+                      Positioned(
+                        top: 2,
+                        right: 2,
+                        child: _BlinkingNotificationDot(isDark: isDark),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+          ),
+           
+           const SizedBox(width: 8),
+
 
           // Profile / Avatar Action Button
           GestureDetector(
@@ -189,7 +265,89 @@ class _HomeLocationHeaderWidgetState extends State<HomeLocationHeaderWidget> {
               ),
             ),
           ),
+          
+         
         ],
+      ),
+    );
+  }
+}
+
+/// Self-contained pulsing/blinking alert dot for notifications
+class _BlinkingNotificationDot extends StatefulWidget {
+  final bool isDark;
+
+  const _BlinkingNotificationDot({required this.isDark});
+
+  @override
+  State<_BlinkingNotificationDot> createState() => _BlinkingNotificationDotState();
+}
+
+class _BlinkingNotificationDotState extends State<_BlinkingNotificationDot>
+    with SingleTickerProviderStateMixin {
+  AnimationController? _controller;
+  Animation<double>? _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _initAnimation();
+  }
+
+  void _initAnimation() {
+    _controller ??= AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 900),
+    )..repeat(reverse: true);
+
+    _animation ??= Tween<double>(begin: 0.15, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _controller!,
+        curve: Curves.easeInOut,
+      ),
+    );
+  }
+
+  @override
+  void reassemble() {
+    super.reassemble();
+    if (_controller == null || _animation == null) {
+      _initAnimation();
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_controller == null || _animation == null) {
+      _initAnimation();
+    }
+
+    return FadeTransition(
+      opacity: _animation!,
+      child: Container(
+        width: 10,
+        height: 10,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: const Color(0xFFEF4444),
+          border: Border.all(
+            color: widget.isDark ? const Color(0xFF1E293B) : Colors.white,
+            width: 1.5,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFFEF4444).withValues(alpha: 0.6),
+              blurRadius: 4,
+              spreadRadius: 1,
+            ),
+          ],
+        ),
       ),
     );
   }
