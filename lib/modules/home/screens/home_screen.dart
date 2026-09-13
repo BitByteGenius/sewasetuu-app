@@ -29,53 +29,60 @@ class HomeScreen extends GetView<HomeController> {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return Scaffold(
-      backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
-      body: Obx(() {
-        final isMainFeed = controller.isMainFeedActive;
-        final activeService = controller.selectedService.value;
-        final themeColor = activeService.themeColor(isDark);
+    return Obx(() {
+      final isMainFeed = controller.isMainFeedActive;
+      final activeService = controller.selectedService.value;
+      final themeColor = activeService.themeColor(isDark);
 
-        return AnnotatedRegion<SystemUiOverlayStyle>(
-          value: SystemUiOverlayStyle(
-            statusBarColor: Colors.transparent,
-            statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
-            statusBarBrightness: isDark ? Brightness.dark : Brightness.light,
-          ),
-          child: Column(
-            children: [
-              // 1. Sticky Location Header - slot 0 is never shifted, avoiding child re-indexing
-              isMainFeed
-                  ? _buildStickyLocationHeader(themeColor)
-                  : const SizedBox.shrink(),
+      return PopScope(
+        canPop: isMainFeed,
+        onPopInvokedWithResult: (didPop, _) {
+          if (didPop) return;
+          controller.moveToFirstTab();
+        },
+        child: Scaffold(
+          backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
+          body: AnnotatedRegion<SystemUiOverlayStyle>(
+            value: SystemUiOverlayStyle(
+              statusBarColor: Colors.transparent,
+              statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
+              statusBarBrightness: isDark ? Brightness.dark : Brightness.light,
+            ),
+            child: Column(
+              children: [
+                // 1. Sticky Location Header - slot 0 is never shifted, avoiding child re-indexing
+                isMainFeed
+                    ? _buildStickyLocationHeader(themeColor)
+                    : const SizedBox.shrink(),
 
-              // 2. Main Content (Service Switcher, Search Bar, and Service Stack)
-              Expanded(
-                key: const ValueKey('home_main_expanded'),
-                child: NestedScrollView(
-                  key: const ValueKey('home_nested_scroll_view'),
-                  headerSliverBuilder: (context, innerBoxIsScrolled) {
-                    if (!isMainFeed) {
-                      return const [];
-                    }
-                    return const [
-                      SliverToBoxAdapter(
-                        child: ServiceTab(),
-                      ),
-                    ];
-                  },
-                  body: MediaQuery.removePadding(
-                    context: context,
-                    removeTop: isMainFeed,
-                    child: _buildServiceStack(),
+                // 2. Main Content (Service Switcher, Search Bar, and Service Stack)
+                Expanded(
+                  key: const ValueKey('home_main_expanded'),
+                  child: NestedScrollView(
+                    key: const ValueKey('home_nested_scroll_view'),
+                    headerSliverBuilder: (context, innerBoxIsScrolled) {
+                      if (!isMainFeed) {
+                        return const [];
+                      }
+                      return const [
+                        SliverToBoxAdapter(
+                          child: ServiceTab(),
+                        ),
+                      ];
+                    },
+                    body: MediaQuery.removePadding(
+                      context: context,
+                      removeTop: isMainFeed,
+                      child: _buildServiceStack(),
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        );
-      }),
-    );
+        ),
+      );
+    });
   }
 
   Widget _buildStickyLocationHeader(Color themeColor) {

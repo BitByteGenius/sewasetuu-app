@@ -241,6 +241,39 @@ class HomeController extends GetxController {
     }
   }
 
+  /// Navigates back to the root tab (Tab 1 / index 0) for the currently active service.
+  void moveToFirstTab() {
+    switch (selectedService.value) {
+      case HomeService.stay:
+        final stayNav = Get.isRegistered<StayNavigationController>()
+            ? Get.find<StayNavigationController>()
+            : Get.put(StayNavigationController(), permanent: true);
+        stayNav.toExplore();
+        break;
+
+      case HomeService.trips:
+        final tripsNav = Get.isRegistered<TripsNavigationController>()
+            ? Get.find<TripsNavigationController>()
+            : Get.put(TripsNavigationController(), permanent: true);
+        tripsNav.toDiscover();
+        break;
+
+      case HomeService.shop:
+        final shopNav = Get.isRegistered<ShopNavigationController>()
+            ? Get.find<ShopNavigationController>()
+            : Get.put(ShopNavigationController(), permanent: true);
+        shopNav.toHome();
+        break;
+
+      case HomeService.rental:
+        final rentalNav = Get.isRegistered<RentalNavigationController>()
+            ? Get.find<RentalNavigationController>()
+            : Get.put(RentalNavigationController(), permanent: true);
+        rentalNav.toExplore();
+        break;
+    }
+  }
+
   void onSearchTap() {
     switch (selectedService.value) {
       case HomeService.stay:
