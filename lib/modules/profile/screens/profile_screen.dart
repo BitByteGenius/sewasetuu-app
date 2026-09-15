@@ -26,15 +26,16 @@ class ProfileScreen extends GetView<ProfileController> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return Obx(() {
+      final isDark = controller.isDarkMode.value;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'My Profile & Settings',
-          style: AppTextStyles.headlineSmall(isDark),
+      return Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'My Profile & Settings',
+            style: AppTextStyles.headlineSmall(isDark),
+          ),
         ),
-      ),
       body: SingleChildScrollView(
         padding: AppSpacing.screenPadding,
         child: Column(
@@ -155,27 +156,25 @@ class ProfileScreen extends GetView<ProfileController> {
                   const Divider(height: 1),
 
                   // Dark Mode Switch Tile
-                  Obx(() {
-                    return SwitchListTile(
-                      secondary: Icon(
-                        controller.isDarkMode.value
-                            ? Icons.dark_mode_rounded
-                            : Icons.light_mode_rounded,
-                        color: isDark ? AppColors.primaryLight : AppColors.primary,
-                      ),
-                      title: Text(
-                        'Dark Theme',
-                        style: AppTextStyles.titleMedium(isDark),
-                      ),
-                      subtitle: Text(
-                        controller.isDarkMode.value ? 'Dark mode enabled' : 'Light mode enabled',
-                        style: AppTextStyles.bodySmall(isDark),
-                      ),
-                      value: controller.isDarkMode.value,
-                      onChanged: controller.toggleTheme,
-                      activeTrackColor: isDark ? AppColors.primaryLight : AppColors.primary,
-                    );
-                  }),
+                  SwitchListTile(
+                    secondary: Icon(
+                      controller.isDarkMode.value
+                          ? Icons.dark_mode_rounded
+                          : Icons.light_mode_rounded,
+                      color: isDark ? AppColors.primaryLight : AppColors.primary,
+                    ),
+                    title: Text(
+                      'Dark Theme',
+                      style: AppTextStyles.titleMedium(isDark),
+                    ),
+                    subtitle: Text(
+                      controller.isDarkMode.value ? 'Dark mode enabled' : 'Light mode enabled',
+                      style: AppTextStyles.bodySmall(isDark),
+                    ),
+                    value: controller.isDarkMode.value,
+                    onChanged: controller.toggleTheme,
+                    activeTrackColor: isDark ? AppColors.primaryLight : AppColors.primary,
+                  ),
                   const Divider(height: 1),
 
                   // Coupons & Offers
@@ -236,6 +235,7 @@ class ProfileScreen extends GetView<ProfileController> {
         ),
       ),
     );
+    });
   }
 
   Widget _buildStatCard(bool isDark, String number, String label, IconData icon) {

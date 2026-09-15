@@ -8,8 +8,11 @@ import 'app_theme_extensions.dart';
 
 /// Central theme builder providing Light and Dark ThemeData.
 abstract class AppTheme {
+  static final ThemeData lightTheme = _buildLightTheme();
+  static final ThemeData darkTheme = _buildDarkTheme();
+
   // LIGHT THEME
-  static ThemeData get lightTheme {
+  static ThemeData _buildLightTheme() {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.light,
@@ -119,7 +122,7 @@ abstract class AppTheme {
   }
 
   // DARK THEME
-  static ThemeData get darkTheme {
+  static ThemeData _buildDarkTheme() {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,

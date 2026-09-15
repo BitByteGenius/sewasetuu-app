@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sewasetu/app/routes/app_routes.dart';
+import 'package:sewasetu/app/theme/app_theme.dart';
 import 'package:sewasetu/core/constants/app_constants.dart';
 import 'package:sewasetu/core/storage/storage_service.dart';
 
@@ -27,6 +28,7 @@ class ProfileController extends GetxController {
       final storage = Get.find<IStorageService>();
       storage.setBool(AppConstants.isDarkModeKey, value);
     }
+    Get.changeTheme(value ? AppTheme.darkTheme : AppTheme.lightTheme);
     Get.changeThemeMode(value ? ThemeMode.dark : ThemeMode.light);
   }
 

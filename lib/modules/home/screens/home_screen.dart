@@ -27,9 +27,8 @@ class HomeScreen extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     return Obx(() {
+      final isDark = Theme.of(context).brightness == Brightness.dark;
       final isMainFeed = controller.isMainFeedActive;
       final activeService = controller.selectedService.value;
       final themeColor = activeService.themeColor(isDark);
