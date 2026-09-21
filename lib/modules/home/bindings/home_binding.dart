@@ -4,6 +4,7 @@ import 'package:sewasetu/modules/bookings/bookings.dart';
 import 'package:sewasetu/modules/home/controllers/home_controller.dart';
 import 'package:sewasetu/modules/profile/profile.dart';
 import 'package:sewasetu/modules/rental/rental.dart';
+import 'package:sewasetu/modules/services/services.dart';
 import 'package:sewasetu/modules/shop/shop.dart';
 import 'package:sewasetu/modules/stay/stay.dart';
 import 'package:sewasetu/modules/trips/trips.dart';
@@ -43,6 +44,9 @@ class HomeBinding extends Bindings {
     }
     if (!Get.isRegistered<RentalNavigationController>()) {
       Get.put<RentalNavigationController>(RentalNavigationController(), permanent: true);
+    }
+    if (!Get.isRegistered<InstantServicesNavigationController>()) {
+      Get.put<InstantServicesNavigationController>(InstantServicesNavigationController(), permanent: true);
     }
   }
 }

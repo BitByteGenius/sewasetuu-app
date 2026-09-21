@@ -62,6 +62,12 @@ class HomeServiceVectorGraphic extends StatelessWidget {
           accentColor: activeColor,
           isDark: isDark,
         );
+      case HomeService.instantServices:
+        return InstantServicesVectorPainter(
+          isSelected: isSelected,
+          accentColor: activeColor,
+          isDark: isDark,
+        );
     }
   }
 }
@@ -633,6 +639,117 @@ class RentalVectorPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant RentalVectorPainter oldDelegate) =>
+      oldDelegate.isSelected != isSelected ||
+      oldDelegate.accentColor != accentColor ||
+      oldDelegate.isDark != isDark;
+}
+
+/// 5. Instant Services — Lightning Bolt & Wrench Tool Vector
+class InstantServicesVectorPainter extends CustomPainter {
+  final bool isSelected;
+  final Color accentColor;
+  final bool isDark;
+
+  InstantServicesVectorPainter({
+    required this.isSelected,
+    required this.accentColor,
+    required this.isDark,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final w = size.width;
+    final h = size.height;
+
+    final primaryColor = isSelected
+        ? accentColor
+        : (isDark ? Colors.white.withValues(alpha: 0.85) : const Color(0xFF475569));
+    final secondaryColor = isSelected
+        ? accentColor.withValues(alpha: 0.25)
+        : (isDark
+            ? Colors.white.withValues(alpha: 0.20)
+            : const Color(0xFF94A3B8).withValues(alpha: 0.35));
+    final boltColor = isSelected
+        ? const Color(0xFFFBBF24) // Amber bolt
+        : (isDark ? Colors.white70 : const Color(0xFF64748B));
+
+    // Background Circle (Service Badge)
+    canvas.drawCircle(
+      Offset(w * 0.50, h * 0.50),
+      w * 0.42,
+      Paint()
+        ..color = secondaryColor
+        ..style = PaintingStyle.fill,
+    );
+    canvas.drawCircle(
+      Offset(w * 0.50, h * 0.50),
+      w * 0.42,
+      Paint()
+        ..color = primaryColor
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2.2,
+    );
+
+    // Wrench Body (Diagonal from top-left to bottom-right)
+    final wrenchPaint = Paint()
+      ..color = primaryColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2.8
+      ..strokeCap = StrokeCap.round
+      ..strokeJoin = StrokeJoin.round;
+
+    // Wrench shaft
+    canvas.drawLine(
+      Offset(w * 0.32, h * 0.68),
+      Offset(w * 0.58, h * 0.42),
+      wrenchPaint,
+    );
+
+    // Wrench head (open jaw)
+    final jawPath = Path();
+    jawPath.moveTo(w * 0.54, h * 0.30);
+    jawPath.lineTo(w * 0.58, h * 0.42);
+    jawPath.lineTo(w * 0.70, h * 0.38);
+    canvas.drawPath(jawPath, wrenchPaint);
+
+    // Wrench handle nub
+    canvas.drawCircle(
+      Offset(w * 0.30, h * 0.70),
+      w * 0.05,
+      Paint()
+        ..color = primaryColor
+        ..style = PaintingStyle.fill,
+    );
+
+    // Lightning Bolt (Offset to the right)
+    final boltPath = Path();
+    boltPath.moveTo(w * 0.58, h * 0.18);
+    boltPath.lineTo(w * 0.48, h * 0.46);
+    boltPath.lineTo(w * 0.58, h * 0.46);
+    boltPath.lineTo(w * 0.46, h * 0.80);
+    boltPath.lineTo(w * 0.60, h * 0.48);
+    boltPath.lineTo(w * 0.50, h * 0.48);
+    boltPath.lineTo(w * 0.58, h * 0.18);
+    boltPath.close();
+
+    canvas.drawPath(
+      boltPath,
+      Paint()
+        ..color = boltColor.withValues(alpha: isSelected ? 0.90 : 0.70)
+        ..style = PaintingStyle.fill,
+    );
+    canvas.drawPath(
+      boltPath,
+      Paint()
+        ..color = primaryColor
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.2
+        ..strokeJoin = StrokeJoin.round,
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant InstantServicesVectorPainter oldDelegate) =>
       oldDelegate.isSelected != isSelected ||
       oldDelegate.accentColor != accentColor ||
       oldDelegate.isDark != isDark;

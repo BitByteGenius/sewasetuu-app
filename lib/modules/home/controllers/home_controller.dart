@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sewasetu/app/routes/app_routes.dart';
 import 'package:sewasetu/core/services/location_service.dart';
+import 'package:sewasetu/modules/services/controllers/instant_services_navigation_controller.dart';
 import 'package:sewasetu/modules/shop/shop_navigator.dart';
 import 'package:sewasetu/modules/stay/models/property_model.dart';
 import 'package:sewasetu/modules/stay/services/stay_service.dart';
@@ -19,6 +20,7 @@ enum HomeService {
   trips,
   shop,
   rental,
+  instantServices,
 }
 
 /// Extension providing metadata for each primary service
@@ -33,6 +35,8 @@ extension HomeServiceExtension on HomeService {
         return 'Shop';
       case HomeService.rental:
         return 'Vehicle Rental';
+      case HomeService.instantServices:
+        return 'Instant Services';
     }
   }
 
@@ -46,6 +50,8 @@ extension HomeServiceExtension on HomeService {
         return "Search products from India...";
       case HomeService.rental:
         return "Search cars and bikes for rent...";
+      case HomeService.instantServices:
+        return "Search electricians, plumbers, cleaners...";
     }
   }
 
@@ -59,6 +65,8 @@ extension HomeServiceExtension on HomeService {
         return 'Shop';
       case HomeService.rental:
         return 'Rental';
+      case HomeService.instantServices:
+        return 'Services';
     }
   }
 
@@ -72,6 +80,8 @@ extension HomeServiceExtension on HomeService {
         return 'assets/images/service_shop_3d.jpg';
       case HomeService.rental:
         return 'assets/images/service_rental_3d.jpg';
+      case HomeService.instantServices:
+        return 'assets/images/service_stay_3d.jpg';
     }
   }
 
@@ -86,6 +96,8 @@ extension HomeServiceExtension on HomeService {
         return const Color(0xFF1C140D);
       case HomeService.rental:
         return const Color(0xFF0E1A2C);
+      case HomeService.instantServices:
+        return const Color(0xFF1C0D1A);
     }
   }
 
@@ -101,6 +113,8 @@ extension HomeServiceExtension on HomeService {
         return const Color(0xFFF97316);
       case HomeService.rental:
         return const Color(0xFF38BDF8);
+      case HomeService.instantServices:
+        return const Color(0xFFFB7185);
     }
   }
 }
@@ -160,6 +174,12 @@ class HomeController extends GetxController {
             ? Get.find<RentalNavigationController>()
             : Get.put(RentalNavigationController(), permanent: true);
         return rentalNav.currentIndex.value == 0;
+
+      case HomeService.instantServices:
+        final servicesNav = Get.isRegistered<InstantServicesNavigationController>()
+            ? Get.find<InstantServicesNavigationController>()
+            : Get.put(InstantServicesNavigationController(), permanent: true);
+        return servicesNav.selectedIndex.value == 0;
     }
   }
 
@@ -238,6 +258,11 @@ class HomeController extends GetxController {
           Get.find<RentalNavigationController>().toExplore();
         }
         break;
+      case HomeService.instantServices:
+        if (Get.isRegistered<InstantServicesNavigationController>()) {
+          Get.find<InstantServicesNavigationController>().toDiscover();
+        }
+        break;
     }
   }
 
@@ -271,6 +296,13 @@ class HomeController extends GetxController {
             : Get.put(RentalNavigationController(), permanent: true);
         rentalNav.toExplore();
         break;
+
+      case HomeService.instantServices:
+        final servicesNav = Get.isRegistered<InstantServicesNavigationController>()
+            ? Get.find<InstantServicesNavigationController>()
+            : Get.put(InstantServicesNavigationController(), permanent: true);
+        servicesNav.toDiscover();
+        break;
     }
   }
 
@@ -287,6 +319,9 @@ class HomeController extends GetxController {
         break;
       case HomeService.rental:
         Get.toNamed(AppRoutes.rentals);
+        break;
+      case HomeService.instantServices:
+        Get.toNamed(AppRoutes.services);
         break;
     }
   }

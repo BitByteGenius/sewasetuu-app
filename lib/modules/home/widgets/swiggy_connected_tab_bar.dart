@@ -30,6 +30,7 @@ class _SwiggyConnectedTabBarState extends State<SwiggyConnectedTabBar>
     HomeService.trips,
     HomeService.shop,
     HomeService.rental,
+    HomeService.instantServices,
   ];
 
   late AnimationController _animController;

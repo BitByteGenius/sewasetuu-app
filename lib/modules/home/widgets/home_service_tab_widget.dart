@@ -136,6 +136,8 @@ class _HomeServiceTabWidgetState extends State<HomeServiceTabWidget> {
         return const Color(0xFFEA580C); // Warm Orange / Coral
       case HomeService.rental:
         return const Color(0xFF2563EB); // Royal Blue
+      case HomeService.instantServices:
+        return const Color(0xFFE11D48); // Rose
     }
   }
 
