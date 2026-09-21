@@ -108,10 +108,10 @@ class HomeScreen extends GetView<HomeController> {
           index: controller.selectedService.value.index,
           children: const [
             StayScreen(),
-            TripsScreen(),
+            InstantServicesScreen(),
             ShopScreen(),
             RentalScreen(),
-            InstantServicesScreen(),
+            TripsScreen(),
           ],
         );
       }),

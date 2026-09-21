@@ -17,10 +17,10 @@ import 'package:sewasetu/shared/enums/view_state.dart';
 /// Available primary services for the top switcher
 enum HomeService {
   stay,
-  trips,
+  instantServices,
   shop,
   rental,
-  instantServices,
+  trips,
 }
 
 /// Extension providing metadata for each primary service

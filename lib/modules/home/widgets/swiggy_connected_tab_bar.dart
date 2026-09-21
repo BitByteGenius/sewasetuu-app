@@ -27,10 +27,10 @@ class _SwiggyConnectedTabBarState extends State<SwiggyConnectedTabBar>
     with SingleTickerProviderStateMixin {
   static const List<HomeService> _services = [
     HomeService.stay,
-    HomeService.trips,
+    HomeService.instantServices,
     HomeService.shop,
     HomeService.rental,
-    HomeService.instantServices,
+    HomeService.trips,
   ];
 
   late AnimationController _animController;
