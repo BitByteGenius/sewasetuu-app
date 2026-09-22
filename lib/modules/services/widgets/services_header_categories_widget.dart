@@ -19,27 +19,48 @@ class ServicesHeaderCategoriesWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 14),
-      child: GridView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: categories.length,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 4,
-          childAspectRatio: 0.74,
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 8,
-        ),
-        itemBuilder: (context, index) {
-          final item = categories[index];
-          return _buildCategoryCard(context, item, isDark);
-        },
-      ),
-    );
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Section Title: Home Services
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Text(
+              'Home Services',
+              style: GoogleFonts.plusJakartaSans(
+                fontSize: 18,
+                fontWeight: FontWeight.w800,
+                color: isDark
+                    ? AppColors.textPrimaryDark
+                    : const Color(0xFF0F172A),
+              ),
+            ),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14),
+            child: GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: categories.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 4,
+                childAspectRatio: 0.74,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 8,
+              ),
+              itemBuilder: (context, index) {
+                final item = categories[index];
+                return _buildCategoryCard(context, item, isDark);
+              },
+            ),
+          )
+        ]);
   }
 
-  Widget _buildCategoryCard(BuildContext context, ServiceCategoryItem item, bool isDark) {
+  Widget _buildCategoryCard(
+      BuildContext context, ServiceCategoryItem item, bool isDark) {
     return GestureDetector(
       onTap: () => onCategoryTap(item.title.replaceAll('\n', ' ')),
       child: Container(
@@ -75,7 +96,9 @@ class ServicesHeaderCategoriesWidget extends StatelessWidget {
                       fontSize: 11,
                       fontWeight: FontWeight.w700,
                       height: 1.15,
-                      color: isDark ? AppColors.textPrimaryDark : const Color(0xFF1E293B),
+                      color: isDark
+                          ? AppColors.textPrimaryDark
+                          : const Color(0xFF1E293B),
                     ),
                   ),
                 ),
@@ -110,7 +133,10 @@ class ServicesHeaderCategoriesWidget extends StatelessWidget {
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
                                 colors: [
-                                  (isDark ? AppColors.surfaceDark : Colors.white).withValues(alpha: 0.15),
+                                  (isDark
+                                          ? AppColors.surfaceDark
+                                          : Colors.white)
+                                      .withValues(alpha: 0.15),
                                   Colors.transparent,
                                 ],
                               ),
@@ -129,7 +155,9 @@ class ServicesHeaderCategoriesWidget extends StatelessWidget {
   Widget _buildInstantServiceGraphic(bool isDark) {
     return Container(
       width: double.infinity,
-      color: isDark ? const Color(0xFF1E1B4B).withValues(alpha: 0.5) : const Color(0xFFF5F3FF),
+      color: isDark
+          ? const Color(0xFF1E1B4B).withValues(alpha: 0.5)
+          : const Color(0xFFF5F3FF),
       child: Stack(
         alignment: Alignment.center,
         children: [
@@ -139,7 +167,8 @@ class ServicesHeaderCategoriesWidget extends StatelessWidget {
             child: Icon(
               Icons.schedule_rounded,
               size: 44,
-              color: const Color(0xFF8B5CF6).withValues(alpha: isDark ? 0.18 : 0.12),
+              color: const Color(0xFF8B5CF6)
+                  .withValues(alpha: isDark ? 0.18 : 0.12),
             ),
           ),
           // Purple lightning & 15 mins badge

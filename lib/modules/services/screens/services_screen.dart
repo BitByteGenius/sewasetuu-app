@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:sewasetu/app/theme/app_colors.dart';
 import 'package:sewasetu/app/theme/app_spacing.dart';
 import 'package:sewasetu/shared/enums/view_state.dart';
-import 'package:sewasetu/shared/widgets/app_bar/app_bar.dart';
 import 'package:sewasetu/shared/widgets/app_skeleton.dart';
 
 import '../controllers/services_controller.dart';
@@ -29,16 +28,8 @@ class ServicesScreen extends StatelessWidget {
         ? Get.find<ServicesController>()
         : Get.put(ServicesController());
 
-    final canPop = Navigator.canPop(context);
-
     return Scaffold(
       backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
-      appBar: canPop
-          ? const SewaAppBar(
-              titleText: 'Home Services',
-              showBackButton: true,
-            )
-          : null,
       body: Obx(() {
         if (controller.state.value == ViewState.loading &&
             controller.headerCategories.isEmpty) {
@@ -54,6 +45,7 @@ class ServicesScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                
                 // 1. Primary 4x2 Header Categories Grid
                 ServicesHeaderCategoriesWidget(
                   categories: controller.headerCategories,
@@ -154,11 +146,11 @@ class ServicesScreen extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       child: Column(
         children: const [
-          SkeletonBox(height: 200, width: double.infinity),
+          AppSkeleton(height: 200, width: double.infinity),
           SizedBox(height: 20),
-          SkeletonBox(height: 130, width: double.infinity),
+          AppSkeleton(height: 130, width: double.infinity),
           SizedBox(height: 20),
-          SkeletonBox(height: 240, width: double.infinity),
+          AppSkeleton(height: 240, width: double.infinity),
         ],
       ),
     );

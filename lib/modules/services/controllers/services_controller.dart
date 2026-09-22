@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:sewasetu/app/theme/app_colors.dart';
@@ -15,7 +16,7 @@ import '../models/service_subcategory_item.dart';
 /// GetX controller managing UI state, interactive actions, and future backend feeds
 /// for the primary Services screen.
 class ServicesController extends GetxController {
-  final state = ViewState.idle.obs;
+  final state = ViewState.initial.obs;
 
   // Active page index for promotional offers carousel
   final offerPageIndex = 0.obs;
@@ -57,7 +58,7 @@ class ServicesController extends GetxController {
       customerReviews.assignAll(ServicesMockData.customerReviews);
       faqItems.assignAll(ServicesMockData.faqItems);
 
-      state.value = ViewState.idle;
+      state.value = ViewState.loaded;
     } catch (e) {
       state.value = ViewState.error;
     }

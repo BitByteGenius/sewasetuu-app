@@ -47,7 +47,7 @@ class ServicesMockData {
     ),
     ServiceCategoryItem(
       id: 'cat_legal',
-      title: 'Rent\nAgreement & Legal',
+      title: 'Home\nTuition',
       imageUrl: 'https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=400&q=80',
     ),
     ServiceCategoryItem(
