@@ -1,13 +1,13 @@
-import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:sewasetu/core/storage/storage_service.dart';
 import 'package:sewasetu/modules/splash/controllers/splash_controller.dart';
 
-/// Premium animated splash screen featuring the centered SewaSetu brand logo.
-/// Smoothly displays the logo clipped with [ClipRect], then after a brief hold,
-/// smoothly zooms out until it completely covers the screen and navigates to the next route.
+/// Professional, pixel-consistent splash screen for OJIONE.
+/// Accurately renders the brand splash artwork with exact light-green gradient background,
+/// centered dark blue "oji one" logo, translucent corner accents, and bottom blue wave.
+/// Adapts seamlessly across all mobile and tablet screens preserving aspect ratio without distortion.
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -21,54 +21,54 @@ class _SplashScreenState extends State<SplashScreen>
   late final Animation<double> _fadeInAnimation;
   late final SplashController _controller;
 
-  static const Color _brandBackgroundColor = Color(0xFFFFF1DA);
-  static const String _logoAssetPath = 'assets/images/logo.png';
-  static const double _baseLogoSize = 160.0;
+  // Exact brand colors sampled directly from the reference image
+  static const Color _brandBackgroundTop = Color(0xFFB4E07D);
+  static const Color _brandBackgroundCenter = Color(0xFFCDF297);
+  static const Color _brandBackgroundBottom = Color(0xFFB4E07D);
+
+  static const String _primaryAssetPath = 'assets/image/logo.png';
+  static const String _fallbackAssetPath = 'assets/images/logo.png';
 
   @override
   void initState() {
     super.initState();
 
-    // Resolve or initialize SplashController safely
+    // Safely resolve or instantiate SplashController
     _controller = Get.isRegistered<SplashController>()
         ? Get.find<SplashController>()
         : Get.put(SplashController(Get.find<IStorageService>()));
 
-    // 1050ms total duration for a silky, continuous motion with zero stutter
+    // Total display duration of 1400ms for a clean, professional startup hold
     _animController = AnimationController(
-      duration: const Duration(milliseconds: 1050),
+      duration: const Duration(milliseconds: 1400),
       vsync: this,
     );
 
-    // Initial soft fade-in over the first 160ms
+    // Subtle soft fade-in over the first 280ms
     _fadeInAnimation = CurvedAnimation(
       parent: _animController,
-      curve: const Interval(0.0, 0.16, curve: Curves.easeOut),
+      curve: const Interval(0.0, 0.20, curve: Curves.easeOut),
     );
 
-    // Trigger navigation WHILE actively zooming out as it reaches the end (at 0.80)
-    // so there is ZERO stop at the end, and the next screen smoothly pops in with continuous momentum!
-    _animController.addListener(() {
-      if (_animController.value >= 0.80) {
-        _controller.navigateToNext();
-      }
-    });
-
+    // Trigger smooth transition into the app upon completion
     _animController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         _controller.navigateToNext();
       }
     });
 
-    // Begin animation immediately on mount
+    // Start playback
     _animController.forward();
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Pre-cache asset to prevent GPU texture upload jank on initial frame
-    precacheImage(const AssetImage(_logoAssetPath), context);
+    precacheImage(const AssetImage(_primaryAssetPath), context).catchError((_) {
+      if (mounted) {
+        return precacheImage(const AssetImage(_fallbackAssetPath), context);
+      }
+    });
   }
 
   @override
@@ -77,67 +77,107 @@ class _SplashScreenState extends State<SplashScreen>
     super.dispose();
   }
 
+  Widget _buildSplashImage() {
+    return Image.asset(
+      _primaryAssetPath,
+      fit: BoxFit.contain,
+      alignment: Alignment.center,
+      filterQuality: FilterQuality.high,
+      errorBuilder: (context, error, stackTrace) {
+        return Image.asset(
+          _fallbackAssetPath,
+          fit: BoxFit.contain,
+          alignment: Alignment.center,
+          filterQuality: FilterQuality.high,
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.sizeOf(context);
-    final maxDimension = math.max(
-      screenSize.width > 0 ? screenSize.width : 400.0,
-      screenSize.height > 0 ? screenSize.height : 800.0,
-    );
-
-    // Balanced zoom scale: covers screen without extreme distortion or blur
-    final targetScale = (maxDimension / (_baseLogoSize * 1.1)).clamp(3.8, 5.2);
-
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         statusBarIconBrightness: Brightness.dark,
         statusBarBrightness: Brightness.light,
-        systemNavigationBarColor: _brandBackgroundColor,
+        systemNavigationBarColor: _brandBackgroundTop,
         systemNavigationBarIconBrightness: Brightness.dark,
+        systemNavigationBarDividerColor: Colors.transparent,
       ),
       child: Scaffold(
-        backgroundColor: _brandBackgroundColor,
+        backgroundColor: _brandBackgroundTop,
         body: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: () => _controller.navigateToNext(),
-          child: SizedBox.expand(
-            child: Center(
-              child: RepaintBoundary(
-                child: AnimatedBuilder(
-                  animation: _animController,
-                  builder: (context, child) {
-                    final t = _animController.value;
-
-                    // Smooth accelerating zoom-out from t = 0.16 to t = 1.00
-                    // Uses Curves.easeInQuad so the motion accelerates directly into the incoming pop transition
-                    double scale = 1.0;
-                    if (t > 0.16) {
-                      final p = ((t - 0.16) / 0.84).clamp(0.0, 1.0);
-                      final curved = Curves.easeInQuad.transform(p);
-                      scale = 1.0 + (targetScale - 1.0) * curved;
-                    }
-
-                    return FadeTransition(
-                      opacity: _fadeInAnimation,
-                      child: Transform.scale(
-                        scale: scale,
-                        alignment: Alignment.center,
-                        child: child,
-                      ),
-                    );
-                  },
-                  child: ClipRect(
-                    child: Image.asset(
-                      _logoAssetPath,
-                      width: _baseLogoSize,
-                      height: _baseLogoSize,
-                      fit: BoxFit.contain,
-                      filterQuality: FilterQuality.medium,
-                    ),
-                  ),
-                ),
+          child: Container(
+            width: double.infinity,
+            height: double.infinity,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  _brandBackgroundTop,
+                  _brandBackgroundCenter,
+                  _brandBackgroundBottom,
+                ],
+                stops: [0.0, 0.5, 1.0],
               ),
+            ),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                final width = constraints.maxWidth;
+                final height = constraints.maxHeight;
+                final aspectRatio = width / (height > 0 ? height : 1.0);
+
+                Widget splashContent;
+
+                // Standard modern mobile phone viewports (~0.43 to 0.52 aspect ratio)
+                if (aspectRatio <= 0.52) {
+                  splashContent = SizedBox.expand(
+                    child: ClipRect(
+                      child: Image.asset(
+                        _primaryAssetPath,
+                        fit: BoxFit.cover,
+                        alignment: Alignment.bottomCenter,
+                        filterQuality: FilterQuality.high,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Image.asset(
+                            _fallbackAssetPath,
+                            fit: BoxFit.cover,
+                            alignment: Alignment.bottomCenter,
+                            filterQuality: FilterQuality.high,
+                          );
+                        },
+                      ),
+                    ),
+                  );
+                } else {
+                  // Wider mobile screens (e.g. 16:9), tablets, or landscape viewports
+                  // Preserves the full splash artwork completely without any cropping or stretching
+                  splashContent = Center(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(
+                        maxWidth: 480,
+                      ),
+                      child: AspectRatio(
+                        aspectRatio: 852 / 1846,
+                        child: ClipRect(
+                          child: _buildSplashImage(),
+                        ),
+                      ),
+                    ),
+                  );
+                }
+
+                return RepaintBoundary(
+                  child: FadeTransition(
+                    opacity: _fadeInAnimation,
+                    child: splashContent,
+                  ),
+                );
+              },
             ),
           ),
         ),

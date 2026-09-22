@@ -59,7 +59,7 @@ class LoginPage extends GetView<AuthController> {
           children: [
             // 1. Top Curved Header Container
             const AuthTopCurvedHeader(
-              tagText: 'SewaSetu Marketplace',
+              tagText: 'OjiOne Explore India',
               tagIcon: Icons.verified_user_rounded,
               title: 'Welcome Back',
               subtitle: 'Enter your mobile number to explore verified stays, treks & rentals.',
