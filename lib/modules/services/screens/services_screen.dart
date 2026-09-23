@@ -52,7 +52,7 @@ class ServicesScreen extends StatelessWidget {
                   onCategoryTap: controller.onCategorySelected,
                 ),
 
-                AppSpacing.gapV24,
+                //AppSpacing.gapV24,
 
                 // 2. Promotional Offers Carousel ("Offers for you")
                 ServicesOffersCarouselWidget(
@@ -97,7 +97,7 @@ class ServicesScreen extends StatelessWidget {
                   onItemTap: (item) => controller.onBookService(item.title),
                 ),
 
-                AppSpacing.gapV24,
+                //AppSpacing.gapV24,
 
                 // 7. Home Repair Services Sub-Categories (Horizontal circular items)
                 ServicesCircularSubcategoriesWidget(
