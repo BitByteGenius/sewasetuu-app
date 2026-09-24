@@ -46,6 +46,7 @@ class PropertyDetailsController extends GetxController {
           .assignAll(allStays.where((s) => s.id != stayId).take(4).toList());
 
       // Initialize room options tailored to this stay
+      final baseMonthly = fetchedStay.displayPricePerMonth;
       availableRooms.assignAll([
         RoomOptionItem(
           id: 'room-std',
@@ -53,6 +54,7 @@ class PropertyDetailsController extends GetxController {
           bedType: '1 Queen Bed',
           maxGuests: '2 Guests',
           pricePerNight: fetchedStay.pricePerNight,
+          pricePerMonth: baseMonthly > 0 ? baseMonthly : null,
           highlights: const [
             'Attached Washroom',
             'High-Speed Wi-Fi',
@@ -65,6 +67,7 @@ class PropertyDetailsController extends GetxController {
           bedType: '1 King Bed + Mountain View',
           maxGuests: '3 Guests',
           pricePerNight: fetchedStay.pricePerNight * 1.35,
+          pricePerMonth: baseMonthly > 0 ? (baseMonthly * 1.35).roundToDouble() : null,
           highlights: const [
             'Private Balcony',
             'Smart TV',
@@ -78,6 +81,7 @@ class PropertyDetailsController extends GetxController {
           bedType: '2 King Beds + Living Lounge',
           maxGuests: '4 Guests',
           pricePerNight: fetchedStay.pricePerNight * 1.8,
+          pricePerMonth: baseMonthly > 0 ? (baseMonthly * 1.8).roundToDouble() : null,
           highlights: const [
             'Kitchenette',
             'Panoramic Pine View',

@@ -5,6 +5,7 @@ class RoomOptionItem {
   final String bedType;
   final String maxGuests;
   final double pricePerNight;
+  final double? pricePerMonth;
   final List<String> highlights;
 
   const RoomOptionItem({
@@ -13,8 +14,20 @@ class RoomOptionItem {
     required this.bedType,
     required this.maxGuests,
     required this.pricePerNight,
+    this.pricePerMonth,
     required this.highlights,
   });
+
+  /// Computes effective monthly price with dynamic fallback (~15% long-stay discount)
+  double get displayPricePerMonth {
+    if (pricePerMonth != null && pricePerMonth! > 0) {
+      return pricePerMonth!;
+    }
+    if (pricePerNight > 0) {
+      return (pricePerNight * 30 * 0.85).roundToDouble();
+    }
+    return 0.0;
+  }
 
   factory RoomOptionItem.fromJson(Map<String, dynamic> json) {
     return RoomOptionItem(
@@ -23,6 +36,7 @@ class RoomOptionItem {
       bedType: json['bed_type'] as String? ?? '',
       maxGuests: json['max_guests'] as String? ?? '',
       pricePerNight: (json['price_per_night'] as num?)?.toDouble() ?? 0.0,
+      pricePerMonth: (json['price_per_month'] as num?)?.toDouble(),
       highlights: (json['highlights'] as List<dynamic>?)
               ?.map((e) => e.toString())
               .toList() ??
@@ -36,6 +50,7 @@ class RoomOptionItem {
         'bed_type': bedType,
         'max_guests': maxGuests,
         'price_per_night': pricePerNight,
+        'price_per_month': pricePerMonth,
         'highlights': highlights,
       };
 }

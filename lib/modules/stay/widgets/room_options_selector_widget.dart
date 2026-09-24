@@ -118,17 +118,92 @@ class RoomOptionsSelectorWidget extends StatelessWidget {
                   ),
                   AppSpacing.gapV12,
                   const Divider(height: 1),
-                  AppSpacing.gapV8,
+                  AppSpacing.gapV12,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
-                        'Base price',
-                        style: AppTextStyles.labelSmall(isDark),
+                      // Nightly Price Tag
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Nightly Rate',
+                            style: AppTextStyles.labelSmall(isDark).copyWith(
+                              color: isDark
+                                  ? AppColors.textMutedDark
+                                  : AppColors.textMutedLight,
+                            ),
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            '${AppFormatters.formatCurrency(room.pricePerNight)} / night',
+                            style: AppTextStyles.priceTag(isDark, fontSize: 15),
+                          ),
+                        ],
                       ),
-                      Text(
-                        '${AppFormatters.formatCurrency(room.pricePerNight)} / night',
-                        style: AppTextStyles.priceTag(isDark, fontSize: 16),
+                      // Monthly Price Tag Badge
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 6,
+                        ),
+                        decoration: BoxDecoration(
+                          color: isSelected
+                              ? (isDark
+                                  ? AppColors.primaryLight.withAlpha(25)
+                                  : AppColors.primary.withAlpha(15))
+                              : (isDark
+                                  ? AppColors.surfaceVariantDark
+                                  : AppColors.surfaceVariantLight),
+                          borderRadius: AppRadius.radiusMd,
+                          border: Border.all(
+                            color: (isDark
+                                    ? AppColors.primaryLight
+                                    : AppColors.primary)
+                                .withAlpha(60),
+                            width: 1,
+                          ),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.calendar_month_rounded,
+                                  size: 13,
+                                  color: isDark
+                                      ? AppColors.primaryLight
+                                      : AppColors.primary,
+                                ),
+                                const SizedBox(width: 4),
+                                Text(
+                                  'Monthly Rate',
+                                  style: AppTextStyles.labelSmall(isDark).copyWith(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 11,
+                                    color: isDark
+                                        ? AppColors.primaryLight
+                                        : AppColors.primary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              '${AppFormatters.formatCurrency(room.displayPricePerMonth)} / mo',
+                              style: AppTextStyles.titleSmall(isDark).copyWith(
+                                fontWeight: FontWeight.w800,
+                                fontSize: 14,
+                                color: isDark
+                                    ? AppColors.primaryLight
+                                    : AppColors.primary,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),

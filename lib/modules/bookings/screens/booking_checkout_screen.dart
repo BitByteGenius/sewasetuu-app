@@ -15,6 +15,18 @@ import 'package:sewasetu/shared/widgets/app_card.dart';
 import 'package:sewasetu/shared/widgets/app_counter_stepper.dart';
 import 'package:sewasetu/shared/widgets/app_network_image.dart';
 
+/// Billing rate selection plan (Per Night vs Per Month)
+enum BookingPricingPlan {
+  nightly('Per Night', 'Standard daily rate', Icons.bed_rounded),
+  monthly('Per Month', 'Long-stay rate', Icons.calendar_month_rounded);
+
+  final String title;
+  final String subtitle;
+  final IconData icon;
+
+  const BookingPricingPlan(this.title, this.subtitle, this.icon);
+}
+
 /// Complete Multi-step Checkout Page with Price Breakdown, Promo Code and Payment Methods
 class BookingCheckoutScreen extends StatefulWidget {
   const BookingCheckoutScreen({super.key});
@@ -26,6 +38,9 @@ class BookingCheckoutScreen extends StatefulWidget {
 class _BookingCheckoutScreenState extends State<BookingCheckoutScreen> {
   late PropertyModel stay;
   late RoomOptionItem room;
+
+  BookingPricingPlan selectedPricingPlan = BookingPricingPlan.nightly;
+  int monthsCount = 1;
 
   DateTime checkIn = DateTime.now().add(const Duration(days: 1));
   DateTime checkOut = DateTime.now().add(const Duration(days: 4));
@@ -43,6 +58,12 @@ class _BookingCheckoutScreenState extends State<BookingCheckoutScreen> {
     final args = Get.arguments as Map<String, dynamic>? ?? {};
     stay = args['stay'] as PropertyModel;
     room = args['room'] as RoomOptionItem;
+    if (args['pricingPlan'] is BookingPricingPlan) {
+      selectedPricingPlan = args['pricingPlan'] as BookingPricingPlan;
+      if (selectedPricingPlan == BookingPricingPlan.monthly) {
+        checkOut = checkIn.add(Duration(days: 30 * monthsCount));
+      }
+    }
   }
 
   int get nightsCount {
@@ -50,7 +71,13 @@ class _BookingCheckoutScreenState extends State<BookingCheckoutScreen> {
     return diff > 0 ? diff : 1;
   }
 
-  double get baseAmount => room.pricePerNight * nightsCount;
+  double get baseAmount {
+    if (selectedPricingPlan == BookingPricingPlan.monthly) {
+      return room.displayPricePerMonth * monthsCount;
+    }
+    return room.pricePerNight * nightsCount;
+  }
+
   double get cleaningFee => 250.0;
   double get serviceFee => 180.0;
   double get taxes => (baseAmount + cleaningFee + serviceFee) * 0.12; // 12% GST
@@ -72,6 +99,11 @@ class _BookingCheckoutScreenState extends State<BookingCheckoutScreen> {
     setState(() => isProcessing = true);
     await Future.delayed(const Duration(milliseconds: 900));
 
+    final isMonthly = selectedPricingPlan == BookingPricingPlan.monthly;
+    final rateToRecord = isMonthly ? room.displayPricePerMonth : room.pricePerNight;
+    final totalNights = isMonthly ? monthsCount * 30 : nightsCount;
+    final roomName = isMonthly ? '${room.title} (Monthly Plan)' : room.title;
+
     final bookingController = Get.find<BookingsController>();
     final newBooking = BookingModel(
       id: 'book-${DateTime.now().millisecondsSinceEpoch}',
@@ -81,12 +113,12 @@ class _BookingCheckoutScreenState extends State<BookingCheckoutScreen> {
       stayCity: stay.city,
       stayAddress: stay.address,
       stayImageUrl: stay.images.isNotEmpty ? stay.images.first : '',
-      roomTitle: room.title,
+      roomTitle: roomName,
       checkInDate: checkIn,
       checkOutDate: checkOut,
-      nightsCount: nightsCount,
+      nightsCount: totalNights,
       guestsCount: guestsCount,
-      nightlyRate: room.pricePerNight,
+      nightlyRate: rateToRecord,
       cleaningFee: cleaningFee,
       serviceFee: serviceFee,
       taxes: taxes,
@@ -165,9 +197,12 @@ class _BookingCheckoutScreenState extends State<BookingCheckoutScreen> {
                         ),
                         AppSpacing.gapV4,
                         Text(
-                          '${AppFormatters.formatCurrency(room.pricePerNight)} / night',
+                          selectedPricingPlan == BookingPricingPlan.monthly
+                              ? '${AppFormatters.formatCurrency(room.displayPricePerMonth)} / month'
+                              : '${AppFormatters.formatCurrency(room.pricePerNight)} / night',
                           style: AppTextStyles.labelMedium(isDark).copyWith(
                             fontWeight: FontWeight.w700,
+                            color: isDark ? AppColors.primaryLight : AppColors.primary,
                           ),
                         ),
                       ],
@@ -178,7 +213,124 @@ class _BookingCheckoutScreenState extends State<BookingCheckoutScreen> {
             ),
             AppSpacing.gapV24,
 
-            // 2. Dates & Guests Selection
+            // 2. Pricing Option Selector Card (Per Night vs Per Month)
+            Text(
+              'Pricing Option',
+              style: AppTextStyles.headlineSmall(isDark).copyWith(
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+            AppSpacing.gapV4,
+            Text(
+              'Select whether you want to book on a nightly or monthly rate plan',
+              style: AppTextStyles.bodySmall(isDark),
+            ),
+            AppSpacing.gapV12,
+            Row(
+              children: BookingPricingPlan.values.map((plan) {
+                final isSelected = selectedPricingPlan == plan;
+                final isMonthly = plan == BookingPricingPlan.monthly;
+                final rateLabel = isMonthly
+                    ? '${AppFormatters.formatCurrency(room.displayPricePerMonth)} / mo'
+                    : '${AppFormatters.formatCurrency(room.pricePerNight)} / night';
+
+                return Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      right: plan == BookingPricingPlan.nightly ? 6.0 : 0.0,
+                      left: plan == BookingPricingPlan.monthly ? 6.0 : 0.0,
+                    ),
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          selectedPricingPlan = plan;
+                          if (plan == BookingPricingPlan.monthly) {
+                            checkOut = checkIn.add(Duration(days: 30 * monthsCount));
+                          }
+                        });
+                      },
+                      borderRadius: AppRadius.radiusMd,
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 200),
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: isDark
+                              ? (isSelected ? AppColors.primaryContainerDark.withAlpha(50) : AppColors.surfaceDark)
+                              : (isSelected ? AppColors.primaryContainer.withAlpha(60) : Colors.white),
+                          borderRadius: AppRadius.radiusMd,
+                          border: Border.all(
+                            color: isSelected
+                                ? (isDark ? AppColors.primaryLight : AppColors.primary)
+                                : (isDark ? AppColors.borderDark : AppColors.borderLight),
+                            width: isSelected ? 2 : 1,
+                          ),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Icon(
+                                  plan.icon,
+                                  size: 20,
+                                  color: isSelected
+                                      ? (isDark ? AppColors.primaryLight : AppColors.primary)
+                                      : (isDark ? AppColors.textMutedDark : AppColors.textMutedLight),
+                                ),
+                                Icon(
+                                  isSelected ? Icons.radio_button_checked_rounded : Icons.radio_button_off_rounded,
+                                  size: 18,
+                                  color: isSelected
+                                      ? (isDark ? AppColors.primaryLight : AppColors.primary)
+                                      : (isDark ? AppColors.textMutedDark : AppColors.textMutedLight),
+                                ),
+                              ],
+                            ),
+                            AppSpacing.gapV8,
+                            Text(
+                              plan.title,
+                              style: AppTextStyles.titleSmall(isDark).copyWith(
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              rateLabel,
+                              style: AppTextStyles.labelMedium(isDark).copyWith(
+                                fontWeight: FontWeight.w700,
+                                color: isDark ? AppColors.primaryLight : AppColors.primary,
+                              ),
+                            ),
+                            // if (isMonthly) ...[
+                            //   const SizedBox(height: 4),
+                            //   Container(
+                            //     padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            //     decoration: BoxDecoration(
+                            //       color: AppColors.success.withAlpha(30),
+                            //       borderRadius: AppRadius.radiusSm,
+                            //     ),
+                            //     child: Text(
+                            //       'Save ~15%',
+                            //       style: AppTextStyles.labelSmall(isDark).copyWith(
+                            //         fontSize: 10,
+                            //         color: AppColors.success,
+                            //         fontWeight: FontWeight.w700,
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ],
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
+            AppSpacing.gapV24,
+
+            // 3. Dates & Guests Selection
             Text(
               'Reservation Details',
               style: AppTextStyles.headlineSmall(isDark).copyWith(
@@ -190,40 +342,88 @@ class _BookingCheckoutScreenState extends State<BookingCheckoutScreen> {
               padding: AppSpacing.edgeInsetsMd,
               child: Column(
                 children: [
-                  // Dates
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Dates ($nightsCount nights)', style: AppTextStyles.titleSmall(isDark)),
-                          const SizedBox(height: 2),
-                          Text(
-                            '${dateFormatter.format(checkIn)} – ${dateFormatter.format(checkOut)}',
-                            style: AppTextStyles.bodySmall(isDark),
-                          ),
-                        ],
-                      ),
-                      TextButton(
-                        onPressed: () async {
-                          final picked = await showDateRangePicker(
-                            context: context,
-                            firstDate: DateTime.now(),
-                            lastDate: DateTime.now().add(const Duration(days: 365)),
-                            initialDateRange: DateTimeRange(start: checkIn, end: checkOut),
-                          );
-                          if (picked != null) {
-                            setState(() {
-                              checkIn = picked.start;
-                              checkOut = picked.end;
-                            });
-                          }
-                        },
-                        child: const Text('Change'),
-                      ),
-                    ],
-                  ),
+                  if (selectedPricingPlan == BookingPricingPlan.monthly) ...[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Rental Duration', style: AppTextStyles.titleSmall(isDark)),
+                            const SizedBox(height: 2),
+                            Text(
+                              '${dateFormatter.format(checkIn)} – ${dateFormatter.format(checkOut)}',
+                              style: AppTextStyles.bodySmall(isDark),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.remove_circle_outline, size: 22),
+                              onPressed: monthsCount > 1
+                                  ? () {
+                                      setState(() {
+                                        monthsCount--;
+                                        checkOut = checkIn.add(Duration(days: 30 * monthsCount));
+                                      });
+                                    }
+                                  : null,
+                            ),
+                            Text(
+                              '$monthsCount mo',
+                              style: AppTextStyles.titleMedium(isDark).copyWith(fontWeight: FontWeight.w800),
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.add_circle_outline, size: 22),
+                              onPressed: monthsCount < 12
+                                  ? () {
+                                      setState(() {
+                                        monthsCount++;
+                                        checkOut = checkIn.add(Duration(days: 30 * monthsCount));
+                                      });
+                                    }
+                                  : null,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ] else ...[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Dates ($nightsCount nights)', style: AppTextStyles.titleSmall(isDark)),
+                            const SizedBox(height: 2),
+                            Text(
+                              '${dateFormatter.format(checkIn)} – ${dateFormatter.format(checkOut)}',
+                              style: AppTextStyles.bodySmall(isDark),
+                            ),
+                          ],
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            final picked = await showDateRangePicker(
+                              context: context,
+                              firstDate: DateTime.now(),
+                              lastDate: DateTime.now().add(const Duration(days: 365)),
+                              initialDateRange: DateTimeRange(start: checkIn, end: checkOut),
+                            );
+                            if (picked != null) {
+                              setState(() {
+                                checkIn = picked.start;
+                                checkOut = picked.end;
+                              });
+                            }
+                          },
+                          child: const Text('Change'),
+                        ),
+                      ],
+                    ),
+                  ],
                   const Divider(),
                   // Guests
                   AppCounterStepper(
@@ -239,7 +439,7 @@ class _BookingCheckoutScreenState extends State<BookingCheckoutScreen> {
             ),
             AppSpacing.gapV24,
 
-            // 3. Promo Code Input
+            // 4. Promo Code Input
             Text(
               'Coupons & Discounts',
               style: AppTextStyles.headlineSmall(isDark).copyWith(
@@ -274,7 +474,7 @@ class _BookingCheckoutScreenState extends State<BookingCheckoutScreen> {
             ),
             AppSpacing.gapV24,
 
-            // 4. Price Breakdown
+            // 5. Price Breakdown
             Text(
               'Price Breakdown',
               style: AppTextStyles.headlineSmall(isDark).copyWith(
@@ -286,7 +486,13 @@ class _BookingCheckoutScreenState extends State<BookingCheckoutScreen> {
               padding: AppSpacing.edgeInsetsMd,
               child: Column(
                 children: [
-                  _buildPriceRow(isDark, '${AppFormatters.formatCurrency(room.pricePerNight)} × $nightsCount nights', baseAmount),
+                  _buildPriceRow(
+                    isDark,
+                    selectedPricingPlan == BookingPricingPlan.monthly
+                        ? '${AppFormatters.formatCurrency(room.displayPricePerMonth)} × $monthsCount month${monthsCount > 1 ? 's' : ''}'
+                        : '${AppFormatters.formatCurrency(room.pricePerNight)} × $nightsCount night${nightsCount > 1 ? 's' : ''}',
+                    baseAmount,
+                  ),
                   AppSpacing.gapV8,
                   _buildPriceRow(isDark, 'Cleaning fee', cleaningFee),
                   AppSpacing.gapV8,
@@ -324,7 +530,7 @@ class _BookingCheckoutScreenState extends State<BookingCheckoutScreen> {
             ),
             AppSpacing.gapV24,
 
-            // 5. Payment Methods Selector
+            // 6. Payment Methods Selector
             Text(
               'Payment Method',
               style: AppTextStyles.headlineSmall(isDark).copyWith(
@@ -386,7 +592,7 @@ class _BookingCheckoutScreenState extends State<BookingCheckoutScreen> {
             ),
             AppSpacing.gapV32,
 
-            // 6. Confirm & Pay Button
+            // 7. Confirm & Pay Button
             AppButton.primary(
               text: 'Confirm & Pay ${AppFormatters.formatCurrency(totalAmount)}',
               width: double.infinity,
