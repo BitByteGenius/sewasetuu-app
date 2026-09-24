@@ -8,12 +8,14 @@ import 'package:sewasetu/modules/stay/stay.dart';
 class FeaturedStaysCarouselWidget extends StatelessWidget {
   final List<PropertyModel> stays;
   final ValueChanged<PropertyModel> onStayTap;
+  final ValueChanged<PropertyModel>? onFavoriteToggle;
   final VoidCallback onViewAll;
 
   const FeaturedStaysCarouselWidget({
     super.key,
     required this.stays,
     required this.onStayTap,
+    this.onFavoriteToggle,
     required this.onViewAll,
   });
 
@@ -80,6 +82,9 @@ class FeaturedStaysCarouselWidget extends StatelessWidget {
                 style: StayCardStyle.compact,
                 width: 260,
                 onTap: () => onStayTap(stay),
+                onFavoriteToggle: onFavoriteToggle != null
+                    ? (_) => onFavoriteToggle!(stay)
+                    : null,
               );
             },
           ),

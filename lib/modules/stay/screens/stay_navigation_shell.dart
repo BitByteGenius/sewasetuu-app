@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sewasetu/app/routes/app_routes.dart';
-import 'package:sewasetu/app/theme/app_spacing.dart';
 import 'package:sewasetu/modules/stay/bookings/screens/bookings_screen.dart';
 import 'package:sewasetu/modules/stay/controllers/stay_controller.dart';
 import 'package:sewasetu/modules/stay/controllers/stay_navigation_controller.dart';
 import 'package:sewasetu/modules/stay/screens/stay_list_screen.dart';
-import 'package:sewasetu/modules/stay/widgets/property_card.dart';
+import 'package:sewasetu/modules/stay/screens/stay_saved_screen.dart';
 import 'package:sewasetu/modules/stay/widgets/stay_navigation_bar.dart';
-import 'package:sewasetu/shared/widgets/app_bar/app_bar.dart';
-import 'package:sewasetu/shared/widgets/app_empty_state.dart';
 
 /// Navigation shell managing tabs and the floating bottom navigation bar for the Stay module
 class StayNavigationShell extends StatelessWidget {
@@ -25,7 +21,7 @@ class StayNavigationShell extends StatelessWidget {
     final navCtrl = Get.isRegistered<StayNavigationController>()
         ? Get.find<StayNavigationController>()
         : Get.put(StayNavigationController());
-    final stayCtrl = Get.isRegistered<StayController>()
+    Get.isRegistered<StayController>()
         ? Get.find<StayController>()
         : Get.put(StayController());
 
@@ -44,7 +40,7 @@ class StayNavigationShell extends StatelessWidget {
                 const Staylist(),
 
                 // 2: Saved / Favorites
-                _buildSavedStaysTab(stayCtrl),
+                const StaySavedScreen(),
 
                 // 3: Bookings & Activities
                 const BookingsScreen(),
@@ -61,47 +57,6 @@ class StayNavigationShell extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildSavedStaysTab(StayController controller) {
-    return Scaffold(
-      appBar: const SewaAppBar(
-        titleText: 'Saved Stays',
-        showBackButton: false,
-      ),
-      body: Obx(() {
-        final favorites = controller.stays.where((s) => s.isFavorite).toList();
-
-        if (favorites.isEmpty) {
-          return AppEmptyState(
-            icon: Icons.favorite_border_rounded,
-            title: 'No Saved Stays',
-            description:
-                'Tap the heart icon on any hotel, room, or homestay to save it here for later.',
-            actionText: 'Explore Stays',
-            onAction: () => Get.find<StayNavigationController>().changeTab(0),
-          );
-        }
-
-        return ListView.separated(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 90),
-          itemCount: favorites.length,
-          separatorBuilder: (_, __) => AppSpacing.gapV16,
-          itemBuilder: (context, index) {
-            final stay = favorites[index];
-            return StayCardWidget(
-              stay: stay,
-              onTap: () => Get.toNamed(
-                AppRoutes.stayDetails,
-                arguments: stay.id,
-              ),
-              onFavoriteToggle: (fav) =>
-                  controller.toggleFavorite(stay.id, fav),
-            );
-          },
-        );
-      }),
     );
   }
 }

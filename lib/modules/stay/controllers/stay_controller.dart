@@ -16,6 +16,7 @@ class StayController extends GetxController {
 
   final Rx<ViewState> state = ViewState.initial.obs;
   final RxList<PropertyModel> stays = <PropertyModel>[].obs;
+  final RxList<PropertyModel> savedStays = <PropertyModel>[].obs;
   final RxList<PropertyModel> featuredStays = <PropertyModel>[].obs;
   final RxList<PropertyModel> nearbyStays = <PropertyModel>[].obs;
   final RxList<PropertyModel> recommendedStays = <PropertyModel>[].obs;
@@ -41,6 +42,13 @@ class StayController extends GetxController {
     if (Get.isRegistered<LocationService>()) {
       ever(Get.find<LocationService>().selectedCity, (_) => _loadNearbyStays());
     }
+  }
+
+  Future<void> loadSavedStays() async {
+    try {
+      final saved = await stayService.getSavedStays();
+      savedStays.assignAll(saved);
+    } catch (_) {}
   }
 
   Future<void> _loadNearbyStays() async {
@@ -73,6 +81,7 @@ class StayController extends GetxController {
 
       // Apply in-memory sort
       _applySorting(result);
+      await loadSavedStays();
 
       if (stays.isEmpty && result.isEmpty) {
         state.value = ViewState.empty;
@@ -131,13 +140,39 @@ class StayController extends GetxController {
     stays.assignAll(list);
   }
 
-  void toggleFavorite(String stayId, bool currentFavorite) async {
-    final index = stays.indexWhere((s) => s.id == stayId);
-    if (index != -1) {
-      final updated = stays[index].copyWith(isFavorite: !currentFavorite);
-      stays[index] = updated;
-      await stayService.toggleFavorite(stayId, currentFavorite);
+  void toggleFavorite(String stayId, [bool? currentFavoriteState]) async {
+    final bool currentFav = currentFavoriteState ??
+        (stays.any((s) => s.id == stayId && s.isFavorite) ||
+            savedStays.any((s) => s.id == stayId));
+    final bool newFav = !currentFav;
+
+    await stayService.toggleFavorite(stayId, currentFav);
+
+    List<PropertyModel> updateList(List<PropertyModel> list) {
+      return list.map((item) {
+        if (item.id == stayId) {
+          return item.copyWith(isFavorite: newFav);
+        }
+        return item;
+      }).toList();
     }
+
+    stays.assignAll(updateList(stays));
+    featuredStays.assignAll(updateList(featuredStays));
+    nearbyStays.assignAll(updateList(nearbyStays));
+    recommendedStays.assignAll(updateList(recommendedStays));
+    recentlyViewedStays.assignAll(updateList(recentlyViewedStays));
+
+    await loadSavedStays();
+
+    Get.snackbar(
+      newFav ? 'Saved to Wishlist' : 'Removed from Wishlist',
+      newFav
+          ? 'Property saved to your Saved Stays tab.'
+          : 'Property removed from your Saved Stays tab.',
+      snackPosition: SnackPosition.BOTTOM,
+      duration: const Duration(seconds: 2),
+    );
   }
 
   void setViewMode(StayViewMode mode) {

@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:sewasetu/app/routes/app_routes.dart';
+import 'package:sewasetu/modules/stay/controllers/stay_controller.dart';
 import 'package:sewasetu/modules/stay/models/property_details_model.dart';
 import 'package:sewasetu/modules/stay/models/property_model.dart';
 import 'package:sewasetu/modules/stay/models/review_model.dart';
@@ -97,10 +98,27 @@ class PropertyDetailsController extends GetxController {
     }
   }
 
-  void toggleFavorite() {
+  void toggleFavorite() async {
     if (stay.value != null) {
-      isFavorite.value = !isFavorite.value;
-      stay.value = stay.value!.copyWith(isFavorite: isFavorite.value);
+      final stayId = stay.value!.id;
+      final currentFav = isFavorite.value;
+      final newFav = !currentFav;
+      isFavorite.value = newFav;
+      stay.value = stay.value!.copyWith(isFavorite: newFav);
+
+      if (Get.isRegistered<StayController>()) {
+        Get.find<StayController>().toggleFavorite(stayId, currentFav);
+      } else {
+        await stayService.toggleFavorite(stayId, currentFav);
+        Get.snackbar(
+          newFav ? 'Saved to Wishlist' : 'Removed from Wishlist',
+          newFav
+              ? 'Property saved to your Saved Stays tab.'
+              : 'Property removed from your Saved Stays tab.',
+          snackPosition: SnackPosition.BOTTOM,
+          duration: const Duration(seconds: 2),
+        );
+      }
     }
   }
 

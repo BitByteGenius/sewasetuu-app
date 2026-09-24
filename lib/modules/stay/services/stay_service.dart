@@ -1,4 +1,7 @@
 import 'dart:async';
+import 'dart:convert';
+import 'package:get/get.dart';
+import 'package:sewasetu/core/storage/storage_service.dart';
 import 'package:sewasetu/modules/stay/models/property_model.dart';
 import 'package:sewasetu/modules/stay/models/review_model.dart';
 import 'package:sewasetu/modules/stay/models/stay_filter_criteria.dart';
@@ -277,6 +280,38 @@ class StayService {
     ),
   ];
 
+  static final Set<String> _favoriteIds = <String>{};
+  static bool _initialized = false;
+
+  void _initFavorites() {
+    if (_initialized) return;
+    _initialized = true;
+    try {
+      if (Get.isRegistered<IStorageService>()) {
+        final storage = Get.find<IStorageService>();
+        final raw = storage.getString('stay_favorite_ids');
+        if (raw != null && raw.isNotEmpty) {
+          final List<dynamic> list = jsonDecode(raw);
+          _favoriteIds.addAll(list.cast<String>());
+        }
+      }
+    } catch (_) {}
+  }
+
+  void _persistFavorites() {
+    try {
+      if (Get.isRegistered<IStorageService>()) {
+        final storage = Get.find<IStorageService>();
+        storage.setString('stay_favorite_ids', jsonEncode(_favoriteIds.toList()));
+      }
+    } catch (_) {}
+  }
+
+  PropertyModel _mapWithFavorite(PropertyModel stay) {
+    _initFavorites();
+    return stay.copyWith(isFavorite: _favoriteIds.contains(stay.id));
+  }
+
   Future<List<PropertyModel>> getStays({
     StayFilterCriteria? filter,
     String? searchQuery,
@@ -326,12 +361,24 @@ class StayService {
       }
 
       return true;
-    }).toList();
+    }).map(_mapWithFavorite).toList();
+  }
+
+  Future<List<PropertyModel>> getSavedStays() async {
+    _initFavorites();
+    await Future.delayed(const Duration(milliseconds: 50));
+    return _mockStays
+        .where((s) => _favoriteIds.contains(s.id))
+        .map(_mapWithFavorite)
+        .toList();
   }
 
   Future<List<PropertyModel>> getFeaturedStays() async {
     await Future.delayed(const Duration(milliseconds: 150));
-    return _mockStays.where((s) => s.isFeatured).toList();
+    return _mockStays
+        .where((s) => s.isFeatured)
+        .map(_mapWithFavorite)
+        .toList();
   }
 
   Future<List<PropertyModel>> getNearbyStays({required String city}) async {
@@ -339,15 +386,17 @@ class StayService {
     final cityName = city.split(',').first.trim().toLowerCase();
     final inCity = _mockStays
         .where((s) => s.city.toLowerCase().contains(cityName))
+        .map(_mapWithFavorite)
         .toList();
     if (inCity.isNotEmpty) return inCity;
-    return List.from(_mockStays);
+    return _mockStays.map(_mapWithFavorite).toList();
   }
 
   Future<PropertyModel> getStayById(String id) async {
     await Future.delayed(const Duration(milliseconds: 100));
-    return _mockStays.firstWhere((s) => s.id == id,
+    final found = _mockStays.firstWhere((s) => s.id == id,
         orElse: () => _mockStays.first);
+    return _mapWithFavorite(found);
   }
 
   Future<List<ReviewModel>> getStayReviews(String stayId) async {
@@ -386,8 +435,17 @@ class StayService {
     ];
   }
 
-  Future<bool> toggleFavorite(String stayId, bool isFavorite) async {
-    return !isFavorite;
+  Future<bool> toggleFavorite(String stayId, [bool? currentFavorite]) async {
+    _initFavorites();
+    final bool isFav = _favoriteIds.contains(stayId);
+    final bool newFav = currentFavorite != null ? !currentFavorite : !isFav;
+    if (newFav) {
+      _favoriteIds.add(stayId);
+    } else {
+      _favoriteIds.remove(stayId);
+    }
+    _persistFavorites();
+    return newFav;
   }
 }
 

@@ -66,6 +66,8 @@ class StayScreen extends GetView<StayController> {
                         AppRoutes.stayDetails,
                         arguments: stay.id,
                       ),
+                      onFavoriteToggle: (stay) =>
+                          controller.toggleFavorite(stay.id, stay.isFavorite),
                       onViewAll: () => Get.toNamed(AppRoutes.stayList),
                     ),
                     AppSpacing.gapV24,
@@ -77,6 +79,8 @@ class StayScreen extends GetView<StayController> {
                         AppRoutes.stayDetails,
                         arguments: stay.id,
                       ),
+                      onFavoriteToggle: (stay) =>
+                          controller.toggleFavorite(stay.id, stay.isFavorite),
                       onViewAll: () => Get.toNamed(AppRoutes.stayList),
                     ),
                     AppSpacing.gapV24,
@@ -95,6 +99,8 @@ class StayScreen extends GetView<StayController> {
                         AppRoutes.stayDetails,
                         arguments: stay.id,
                       ),
+                      onFavoriteToggle: (stay) =>
+                          controller.toggleFavorite(stay.id, stay.isFavorite),
                       onViewAll: () => Get.toNamed(AppRoutes.stayList),
                     ),
                     AppSpacing.gapV24,

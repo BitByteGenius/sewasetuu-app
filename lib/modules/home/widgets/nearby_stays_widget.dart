@@ -9,6 +9,7 @@ class NearbyStaysWidget extends StatelessWidget {
   final List<PropertyModel> stays;
   final String currentCity;
   final ValueChanged<PropertyModel> onStayTap;
+  final ValueChanged<PropertyModel>? onFavoriteToggle;
   final VoidCallback onViewAll;
 
   const NearbyStaysWidget({
@@ -16,6 +17,7 @@ class NearbyStaysWidget extends StatelessWidget {
     required this.stays,
     required this.currentCity,
     required this.onStayTap,
+    this.onFavoriteToggle,
     required this.onViewAll,
   });
 
@@ -80,6 +82,9 @@ class NearbyStaysWidget extends StatelessWidget {
               stay: stay,
               style: StayCardStyle.horizontal,
               onTap: () => onStayTap(stay),
+              onFavoriteToggle: onFavoriteToggle != null
+                  ? (_) => onFavoriteToggle!(stay)
+                  : null,
             );
           },
         ),
