@@ -1,9 +1,10 @@
 import 'package:get/get.dart';
 import 'package:sewasetu/app/routes/app_routes.dart';
 import 'package:sewasetu/core/services/location_service.dart';
+import 'package:sewasetu/modules/stay/data/repositories/stay_repository_impl.dart';
+import 'package:sewasetu/modules/stay/domain/repositories/stay_repository.dart';
 import 'package:sewasetu/modules/stay/models/property_model.dart';
 import 'package:sewasetu/modules/stay/models/stay_filter_criteria.dart';
-import 'package:sewasetu/modules/stay/services/stay_service.dart';
 import 'package:sewasetu/modules/stay/widgets/stay_sorting_sheet.dart';
 import 'package:sewasetu/shared/enums/stay_type.dart';
 import 'package:sewasetu/shared/enums/view_state.dart';
@@ -12,7 +13,13 @@ enum StayViewMode { list, grid, map }
 
 /// Controller managing the stay listing feed, category tabs, sorting, and map view
 class StayController extends GetxController {
-  final StayService stayService = StayService();
+  final IStayRepository _stayRepository;
+
+  StayController({IStayRepository? stayRepository})
+      : _stayRepository = stayRepository ??
+            (Get.isRegistered<IStayRepository>()
+                ? Get.find<IStayRepository>()
+                : StayRepositoryImpl());
 
   final Rx<ViewState> state = ViewState.initial.obs;
   final RxList<PropertyModel> stays = <PropertyModel>[].obs;
@@ -46,7 +53,7 @@ class StayController extends GetxController {
 
   Future<void> loadSavedStays() async {
     try {
-      final saved = await stayService.getSavedStays();
+      final saved = await _stayRepository.getSavedStays();
       savedStays.assignAll(saved);
     } catch (_) {}
   }
@@ -55,7 +62,7 @@ class StayController extends GetxController {
     try {
       if (Get.isRegistered<LocationService>()) {
         final city = Get.find<LocationService>().selectedCity.value;
-        final nearby = await stayService.getNearbyStays(city: city);
+        final nearby = await _stayRepository.getNearbyStays(city: city);
         nearbyStays.assignAll(nearby);
       }
     } catch (_) {}
@@ -64,15 +71,15 @@ class StayController extends GetxController {
   Future<void> loadStays() async {
     try {
       state.value = ViewState.loading;
-      final result = await stayService.getStays(filter: currentFilter.value);
-      final allStays = await stayService.getStays();
-      final featured = await stayService.getFeaturedStays();
+      final result = await _stayRepository.getStays(filter: currentFilter.value);
+      final allStays = await _stayRepository.getStays();
+      final featured = await _stayRepository.getFeaturedStays();
 
       String currentCity = 'Guwahati';
       if (Get.isRegistered<LocationService>()) {
         currentCity = Get.find<LocationService>().selectedCity.value;
       }
-      final nearby = await stayService.getNearbyStays(city: currentCity);
+      final nearby = await _stayRepository.getNearbyStays(city: currentCity);
 
       featuredStays.assignAll(featured);
       nearbyStays.assignAll(nearby);
@@ -146,7 +153,7 @@ class StayController extends GetxController {
             savedStays.any((s) => s.id == stayId));
     final bool newFav = !currentFav;
 
-    await stayService.toggleFavorite(stayId, currentFav);
+    await _stayRepository.toggleFavorite(stayId, currentFav);
 
     List<PropertyModel> updateList(List<PropertyModel> list) {
       return list.map((item) {

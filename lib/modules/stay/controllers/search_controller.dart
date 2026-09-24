@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sewasetu/app/routes/app_routes.dart';
+import 'package:sewasetu/modules/stay/data/repositories/stay_repository_impl.dart';
+import 'package:sewasetu/modules/stay/domain/repositories/stay_repository.dart';
 import 'package:sewasetu/modules/stay/models/property_model.dart';
 import 'package:sewasetu/modules/stay/models/stay_filter_criteria.dart';
 import 'package:sewasetu/modules/stay/widgets/search_dates_step.dart';
@@ -9,7 +11,15 @@ import 'package:sewasetu/shared/enums/view_state.dart';
 
 /// Complete Stay Search controller managing location, dates, guests and criteria
 class SearchController extends GetxController {
-  SearchController({dynamic searchStaysUseCase});
+  final IStayRepository _stayRepository;
+
+  SearchController({
+    IStayRepository? stayRepository,
+    dynamic searchStaysUseCase,
+  }) : _stayRepository = stayRepository ??
+            (Get.isRegistered<IStayRepository>()
+                ? Get.find<IStayRepository>()
+                : StayRepositoryImpl());
 
   final TextEditingController textController = TextEditingController();
   final Rx<ViewState> state = ViewState.initial.obs;
@@ -71,6 +81,17 @@ class SearchController extends GetxController {
     roomsCount.value = 1;
     selectedStayType.value = null;
     currentSearchStep.value = 0;
+  }
+
+  Future<void> performAsyncSearch(String query) async {
+    try {
+      state.value = ViewState.loading;
+      final results = await _stayRepository.getStays(searchQuery: query);
+      searchResults.assignAll(results);
+      state.value = results.isEmpty ? ViewState.empty : ViewState.loaded;
+    } catch (_) {
+      state.value = ViewState.error;
+    }
   }
 
   /// Compile search criteria and navigate to property results listing

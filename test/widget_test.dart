@@ -30,8 +30,8 @@ void main() {
   });
 
   test('Stay Domain & Repository Clean Architecture test', () async {
-    final dataSource = StayMockDataSource();
-    final repository = StayRepositoryImpl(dataSource);
+    final dataSource = StayMockDataSourceImpl();
+    final repository = StayRepositoryImpl(mockDataSource: dataSource);
     final useCase = GetStaysUseCase(repository);
 
     final allStays = await useCase();

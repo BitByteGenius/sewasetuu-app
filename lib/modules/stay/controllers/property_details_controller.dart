@@ -1,20 +1,22 @@
 import 'package:get/get.dart';
 import 'package:sewasetu/app/routes/app_routes.dart';
 import 'package:sewasetu/modules/stay/controllers/stay_controller.dart';
+import 'package:sewasetu/modules/stay/data/repositories/stay_repository_impl.dart';
+import 'package:sewasetu/modules/stay/domain/repositories/stay_repository.dart';
 import 'package:sewasetu/modules/stay/models/property_details_model.dart';
 import 'package:sewasetu/modules/stay/models/property_model.dart';
 import 'package:sewasetu/modules/stay/models/review_model.dart';
-import 'package:sewasetu/modules/stay/services/stay_service.dart';
 import 'package:sewasetu/shared/enums/view_state.dart';
 
 /// Controller for property details view and reservation triggers
 class PropertyDetailsController extends GetxController {
-  final StayService stayService = StayService();
+  final IStayRepository _stayRepository;
 
-  PropertyDetailsController({
-    dynamic getStayDetailsUseCase,
-    dynamic getStaysUseCase,
-  });
+  PropertyDetailsController({IStayRepository? stayRepository})
+      : _stayRepository = stayRepository ??
+            (Get.isRegistered<IStayRepository>()
+                ? Get.find<IStayRepository>()
+                : StayRepositoryImpl());
 
   final Rx<ViewState> state = ViewState.initial.obs;
   final Rx<PropertyModel?> stay = Rx<PropertyModel?>(null);
@@ -36,9 +38,9 @@ class PropertyDetailsController extends GetxController {
   Future<void> loadDetails(String stayId) async {
     try {
       state.value = ViewState.loading;
-      final fetchedStay = await stayService.getStayById(stayId);
-      final fetchedReviews = await stayService.getStayReviews(stayId);
-      final allStays = await stayService.getStays();
+      final fetchedStay = await _stayRepository.getStayById(stayId);
+      final fetchedReviews = await _stayRepository.getStayReviews(stayId);
+      final allStays = await _stayRepository.getStays();
 
       stay.value = fetchedStay;
       isFavorite.value = fetchedStay.isFavorite;
@@ -109,7 +111,7 @@ class PropertyDetailsController extends GetxController {
       if (Get.isRegistered<StayController>()) {
         Get.find<StayController>().toggleFavorite(stayId, currentFav);
       } else {
-        await stayService.toggleFavorite(stayId, currentFav);
+        await _stayRepository.toggleFavorite(stayId, currentFav);
         Get.snackbar(
           newFav ? 'Saved to Wishlist' : 'Removed from Wishlist',
           newFav
