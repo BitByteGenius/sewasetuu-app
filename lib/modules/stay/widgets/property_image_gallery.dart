@@ -47,7 +47,10 @@ class _PropertyImageGalleryState extends State<PropertyImageGallery> {
         SizedBox(
           height: 320,
           child: widget.images.isEmpty
-              ? Container(color: isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariantLight)
+              ? Container(
+                  color: isDark
+                      ? AppColors.surfaceVariantDark
+                      : AppColors.surfaceVariantLight)
               : PageView.builder(
                   controller: _pageController,
                   itemCount: widget.images.length,
@@ -97,7 +100,9 @@ class _PropertyImageGalleryState extends State<PropertyImageGallery> {
                   ),
                   const SizedBox(width: 10),
                   SewaFrostedActionButton(
-                    icon: widget.isFavorite ? Icons.favorite_rounded : Icons.favorite_border_rounded,
+                    icon: widget.isFavorite
+                        ? Icons.favorite_rounded
+                        : Icons.favorite_border_rounded,
                     iconColor: widget.isFavorite ? AppColors.error : null,
                     onTap: widget.onFavoriteTap ?? () {},
                   ),

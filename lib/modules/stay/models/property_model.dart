@@ -51,6 +51,9 @@ class PropertyModel {
   final double longitude;
   final double pricePerNight;
   final double? pricePerMonth;
+  final double? depositAmount;
+  final String? furnishingStatus;
+  final String? availableFrom;
   final double rating;
   final int reviewsCount;
   final List<String> images;
@@ -74,6 +77,9 @@ class PropertyModel {
     required this.longitude,
     required this.pricePerNight,
     this.pricePerMonth,
+    this.depositAmount,
+    this.furnishingStatus,
+    this.availableFrom,
     required this.rating,
     required this.reviewsCount,
     required this.images,
@@ -86,6 +92,17 @@ class PropertyModel {
     required this.roomConfiguration,
     required this.distanceText,
   });
+
+  /// Computes effective monthly price with dynamic fallback if not explicitly provided
+  double get displayPricePerMonth {
+    if (pricePerMonth != null && pricePerMonth! > 0) {
+      return pricePerMonth!;
+    }
+    if (pricePerNight > 0) {
+      return (pricePerNight * 30 * 0.85).roundToDouble();
+    }
+    return 0.0;
+  }
 
   factory PropertyModel.fromJson(Map<String, dynamic> json) {
     return PropertyModel(
@@ -102,14 +119,24 @@ class PropertyModel {
       longitude: (json['longitude'] as num?)?.toDouble() ?? 0.0,
       pricePerNight: (json['price_per_night'] as num?)?.toDouble() ?? 0.0,
       pricePerMonth: (json['price_per_month'] as num?)?.toDouble(),
+      depositAmount: (json['deposit_amount'] as num?)?.toDouble(),
+      furnishingStatus: json['furnishing_status'] as String?,
+      availableFrom: json['available_from'] as String?,
       rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
       reviewsCount: json['reviews_count'] as int? ?? 0,
-      images: (json['images'] as List<dynamic>?)?.map((e) => e.toString()).toList() ?? [],
-      amenities: (json['amenities'] as List<dynamic>?)?.map((e) => e.toString()).toList() ?? [],
+      images: (json['images'] as List<dynamic>?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          [],
+      amenities: (json['amenities'] as List<dynamic>?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          [],
       isFeatured: json['is_featured'] as bool? ?? false,
       isVerified: json['is_verified'] as bool? ?? false,
       isFavorite: json['is_favorite'] as bool? ?? false,
-      host: StayHostEntity.fromJson(json['host'] as Map<String, dynamic>? ?? {}),
+      host:
+          StayHostEntity.fromJson(json['host'] as Map<String, dynamic>? ?? {}),
       availableRooms: json['available_rooms'] as int? ?? 1,
       roomConfiguration: json['room_configuration'] as String? ?? '',
       distanceText: json['distance_text'] as String? ?? '',
@@ -127,6 +154,9 @@ class PropertyModel {
         'longitude': longitude,
         'price_per_night': pricePerNight,
         'price_per_month': pricePerMonth,
+        'deposit_amount': depositAmount,
+        'furnishing_status': furnishingStatus,
+        'available_from': availableFrom,
         'rating': rating,
         'reviews_count': reviewsCount,
         'images': images,
@@ -151,6 +181,9 @@ class PropertyModel {
     double? longitude,
     double? pricePerNight,
     double? pricePerMonth,
+    double? depositAmount,
+    String? furnishingStatus,
+    String? availableFrom,
     double? rating,
     int? reviewsCount,
     List<String>? images,
@@ -174,6 +207,9 @@ class PropertyModel {
       longitude: longitude ?? this.longitude,
       pricePerNight: pricePerNight ?? this.pricePerNight,
       pricePerMonth: pricePerMonth ?? this.pricePerMonth,
+      depositAmount: depositAmount ?? this.depositAmount,
+      furnishingStatus: furnishingStatus ?? this.furnishingStatus,
+      availableFrom: availableFrom ?? this.availableFrom,
       rating: rating ?? this.rating,
       reviewsCount: reviewsCount ?? this.reviewsCount,
       images: images ?? this.images,

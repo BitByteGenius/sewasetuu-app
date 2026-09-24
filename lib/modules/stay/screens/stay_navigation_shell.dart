@@ -76,7 +76,8 @@ class StayNavigationShell extends StatelessWidget {
           return AppEmptyState(
             icon: Icons.favorite_border_rounded,
             title: 'No Saved Stays',
-            description: 'Tap the heart icon on any hotel, room, or homestay to save it here for later.',
+            description:
+                'Tap the heart icon on any hotel, room, or homestay to save it here for later.',
             actionText: 'Explore Stays',
             onAction: () => Get.find<StayNavigationController>().changeTab(0),
           );
@@ -94,7 +95,8 @@ class StayNavigationShell extends StatelessWidget {
                 AppRoutes.stayDetails,
                 arguments: stay.id,
               ),
-              onFavoriteToggle: (fav) => controller.toggleFavorite(stay.id, fav),
+              onFavoriteToggle: (fav) =>
+                  controller.toggleFavorite(stay.id, fav),
             );
           },
         );
@@ -111,7 +113,8 @@ class StayNavigationShell extends StatelessWidget {
       body: AppEmptyState(
         icon: Icons.calendar_today_rounded,
         title: 'No Active Reservations',
-        description: 'Your upcoming room, hotel, and homestay bookings will appear here once confirmed.',
+        description:
+            'Your upcoming room, hotel, and homestay bookings will appear here once confirmed.',
         actionText: 'Find a Place to Stay',
         onAction: () => Get.find<StayNavigationController>().changeTab(0),
       ),

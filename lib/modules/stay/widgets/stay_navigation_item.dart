@@ -28,10 +28,10 @@ class StayNavigationItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final effectiveActiveColor = isDark ? AppColors.primaryLight : AppColors.primary;
-    final inactiveColor = isDark
-        ? AppColors.textMutedDark
-        : AppColors.textSecondaryLight;
+    final effectiveActiveColor =
+        isDark ? AppColors.primaryLight : AppColors.primary;
+    final inactiveColor =
+        isDark ? AppColors.textMutedDark : AppColors.textSecondaryLight;
 
     return Expanded(
       child: GestureDetector(
@@ -64,7 +64,8 @@ class StayNavigationItem extends StatelessWidget {
                       child: Icon(
                         isSelected ? activeIcon : outlineIcon,
                         size: 21,
-                        color: isSelected ? effectiveActiveColor : inactiveColor,
+                        color:
+                            isSelected ? effectiveActiveColor : inactiveColor,
                       ),
                     ),
 
@@ -87,7 +88,8 @@ class StayNavigationItem extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                             boxShadow: [
                               BoxShadow(
-                                color: effectiveActiveColor.withValues(alpha: 0.4),
+                                color:
+                                    effectiveActiveColor.withValues(alpha: 0.4),
                                 blurRadius: 4,
                                 offset: const Offset(0, 2),
                               ),

@@ -42,7 +42,8 @@ class PropertyDetailsController extends GetxController {
       stay.value = fetchedStay;
       isFavorite.value = fetchedStay.isFavorite;
       reviews.assignAll(fetchedReviews);
-      similarStays.assignAll(allStays.where((s) => s.id != stayId).take(4).toList());
+      similarStays
+          .assignAll(allStays.where((s) => s.id != stayId).take(4).toList());
 
       // Initialize room options tailored to this stay
       availableRooms.assignAll([
@@ -52,7 +53,11 @@ class PropertyDetailsController extends GetxController {
           bedType: '1 Queen Bed',
           maxGuests: '2 Guests',
           pricePerNight: fetchedStay.pricePerNight,
-          highlights: const ['Attached Washroom', 'High-Speed Wi-Fi', 'Daily Cleaning'],
+          highlights: const [
+            'Attached Washroom',
+            'High-Speed Wi-Fi',
+            'Daily Cleaning'
+          ],
         ),
         RoomOptionItem(
           id: 'room-dlx',
@@ -60,7 +65,12 @@ class PropertyDetailsController extends GetxController {
           bedType: '1 King Bed + Mountain View',
           maxGuests: '3 Guests',
           pricePerNight: fetchedStay.pricePerNight * 1.35,
-          highlights: const ['Private Balcony', 'Smart TV', 'Complimentary Breakfast', 'Geyser'],
+          highlights: const [
+            'Private Balcony',
+            'Smart TV',
+            'Complimentary Breakfast',
+            'Geyser'
+          ],
         ),
         RoomOptionItem(
           id: 'room-exec',
@@ -68,7 +78,12 @@ class PropertyDetailsController extends GetxController {
           bedType: '2 King Beds + Living Lounge',
           maxGuests: '4 Guests',
           pricePerNight: fetchedStay.pricePerNight * 1.8,
-          highlights: const ['Kitchenette', 'Panoramic Pine View', 'Bathtub', 'Dedicated Host'],
+          highlights: const [
+            'Kitchenette',
+            'Panoramic Pine View',
+            'Bathtub',
+            'Dedicated Host'
+          ],
         ),
       ]);
 

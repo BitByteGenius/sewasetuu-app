@@ -67,7 +67,7 @@ class FeaturedStaysCarouselWidget extends StatelessWidget {
         ),
         AppSpacing.gapV12,
         SizedBox(
-          height: 280,
+          height: 225,
           child: ListView.separated(
             padding: AppSpacing.horizontalLg,
             scrollDirection: Axis.horizontal,

@@ -83,7 +83,8 @@ class HostProfileCardWidget extends StatelessWidget {
                         text: 'Superhost',
                         backgroundColor: AppColors.primaryContainer,
                         textColor: AppColors.primary,
-                        padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                       ),
                       const SizedBox(width: 8),
                     ],

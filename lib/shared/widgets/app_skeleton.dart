@@ -30,7 +30,8 @@ class AppSkeleton extends StatefulWidget {
   State<AppSkeleton> createState() => _AppSkeletonState();
 }
 
-class _AppSkeletonState extends State<AppSkeleton> with SingleTickerProviderStateMixin {
+class _AppSkeletonState extends State<AppSkeleton>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -55,8 +56,10 @@ class _AppSkeletonState extends State<AppSkeleton> with SingleTickerProviderStat
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final baseColor = isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariantLight;
-    final highlightColor = isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0);
+    final baseColor =
+        isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariantLight;
+    final highlightColor =
+        isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0);
 
     return AnimatedBuilder(
       animation: _animation,
@@ -98,12 +101,13 @@ class StayCardSkeleton extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const AppSkeleton(
-            height: 180,
+            height: 155,
             width: double.infinity,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadius.lg)),
+            borderRadius:
+                BorderRadius.vertical(top: Radius.circular(AppRadius.lg)),
           ),
           Padding(
-            padding: AppSpacing.edgeInsetsLg,
+            padding: const EdgeInsets.fromLTRB(14, 10, 14, 12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -114,18 +118,18 @@ class StayCardSkeleton extends StatelessWidget {
                     AppSkeleton(width: 40, height: 14),
                   ],
                 ),
-                AppSpacing.gapV12,
-                const AppSkeleton(width: 220, height: 18),
+                const SizedBox(height: 6),
+                const AppSkeleton(width: 220, height: 16),
+                AppSpacing.gapV4,
+                const AppSkeleton(width: 140, height: 12),
                 AppSpacing.gapV8,
-                const AppSkeleton(width: 140, height: 14),
-                AppSpacing.gapV16,
                 const Divider(height: 1),
-                AppSpacing.gapV12,
+                AppSpacing.gapV8,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: const [
-                    AppSkeleton(width: 100, height: 20),
-                    AppSkeleton(width: 70, height: 16),
+                    AppSkeleton(width: 110, height: 20),
+                    AppSkeleton(width: 70, height: 14),
                   ],
                 ),
               ],

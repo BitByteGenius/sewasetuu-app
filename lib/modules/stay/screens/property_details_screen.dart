@@ -41,9 +41,11 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
             return AppEmptyState(
               icon: Icons.error_outline_rounded,
               title: 'Failed to load details',
-              description: 'We could not retrieve property details. Please try again.',
+              description:
+                  'We could not retrieve property details. Please try again.',
               actionText: 'Retry',
-              onAction: () => controller.loadDetails(Get.arguments as String? ?? 'stay-1'),
+              onAction: () =>
+                  controller.loadDetails(Get.arguments as String? ?? 'stay-1'),
             );
           case ViewState.empty:
           case ViewState.initial:
@@ -88,9 +90,14 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
                             Row(
                               children: [
                                 AppBadge(
-                                  text: '${stay.stayType.emoji} ${stay.stayType.label}',
-                                  backgroundColor: isDark ? AppColors.surfaceVariantDark : AppColors.primaryContainer,
-                                  textColor: isDark ? AppColors.primaryLight : AppColors.primary,
+                                  text:
+                                      '${stay.stayType.emoji} ${stay.stayType.label}',
+                                  backgroundColor: isDark
+                                      ? AppColors.surfaceVariantDark
+                                      : AppColors.primaryContainer,
+                                  textColor: isDark
+                                      ? AppColors.primaryLight
+                                      : AppColors.primary,
                                 ),
                                 if (stay.isVerified) ...[
                                   const SizedBox(width: 8),
@@ -103,7 +110,8 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
                             // 3. Property Title
                             Text(
                               stay.title,
-                              style: AppTextStyles.headlineMedium(isDark).copyWith(
+                              style:
+                                  AppTextStyles.headlineMedium(isDark).copyWith(
                                 fontWeight: FontWeight.w800,
                               ),
                             ),
@@ -112,11 +120,13 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
                             // 4. Location & Rating Subtitle
                             Row(
                               children: [
-                                const Icon(Icons.star_rounded, size: 18, color: AppColors.starGold),
+                                const Icon(Icons.star_rounded,
+                                    size: 18, color: AppColors.starGold),
                                 const SizedBox(width: 4),
                                 Text(
                                   '${stay.rating} (${stay.reviewsCount} reviews)',
-                                  style: AppTextStyles.titleSmall(isDark).copyWith(
+                                  style:
+                                      AppTextStyles.titleSmall(isDark).copyWith(
                                     fontWeight: FontWeight.w700,
                                   ),
                                 ),
@@ -153,7 +163,8 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
                             // 6. About Description
                             Text(
                               'About this place',
-                              style: AppTextStyles.headlineSmall(isDark).copyWith(
+                              style:
+                                  AppTextStyles.headlineSmall(isDark).copyWith(
                                 fontWeight: FontWeight.w800,
                               ),
                             ),
@@ -161,26 +172,29 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
                             Text(
                               stay.description,
                               style: AppTextStyles.bodyLarge(isDark).copyWith(
-                                color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                                color: isDark
+                                    ? AppColors.textSecondaryDark
+                                    : AppColors.textSecondaryLight,
                                 height: 1.6,
                               ),
                             ),
-                            AppSpacing.gapV24,
+                            AppSpacing.gapV20,
                             const Divider(height: 1),
-                            AppSpacing.gapV24,
+                            AppSpacing.gapV20,
 
                             // 7. Room Configurations Selector
                             if (controller.availableRooms.isNotEmpty) ...[
                               Obx(() {
                                 return RoomOptionsSelectorWidget(
                                   rooms: controller.availableRooms,
-                                  selectedRoomId: controller.selectedRoomId.value,
+                                  selectedRoomId:
+                                      controller.selectedRoomId.value,
                                   onRoomSelected: controller.selectRoom,
                                 );
                               }),
-                              AppSpacing.gapV24,
+                              AppSpacing.gapV16,
                               const Divider(height: 1),
-                              AppSpacing.gapV24,
+                              AppSpacing.gapV20,
                             ],
 
                             // 8. Amenities Section with Full Modal Trigger
@@ -189,7 +203,8 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
                               children: [
                                 Text(
                                   'Amenities Offered',
-                                  style: AppTextStyles.headlineSmall(isDark).copyWith(
+                                  style: AppTextStyles.headlineSmall(isDark)
+                                      .copyWith(
                                     fontWeight: FontWeight.w800,
                                   ),
                                 ),
@@ -200,8 +215,11 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
                                   ),
                                   child: Text(
                                     'View all',
-                                    style: AppTextStyles.labelMedium(isDark).copyWith(
-                                      color: isDark ? AppColors.primaryLight : AppColors.primary,
+                                    style: AppTextStyles.labelMedium(isDark)
+                                        .copyWith(
+                                      color: isDark
+                                          ? AppColors.primaryLight
+                                          : AppColors.primary,
                                       fontWeight: FontWeight.w700,
                                     ),
                                   ),
@@ -217,7 +235,8 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
                             // 9. Location with 400m Privacy Radius
                             Text(
                               'Location & Neighborhood',
-                              style: AppTextStyles.headlineSmall(isDark).copyWith(
+                              style:
+                                  AppTextStyles.headlineSmall(isDark).copyWith(
                                 fontWeight: FontWeight.w800,
                               ),
                             ),
@@ -243,9 +262,11 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
                               itemCount: controller.reviews.take(2).length,
-                              separatorBuilder: (context, index) => AppSpacing.gapV12,
+                              separatorBuilder: (context, index) =>
+                                  AppSpacing.gapV12,
                               itemBuilder: (context, index) {
-                                return ReviewItemWidget(review: controller.reviews[index]);
+                                return ReviewItemWidget(
+                                    review: controller.reviews[index]);
                               },
                             ),
                             AppSpacing.gapV12,
@@ -260,7 +281,8 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
                                 reviews: controller.reviews,
                                 rating: stay.rating,
                               ),
-                              child: Text('Show all ${controller.reviews.length} reviews'),
+                              child: Text(
+                                  'Show all ${controller.reviews.length} reviews'),
                             ),
                             AppSpacing.gapV24,
                             const Divider(height: 1),

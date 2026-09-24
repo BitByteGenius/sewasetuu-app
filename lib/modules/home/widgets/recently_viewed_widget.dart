@@ -65,7 +65,8 @@ class RecentlyViewedWidget extends StatelessWidget {
                     ClipRRect(
                       borderRadius: AppRadius.radiusMd,
                       child: AppNetworkImage(
-                        imageUrl: stay.images.isNotEmpty ? stay.images.first : '',
+                        imageUrl:
+                            stay.images.isNotEmpty ? stay.images.first : '',
                         width: 90,
                         height: 90,
                       ),
@@ -79,7 +80,9 @@ class RecentlyViewedWidget extends StatelessWidget {
                           Text(
                             stay.stayType.label,
                             style: AppTextStyles.labelSmall(isDark).copyWith(
-                              color: isDark ? AppColors.primaryLight : AppColors.primary,
+                              color: isDark
+                                  ? AppColors.primaryLight
+                                  : AppColors.primary,
                               fontWeight: FontWeight.w700,
                             ),
                           ),

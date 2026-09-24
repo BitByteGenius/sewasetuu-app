@@ -16,11 +16,27 @@ class SearchLocationStep extends StatelessWidget {
   });
 
   static const List<Map<String, String>> popularDestinations = [
-    {'title': 'Shillong', 'subtitle': 'Meghalaya • Mountain retreat', 'emoji': '🌲'},
-    {'title': 'Guwahati', 'subtitle': 'Assam • Gateway to Northeast', 'emoji': '🏙️'},
+    {
+      'title': 'Shillong',
+      'subtitle': 'Meghalaya • Mountain retreat',
+      'emoji': '🌲'
+    },
+    {
+      'title': 'Guwahati',
+      'subtitle': 'Assam • Gateway to Northeast',
+      'emoji': '🏙️'
+    },
     {'title': 'Goa', 'subtitle': 'India • Beaches & homestays', 'emoji': '🏖️'},
-    {'title': 'Manali', 'subtitle': 'Himachal • Snow & wooden cottages', 'emoji': '🏔️'},
-    {'title': 'Jaipur', 'subtitle': 'Rajasthan • Heritage havelis', 'emoji': '🏰'},
+    {
+      'title': 'Manali',
+      'subtitle': 'Himachal • Snow & wooden cottages',
+      'emoji': '🏔️'
+    },
+    {
+      'title': 'Jaipur',
+      'subtitle': 'Rajasthan • Heritage havelis',
+      'emoji': '🏰'
+    },
   ];
 
   @override
@@ -34,7 +50,9 @@ class SearchLocationStep extends StatelessWidget {
         Container(
           height: 52,
           decoration: BoxDecoration(
-            color: isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariantLight,
+            color: isDark
+                ? AppColors.surfaceVariantDark
+                : AppColors.surfaceVariantLight,
             borderRadius: AppRadius.radiusMd,
             border: Border.all(
               color: isDark ? AppColors.borderDark : AppColors.borderLight,
@@ -73,7 +91,8 @@ class SearchLocationStep extends StatelessWidget {
 
         // Popular Destination Rows
         ...popularDestinations.map((dest) {
-          final isSelected = controller.text.toLowerCase() == dest['title']!.toLowerCase();
+          final isSelected =
+              controller.text.toLowerCase() == dest['title']!.toLowerCase();
 
           return InkWell(
             onTap: () => onSelectDestination(dest['title']!),
@@ -86,11 +105,14 @@ class SearchLocationStep extends StatelessWidget {
                     width: 42,
                     height: 42,
                     decoration: BoxDecoration(
-                      color: isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariantLight,
+                      color: isDark
+                          ? AppColors.surfaceVariantDark
+                          : AppColors.surfaceVariantLight,
                       borderRadius: AppRadius.radiusMd,
                     ),
                     child: Center(
-                      child: Text(dest['emoji']!, style: const TextStyle(fontSize: 20)),
+                      child: Text(dest['emoji']!,
+                          style: const TextStyle(fontSize: 20)),
                     ),
                   ),
                   AppSpacing.gapH12,
@@ -101,9 +123,12 @@ class SearchLocationStep extends StatelessWidget {
                         Text(
                           dest['title']!,
                           style: AppTextStyles.titleMedium(isDark).copyWith(
-                            fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
+                            fontWeight:
+                                isSelected ? FontWeight.w800 : FontWeight.w600,
                             color: isSelected
-                                ? (isDark ? AppColors.primaryLight : AppColors.primary)
+                                ? (isDark
+                                    ? AppColors.primaryLight
+                                    : AppColors.primary)
                                 : null,
                           ),
                         ),
@@ -117,7 +142,8 @@ class SearchLocationStep extends StatelessWidget {
                   if (isSelected)
                     Icon(
                       Icons.check_circle_rounded,
-                      color: isDark ? AppColors.primaryLight : AppColors.primary,
+                      color:
+                          isDark ? AppColors.primaryLight : AppColors.primary,
                     ),
                 ],
               ),

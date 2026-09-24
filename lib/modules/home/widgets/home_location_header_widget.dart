@@ -12,7 +12,8 @@ class HomeLocationHeaderWidget extends StatefulWidget {
   const HomeLocationHeaderWidget({super.key});
 
   @override
-  State<HomeLocationHeaderWidget> createState() => _HomeLocationHeaderWidgetState();
+  State<HomeLocationHeaderWidget> createState() =>
+      _HomeLocationHeaderWidgetState();
 }
 
 class _HomeLocationHeaderWidgetState extends State<HomeLocationHeaderWidget> {
@@ -55,7 +56,8 @@ class _HomeLocationHeaderWidgetState extends State<HomeLocationHeaderWidget> {
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
-                            color: const Color(0xFF14B8A6).withValues(alpha: 0.35),
+                            color:
+                                const Color(0xFF14B8A6).withValues(alpha: 0.35),
                             blurRadius: 10,
                             offset: const Offset(0, 2),
                           ),
@@ -73,10 +75,12 @@ class _HomeLocationHeaderWidgetState extends State<HomeLocationHeaderWidget> {
                     Expanded(
                       child: Obx(() {
                         final title = controller.locationTitle;
-                        final subtitle = controller.locationService.isLocating.value
-                            ? 'Detecting GPS location...'
-                            : controller.locationSubtitle;
-                        final isDark = Theme.of(context).brightness == Brightness.dark;
+                        final subtitle =
+                            controller.locationService.isLocating.value
+                                ? 'Detecting GPS location...'
+                                : controller.locationSubtitle;
+                        final isDark =
+                            Theme.of(context).brightness == Brightness.dark;
 
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -92,7 +96,9 @@ class _HomeLocationHeaderWidgetState extends State<HomeLocationHeaderWidget> {
                                     style: GoogleFonts.plusJakartaSans(
                                       fontSize: 17,
                                       fontWeight: FontWeight.w800,
-                                      color: isDark ? Colors.white : const Color(0xFF0F172A),
+                                      color: isDark
+                                          ? Colors.white
+                                          : const Color(0xFF0F172A),
                                       letterSpacing: -0.3,
                                     ),
                                     maxLines: 1,
@@ -102,7 +108,9 @@ class _HomeLocationHeaderWidgetState extends State<HomeLocationHeaderWidget> {
                                 const SizedBox(width: 4),
                                 Icon(
                                   Icons.keyboard_arrow_down_rounded,
-                                  color: isDark ? Colors.white : const Color(0xFF0F172A),
+                                  color: isDark
+                                      ? Colors.white
+                                      : const Color(0xFF0F172A),
                                   size: 20,
                                 ),
                               ],
@@ -115,7 +123,9 @@ class _HomeLocationHeaderWidgetState extends State<HomeLocationHeaderWidget> {
                               style: GoogleFonts.plusJakartaSans(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
-                                color: isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B),
+                                color: isDark
+                                    ? const Color(0xFF94A3B8)
+                                    : const Color(0xFF64748B),
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
@@ -131,7 +141,7 @@ class _HomeLocationHeaderWidgetState extends State<HomeLocationHeaderWidget> {
           ),
           const SizedBox(width: 8),
 
-           GestureDetector(
+          GestureDetector(
             onTapDown: (_) => setState(() => _isNotificationPressed = true),
             onTapUp: (_) => setState(() => _isNotificationPressed = false),
             onTapCancel: () => setState(() => _isNotificationPressed = false),
@@ -142,7 +152,8 @@ class _HomeLocationHeaderWidgetState extends State<HomeLocationHeaderWidget> {
               duration: const Duration(milliseconds: 150),
               child: Builder(
                 builder: (context) {
-                  final isDark = Theme.of(context).brightness == Brightness.dark;
+                  final isDark =
+                      Theme.of(context).brightness == Brightness.dark;
                   return Stack(
                     clipBehavior: Clip.none,
                     children: [
@@ -151,7 +162,9 @@ class _HomeLocationHeaderWidgetState extends State<HomeLocationHeaderWidget> {
                         height: 40,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9),
+                          color: isDark
+                              ? const Color(0xFF1E293B)
+                              : const Color(0xFFF1F5F9),
                           border: Border.all(
                             color: isDark
                                 ? Colors.white.withValues(alpha: 0.22)
@@ -160,7 +173,8 @@ class _HomeLocationHeaderWidgetState extends State<HomeLocationHeaderWidget> {
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withValues(alpha: isDark ? 0.35 : 0.06),
+                              color: Colors.black
+                                  .withValues(alpha: isDark ? 0.35 : 0.06),
                               blurRadius: 8,
                               offset: const Offset(0, 2),
                             ),
@@ -172,8 +186,14 @@ class _HomeLocationHeaderWidgetState extends State<HomeLocationHeaderWidget> {
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: isDark
-                                      ? const [Color(0xFF334155), Color(0xFF1E293B)]
-                                      : const [Color(0xFFFFFFFF), Color(0xFFE2E8F0)],
+                                      ? const [
+                                          Color(0xFF334155),
+                                          Color(0xFF1E293B)
+                                        ]
+                                      : const [
+                                          Color(0xFFFFFFFF),
+                                          Color(0xFFE2E8F0)
+                                        ],
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                 ),
@@ -181,7 +201,9 @@ class _HomeLocationHeaderWidgetState extends State<HomeLocationHeaderWidget> {
                               child: Center(
                                 child: Icon(
                                   Icons.notifications_none_rounded,
-                                  color: isDark ? AppColors.primaryLight : AppColors.primary,
+                                  color: isDark
+                                      ? AppColors.primaryLight
+                                      : AppColors.primary,
                                   size: 22,
                                 ),
                               ),
@@ -201,9 +223,8 @@ class _HomeLocationHeaderWidgetState extends State<HomeLocationHeaderWidget> {
               ),
             ),
           ),
-           
-           const SizedBox(width: 8),
 
+          const SizedBox(width: 8),
 
           // Profile / Avatar Action Button
           GestureDetector(
@@ -217,13 +238,16 @@ class _HomeLocationHeaderWidgetState extends State<HomeLocationHeaderWidget> {
               duration: const Duration(milliseconds: 150),
               child: Builder(
                 builder: (context) {
-                  final isDark = Theme.of(context).brightness == Brightness.dark;
+                  final isDark =
+                      Theme.of(context).brightness == Brightness.dark;
                   return Container(
                     width: 40,
                     height: 40,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9),
+                      color: isDark
+                          ? const Color(0xFF1E293B)
+                          : const Color(0xFFF1F5F9),
                       border: Border.all(
                         color: isDark
                             ? Colors.white.withValues(alpha: 0.22)
@@ -232,7 +256,8 @@ class _HomeLocationHeaderWidgetState extends State<HomeLocationHeaderWidget> {
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withValues(alpha: isDark ? 0.35 : 0.06),
+                          color: Colors.black
+                              .withValues(alpha: isDark ? 0.35 : 0.06),
                           blurRadius: 8,
                           offset: const Offset(0, 2),
                         ),
@@ -245,7 +270,10 @@ class _HomeLocationHeaderWidgetState extends State<HomeLocationHeaderWidget> {
                             gradient: LinearGradient(
                               colors: isDark
                                   ? const [Color(0xFF334155), Color(0xFF1E293B)]
-                                  : const [Color(0xFFFFFFFF), Color(0xFFE2E8F0)],
+                                  : const [
+                                      Color(0xFFFFFFFF),
+                                      Color(0xFFE2E8F0)
+                                    ],
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                             ),
@@ -253,7 +281,9 @@ class _HomeLocationHeaderWidgetState extends State<HomeLocationHeaderWidget> {
                           child: Center(
                             child: Icon(
                               Icons.person_rounded,
-                              color: isDark ? AppColors.primaryLight : AppColors.primary,
+                              color: isDark
+                                  ? AppColors.primaryLight
+                                  : AppColors.primary,
                               size: 22,
                             ),
                           ),
@@ -265,8 +295,6 @@ class _HomeLocationHeaderWidgetState extends State<HomeLocationHeaderWidget> {
               ),
             ),
           ),
-          
-         
         ],
       ),
     );
@@ -280,7 +308,8 @@ class _BlinkingNotificationDot extends StatefulWidget {
   const _BlinkingNotificationDot({required this.isDark});
 
   @override
-  State<_BlinkingNotificationDot> createState() => _BlinkingNotificationDotState();
+  State<_BlinkingNotificationDot> createState() =>
+      _BlinkingNotificationDotState();
 }
 
 class _BlinkingNotificationDotState extends State<_BlinkingNotificationDot>

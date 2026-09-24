@@ -92,12 +92,17 @@ class StayFilterBottomSheet extends StatelessWidget {
                 return ChoiceChip(
                   label: Text('${type.emoji} ${type.label}'),
                   selected: isSelected,
-                  selectedColor: isDark ? AppColors.primaryLight : AppColors.primary,
-                  backgroundColor: isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariantLight,
+                  selectedColor:
+                      isDark ? AppColors.primaryLight : AppColors.primary,
+                  backgroundColor: isDark
+                      ? AppColors.surfaceVariantDark
+                      : AppColors.surfaceVariantLight,
                   labelStyle: AppTextStyles.labelMedium(isDark).copyWith(
                     color: isSelected
                         ? (isDark ? Colors.black : Colors.white)
-                        : (isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight),
+                        : (isDark
+                            ? AppColors.textPrimaryDark
+                            : AppColors.textPrimaryLight),
                     fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
                   ),
                   onSelected: (selected) {
@@ -125,7 +130,8 @@ class StayFilterBottomSheet extends StatelessWidget {
                     Text(
                       '${AppFormatters.formatCurrency(range.start)} - ${AppFormatters.formatCurrency(range.end)}',
                       style: AppTextStyles.labelMedium(isDark).copyWith(
-                        color: isDark ? AppColors.primaryLight : AppColors.primary,
+                        color:
+                            isDark ? AppColors.primaryLight : AppColors.primary,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -137,8 +143,11 @@ class StayFilterBottomSheet extends StatelessWidget {
                   min: 200,
                   max: 10000,
                   divisions: 50,
-                  activeColor: isDark ? AppColors.primaryLight : AppColors.primary,
-                  inactiveColor: isDark ? AppColors.surfaceVariantDark : AppColors.borderLight,
+                  activeColor:
+                      isDark ? AppColors.primaryLight : AppColors.primary,
+                  inactiveColor: isDark
+                      ? AppColors.surfaceVariantDark
+                      : AppColors.borderLight,
                   onChanged: (newRange) {
                     controller.priceRange.value = newRange;
                   },
@@ -167,13 +176,19 @@ class StayFilterBottomSheet extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         decoration: BoxDecoration(
                           color: isSelected
-                              ? (isDark ? AppColors.primaryLight : AppColors.primary)
-                              : (isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariantLight),
+                              ? (isDark
+                                  ? AppColors.primaryLight
+                                  : AppColors.primary)
+                              : (isDark
+                                  ? AppColors.surfaceVariantDark
+                                  : AppColors.surfaceVariantLight),
                           borderRadius: AppRadius.radiusMd,
                           border: Border.all(
                             color: isSelected
                                 ? Colors.transparent
-                                : (isDark ? AppColors.borderDark : AppColors.borderLight),
+                                : (isDark
+                                    ? AppColors.borderDark
+                                    : AppColors.borderLight),
                           ),
                         ),
                         child: Center(
@@ -190,10 +205,13 @@ class StayFilterBottomSheet extends StatelessWidget {
                               const SizedBox(width: 4),
                               Text(
                                 rating == 0.0 ? 'Any' : '$rating+',
-                                style: AppTextStyles.labelMedium(isDark).copyWith(
+                                style:
+                                    AppTextStyles.labelMedium(isDark).copyWith(
                                   color: isSelected
                                       ? (isDark ? Colors.black : Colors.white)
-                                      : (isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight),
+                                      : (isDark
+                                          ? AppColors.textPrimaryDark
+                                          : AppColors.textPrimaryLight),
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
@@ -220,17 +238,25 @@ class StayFilterBottomSheet extends StatelessWidget {
               spacing: 8,
               runSpacing: 8,
               children: controller.availableAmenities.map((amenity) {
-                final isSelected = controller.selectedAmenities.contains(amenity);
+                final isSelected =
+                    controller.selectedAmenities.contains(amenity);
                 return FilterChip(
                   label: Text(amenity),
                   selected: isSelected,
-                  selectedColor: isDark ? AppColors.primaryContainerDark : AppColors.primaryContainer,
-                  checkmarkColor: isDark ? AppColors.primaryLight : AppColors.primary,
-                  backgroundColor: isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariantLight,
+                  selectedColor: isDark
+                      ? AppColors.primaryContainerDark
+                      : AppColors.primaryContainer,
+                  checkmarkColor:
+                      isDark ? AppColors.primaryLight : AppColors.primary,
+                  backgroundColor: isDark
+                      ? AppColors.surfaceVariantDark
+                      : AppColors.surfaceVariantLight,
                   labelStyle: AppTextStyles.labelMedium(isDark).copyWith(
                     color: isSelected
                         ? (isDark ? AppColors.primaryLight : AppColors.primary)
-                        : (isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight),
+                        : (isDark
+                            ? AppColors.textPrimaryDark
+                            : AppColors.textPrimaryLight),
                     fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
                   ),
                   onSelected: (_) => controller.toggleAmenity(amenity),
@@ -255,7 +281,8 @@ class StayFilterBottomSheet extends StatelessWidget {
                 'Show only properties verified in-person by SewaSetu team',
                 style: AppTextStyles.bodySmall(isDark),
               ),
-              activeTrackColor: isDark ? AppColors.primaryLight : AppColors.primary,
+              activeTrackColor:
+                  isDark ? AppColors.primaryLight : AppColors.primary,
               value: controller.verifiedOnly.value,
               onChanged: (val) => controller.verifiedOnly.value = val,
             );

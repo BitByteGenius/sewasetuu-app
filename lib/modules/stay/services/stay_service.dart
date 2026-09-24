@@ -19,6 +19,9 @@ class StayService {
       longitude: 91.8933,
       pricePerNight: 3200,
       pricePerMonth: 45000,
+      depositAmount: 15000,
+      furnishingStatus: 'Fully Furnished',
+      availableFrom: 'Immediate',
       rating: 4.9,
       reviewsCount: 142,
       images: [
@@ -26,20 +29,28 @@ class StayService {
         'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=80',
         'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80',
       ],
-      amenities: ['High-speed WiFi', 'Free Breakfast', 'Bonfire & BBQ', 'Hot Water Geyser', 'Free Parking', 'Mountain View'],
+      amenities: [
+        'High-speed WiFi',
+        'Free Breakfast',
+        'Bonfire & BBQ',
+        'Hot Water Geyser',
+        'Free Parking',
+        'Mountain View'
+      ],
       isFeatured: true,
       isVerified: true,
       isFavorite: false,
       host: StayHostEntity(
         id: 'host-1',
         name: 'Marilyn Lyngdoh',
-        avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+        avatarUrl:
+            'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
         isSuperHost: true,
         responseRate: '100%',
         joinedDate: 'Joined May 2021',
       ),
       availableRooms: 3,
-      roomConfiguration: '2 BHK Private Villa (Up to 4 Guests)',
+      roomConfiguration: '2 BHK Private Villa',
       distanceText: '2.5 km from Ward’s Lake',
     ),
     const PropertyModel(
@@ -54,26 +65,37 @@ class StayService {
       longitude: 91.7766,
       pricePerNight: 650,
       pricePerMonth: 8500,
+      depositAmount: 3000,
+      furnishingStatus: 'Fully Furnished',
+      availableFrom: 'Immediate',
       rating: 4.75,
       reviewsCount: 88,
       images: [
         'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=1200&q=80',
         'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=1200&q=80',
       ],
-      amenities: ['3 Meals Included', 'High-speed WiFi', 'Daily Housekeeping', '24/7 Security & CCTV', 'Washing Machine', 'Power Backup'],
+      amenities: [
+        '3 Meals Included',
+        'High-speed WiFi',
+        'Daily Housekeeping',
+        '24/7 Security & CCTV',
+        'Washing Machine',
+        'Power Backup'
+      ],
       isFeatured: false,
       isVerified: true,
       isFavorite: false,
       host: StayHostEntity(
         id: 'host-2',
         name: 'Bhaben Kalita',
-        avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
+        avatarUrl:
+            'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
         isSuperHost: false,
         responseRate: '95%',
         joinedDate: 'Joined Aug 2022',
       ),
       availableRooms: 5,
-      roomConfiguration: 'Single & Double Sharing Available',
+      roomConfiguration: 'Single & Double Sharing',
       distanceText: '500m from Commerce College',
     ),
     const PropertyModel(
@@ -88,27 +110,36 @@ class StayService {
       longitude: 91.7512,
       pricePerNight: 400,
       pricePerMonth: 5500,
+      depositAmount: 1500,
+      furnishingStatus: 'Semi-Furnished',
+      availableFrom: 'Available Now',
       rating: 4.6,
       reviewsCount: 52,
       images: [
         'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=1200&q=80',
         'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1200&q=80',
       ],
-      amenities: ['Breakfast, Lunch & Dinner', 'RO Purified Water', 'Dine-in Hall', 'Monthly Meal Cards'],
+      amenities: [
+        'Breakfast, Lunch & Dinner',
+        'RO Purified Water',
+        'Dine-in Hall',
+        'Monthly Meal Cards'
+      ],
       isFeatured: false,
       isVerified: true,
       isFavorite: false,
       host: StayHostEntity(
         id: 'host-3',
         name: 'Pranab & Gita Baruah',
-        avatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
+        avatarUrl:
+            'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
         isSuperHost: true,
         responseRate: '99%',
         joinedDate: 'Joined Jan 2020',
       ),
       availableRooms: 20,
       roomConfiguration: 'Daily Subscription / Dine-in',
-      distanceText: '1.0 km from Guwahati Railway Station',
+      distanceText: '1.0 km from Railway Station',
     ),
     const PropertyModel(
       id: 'stay-4',
@@ -122,27 +153,38 @@ class StayService {
       longitude: 91.7944,
       pricePerNight: 1600,
       pricePerMonth: 18000,
+      depositAmount: 8000,
+      furnishingStatus: 'Fully Furnished',
+      availableFrom: 'Immediate',
       rating: 4.85,
       reviewsCount: 76,
       images: [
         'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1200&q=80',
         'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80',
       ],
-      amenities: ['Kitchenette', 'Smart Android TV', 'Air Conditioner', 'Balcony', 'Geyser', 'Dedicated Workspace'],
+      amenities: [
+        'Kitchenette',
+        'Smart Android TV',
+        'Air Conditioner',
+        'Balcony',
+        'Geyser',
+        'Dedicated Workspace'
+      ],
       isFeatured: true,
       isVerified: true,
       isFavorite: false,
       host: StayHostEntity(
         id: 'host-4',
         name: 'Ananya Dutta',
-        avatarUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80',
+        avatarUrl:
+            'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80',
         isSuperHost: true,
         responseRate: '100%',
         joinedDate: 'Joined Sep 2021',
       ),
       availableRooms: 2,
       roomConfiguration: 'Private 1 RK Studio',
-      distanceText: '1.5 km from Dispur Capital Complex',
+      distanceText: '1.5 km from Dispur Capital',
     ),
     const PropertyModel(
       id: 'stay-5',
@@ -155,20 +197,32 @@ class StayService {
       latitude: 15.5494,
       longitude: 73.7535,
       pricePerNight: 6500,
+      pricePerMonth: 120000,
+      depositAmount: 30000,
+      furnishingStatus: 'Fully Furnished',
+      availableFrom: 'Immediate',
       rating: 4.92,
       reviewsCount: 380,
       images: [
         'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1200&q=80',
         'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80',
       ],
-      amenities: ['Beachfront Access', 'Infinity Pool', 'Spa & Wellness', 'Complimentary Breakfast', 'Bar & Lounge', 'Airport Shuttle'],
+      amenities: [
+        'Beachfront Access',
+        'Infinity Pool',
+        'Spa & Wellness',
+        'Complimentary Breakfast',
+        'Bar & Lounge',
+        'Airport Shuttle'
+      ],
       isFeatured: true,
       isVerified: true,
       isFavorite: false,
       host: StayHostEntity(
         id: 'host-5',
         name: 'Azure Hospitality Group',
-        avatarUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80',
+        avatarUrl:
+            'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80',
         isSuperHost: true,
         responseRate: '100%',
         joinedDate: 'Joined 2019',
@@ -188,26 +242,37 @@ class StayService {
       latitude: 32.2530,
       longitude: 77.1750,
       pricePerNight: 2800,
+      pricePerMonth: 38000,
+      depositAmount: 10000,
+      furnishingStatus: 'Fully Furnished',
+      availableFrom: 'Immediate',
       rating: 4.88,
       reviewsCount: 165,
       images: [
         'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80',
         'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80',
       ],
-      amenities: ['Indoor Fireplace', 'Mountain Snow View', 'Organic Orchard', 'High-speed WiFi', 'Cafe & Bakery'],
+      amenities: [
+        'Indoor Fireplace',
+        'Mountain Snow View',
+        'Organic Orchard',
+        'High-speed WiFi',
+        'Cafe & Bakery'
+      ],
       isFeatured: false,
       isVerified: true,
       isFavorite: false,
       host: StayHostEntity(
         id: 'host-6',
         name: 'Tenzin & Sunita',
-        avatarUrl: 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=200&q=80',
+        avatarUrl:
+            'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=200&q=80',
         isSuperHost: true,
         responseRate: '98%',
         joinedDate: 'Joined 2021',
       ),
       availableRooms: 2,
-      roomConfiguration: '2 Bedroom Wooden Attic Suite',
+      roomConfiguration: '2 BR Wooden Attic Suite',
       distanceText: '1.2 km from Mall Road',
     ),
   ];
@@ -253,7 +318,8 @@ class StayService {
         }
         if (filter.amenities.isNotEmpty) {
           final hasAll = filter.amenities.every(
-            (req) => stay.amenities.any((a) => a.toLowerCase().contains(req.toLowerCase())),
+            (req) => stay.amenities
+                .any((a) => a.toLowerCase().contains(req.toLowerCase())),
           );
           if (!hasAll) return false;
         }
@@ -271,14 +337,17 @@ class StayService {
   Future<List<PropertyModel>> getNearbyStays({required String city}) async {
     await Future.delayed(const Duration(milliseconds: 150));
     final cityName = city.split(',').first.trim().toLowerCase();
-    final inCity = _mockStays.where((s) => s.city.toLowerCase().contains(cityName)).toList();
+    final inCity = _mockStays
+        .where((s) => s.city.toLowerCase().contains(cityName))
+        .toList();
     if (inCity.isNotEmpty) return inCity;
     return List.from(_mockStays);
   }
 
   Future<PropertyModel> getStayById(String id) async {
     await Future.delayed(const Duration(milliseconds: 100));
-    return _mockStays.firstWhere((s) => s.id == id, orElse: () => _mockStays.first);
+    return _mockStays.firstWhere((s) => s.id == id,
+        orElse: () => _mockStays.first);
   }
 
   Future<List<ReviewModel>> getStayReviews(String stayId) async {
@@ -287,26 +356,32 @@ class StayService {
       ReviewModel(
         id: 'r1',
         userName: 'Rohan Bordoloi',
-        userAvatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80',
+        userAvatar:
+            'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80',
         rating: 5.0,
         dateText: '2 weeks ago',
-        comment: 'Outstanding stay! The place was spotless, host was very warm, and the food was delicious. Highly recommended!',
+        comment:
+            'Outstanding stay! The place was spotless, host was very warm, and the food was delicious. Highly recommended!',
       ),
       ReviewModel(
         id: 'r2',
         userName: 'Priya Sharma',
-        userAvatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80',
+        userAvatar:
+            'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80',
         rating: 4.8,
         dateText: '1 month ago',
-        comment: 'Great location and fast WiFi. Perfect for remote work and a weekend getaway.',
+        comment:
+            'Great location and fast WiFi. Perfect for remote work and a weekend getaway.',
       ),
       ReviewModel(
         id: 'r3',
         userName: 'Devraj Singh',
-        userAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80',
+        userAvatar:
+            'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80',
         rating: 4.9,
         dateText: '2 months ago',
-        comment: 'Super peaceful environment. Smooth check-in with prompt host communication.',
+        comment:
+            'Super peaceful environment. Smooth check-in with prompt host communication.',
       ),
     ];
   }
@@ -333,11 +408,16 @@ class StayMockDataSource implements IStayDataSource {
   Future<PropertyModel> fetchStayById(String id) => _service.getStayById(id);
 
   @override
-  Future<List<ReviewModel>> fetchStayReviews(String stayId) => _service.getStayReviews(stayId);
+  Future<List<ReviewModel>> fetchStayReviews(String stayId) =>
+      _service.getStayReviews(stayId);
 }
 
 abstract class IStayRepository {
-  Future<List<PropertyModel>> getStays({StayFilterCriteria? filter, String? searchQuery, int page = 1, int limit = 20});
+  Future<List<PropertyModel>> getStays(
+      {StayFilterCriteria? filter,
+      String? searchQuery,
+      int page = 1,
+      int limit = 20});
   Future<List<PropertyModel>> getFeaturedStays();
   Future<List<PropertyModel>> getNearbyStays({required String city});
   Future<PropertyModel> getStayById(String id);
@@ -352,35 +432,45 @@ class StayRepositoryImpl implements IStayRepository {
   StayRepositoryImpl(this.dataSource);
 
   @override
-  Future<List<PropertyModel>> getStays({StayFilterCriteria? filter, String? searchQuery, int page = 1, int limit = 20}) =>
+  Future<List<PropertyModel>> getStays(
+          {StayFilterCriteria? filter,
+          String? searchQuery,
+          int page = 1,
+          int limit = 20}) =>
       _service.getStays(filter: filter, searchQuery: searchQuery);
 
   @override
   Future<List<PropertyModel>> getFeaturedStays() => _service.getFeaturedStays();
 
   @override
-  Future<List<PropertyModel>> getNearbyStays({required String city}) => _service.getNearbyStays(city: city);
+  Future<List<PropertyModel>> getNearbyStays({required String city}) =>
+      _service.getNearbyStays(city: city);
 
   @override
   Future<PropertyModel> getStayById(String id) => _service.getStayById(id);
 
   @override
-  Future<List<ReviewModel>> getStayReviews(String stayId) => _service.getStayReviews(stayId);
+  Future<List<ReviewModel>> getStayReviews(String stayId) =>
+      _service.getStayReviews(stayId);
 
   @override
-  Future<bool> toggleFavorite(String stayId, bool isFavorite) => _service.toggleFavorite(stayId, isFavorite);
+  Future<bool> toggleFavorite(String stayId, bool isFavorite) =>
+      _service.toggleFavorite(stayId, isFavorite);
 }
 
 class GetStaysUseCase {
   final IStayRepository repository;
   GetStaysUseCase(this.repository);
 
-  Future<List<PropertyModel>> call({StayFilterCriteria? filter, String? searchQuery}) =>
+  Future<List<PropertyModel>> call(
+          {StayFilterCriteria? filter, String? searchQuery}) =>
       repository.getStays(filter: filter, searchQuery: searchQuery);
 
   Future<List<PropertyModel>> getFeatured() => repository.getFeaturedStays();
-  Future<List<PropertyModel>> getNearby(String city) => repository.getNearbyStays(city: city);
-  Future<bool> toggleFavorite(String stayId, bool isFavorite) => repository.toggleFavorite(stayId, isFavorite);
+  Future<List<PropertyModel>> getNearby(String city) =>
+      repository.getNearbyStays(city: city);
+  Future<bool> toggleFavorite(String stayId, bool isFavorite) =>
+      repository.toggleFavorite(stayId, isFavorite);
 }
 
 class GetStayDetailsUseCase {
@@ -388,12 +478,14 @@ class GetStayDetailsUseCase {
   GetStayDetailsUseCase(this.repository);
 
   Future<PropertyModel> getDetails(String id) => repository.getStayById(id);
-  Future<List<ReviewModel>> getReviews(String id) => repository.getStayReviews(id);
+  Future<List<ReviewModel>> getReviews(String id) =>
+      repository.getStayReviews(id);
 }
 
 class SearchStaysUseCase {
   final IStayRepository repository;
   SearchStaysUseCase(this.repository);
 
-  Future<List<PropertyModel>> call(String query) => repository.getStays(searchQuery: query);
+  Future<List<PropertyModel>> call(String query) =>
+      repository.getStays(searchQuery: query);
 }

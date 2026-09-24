@@ -13,7 +13,8 @@ class AllAmenitiesModal extends StatelessWidget {
     required this.amenities,
   });
 
-  static Future<void> show(BuildContext context, {required List<String> amenities}) {
+  static Future<void> show(BuildContext context,
+      {required List<String> amenities}) {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,

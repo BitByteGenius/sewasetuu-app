@@ -35,12 +35,15 @@ class HomeHeaderWidget extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: isDark ? AppColors.primaryContainerDark : AppColors.primaryContainer,
+                      color: isDark
+                          ? AppColors.primaryContainerDark
+                          : AppColors.primaryContainer,
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
                       Icons.location_on_rounded,
-                      color: isDark ? AppColors.primaryLight : AppColors.primary,
+                      color:
+                          isDark ? AppColors.primaryLight : AppColors.primary,
                       size: 20,
                     ),
                   ),
@@ -62,8 +65,11 @@ class HomeHeaderWidget extends StatelessWidget {
                             Flexible(
                               child: Obx(() {
                                 return Text(
-                                  locationService.selectedCity.value.split(',').first,
-                                  style: AppTextStyles.titleMedium(isDark).copyWith(
+                                  locationService.selectedCity.value
+                                      .split(',')
+                                      .first,
+                                  style: AppTextStyles.titleMedium(isDark)
+                                      .copyWith(
                                     fontWeight: FontWeight.w800,
                                   ),
                                   overflow: TextOverflow.ellipsis,
@@ -74,7 +80,9 @@ class HomeHeaderWidget extends StatelessWidget {
                             Icon(
                               Icons.keyboard_arrow_down_rounded,
                               size: 18,
-                              color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+                              color: isDark
+                                  ? AppColors.textPrimaryDark
+                                  : AppColors.textPrimaryLight,
                             ),
                           ],
                         ),
@@ -95,16 +103,20 @@ class HomeHeaderWidget extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: isDark ? AppColors.surfaceDark : AppColors.surfaceLight,
+                    color:
+                        isDark ? AppColors.surfaceDark : AppColors.surfaceLight,
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: isDark ? AppColors.borderDark : AppColors.borderLight,
+                      color:
+                          isDark ? AppColors.borderDark : AppColors.borderLight,
                     ),
                   ),
                   child: Icon(
                     Icons.notifications_none_rounded,
                     size: 22,
-                    color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+                    color: isDark
+                        ? AppColors.textPrimaryDark
+                        : AppColors.textPrimaryLight,
                   ),
                 ),
                 if (unreadNotifications > 0)
@@ -117,7 +129,8 @@ class HomeHeaderWidget extends StatelessWidget {
                         color: AppColors.error,
                         shape: BoxShape.circle,
                       ),
-                      constraints: const BoxConstraints(minWidth: 16, minHeight: 16),
+                      constraints:
+                          const BoxConstraints(minWidth: 16, minHeight: 16),
                       child: Center(
                         child: Text(
                           '$unreadNotifications',

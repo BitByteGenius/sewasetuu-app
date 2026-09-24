@@ -27,7 +27,8 @@ class FilterController extends GetxController {
   void initialize(StayFilterCriteria? initialCriteria) {
     if (initialCriteria != null) {
       selectedType.value = initialCriteria.stayType;
-      if (initialCriteria.minPrice != null || initialCriteria.maxPrice != null) {
+      if (initialCriteria.minPrice != null ||
+          initialCriteria.maxPrice != null) {
         priceRange.value = RangeValues(
           initialCriteria.minPrice ?? 200,
           initialCriteria.maxPrice ?? 10000,

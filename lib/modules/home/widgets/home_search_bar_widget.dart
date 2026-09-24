@@ -64,13 +64,17 @@ class HomeSearchBarWidget extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(7),
                 decoration: BoxDecoration(
-                  color: isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariantLight,
+                  color: isDark
+                      ? AppColors.surfaceVariantDark
+                      : AppColors.surfaceVariantLight,
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
                   Icons.tune_rounded,
                   size: 16,
-                  color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+                  color: isDark
+                      ? AppColors.textPrimaryDark
+                      : AppColors.textPrimaryLight,
                 ),
               ),
             ],

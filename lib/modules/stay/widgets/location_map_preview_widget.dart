@@ -41,7 +41,9 @@ class LocationMapPreviewWidget extends StatelessWidget {
                     fit: BoxFit.cover,
                     opacity: const AlwaysStoppedAnimation(0.7),
                     errorBuilder: (context, error, stackTrace) => Container(
-                      color: isDark ? const Color(0xFF1E2A38) : const Color(0xFFE2E8F0),
+                      color: isDark
+                          ? const Color(0xFF1E2A38)
+                          : const Color(0xFFE2E8F0),
                     ),
                   ),
                 ),
@@ -52,9 +54,14 @@ class LocationMapPreviewWidget extends StatelessWidget {
                     height: 140,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: (isDark ? AppColors.primaryLight : AppColors.primary).withAlpha(40),
+                      color:
+                          (isDark ? AppColors.primaryLight : AppColors.primary)
+                              .withAlpha(40),
                       border: Border.all(
-                        color: (isDark ? AppColors.primaryLight : AppColors.primary).withAlpha(160),
+                        color: (isDark
+                                ? AppColors.primaryLight
+                                : AppColors.primary)
+                            .withAlpha(160),
                         width: 2,
                       ),
                     ),
@@ -65,7 +72,8 @@ class LocationMapPreviewWidget extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: isDark ? AppColors.primaryLight : AppColors.primary,
+                      color:
+                          isDark ? AppColors.primaryLight : AppColors.primary,
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
@@ -87,9 +95,11 @@ class LocationMapPreviewWidget extends StatelessWidget {
                   top: 10,
                   left: 10,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                     decoration: BoxDecoration(
-                      color: (isDark ? AppColors.surfaceDark : Colors.white).withAlpha(240),
+                      color: (isDark ? AppColors.surfaceDark : Colors.white)
+                          .withAlpha(240),
                       borderRadius: AppRadius.radiusPill,
                     ),
                     child: Row(
@@ -98,7 +108,9 @@ class LocationMapPreviewWidget extends StatelessWidget {
                         Icon(
                           Icons.security_rounded,
                           size: 13,
-                          color: isDark ? AppColors.primaryLight : AppColors.primary,
+                          color: isDark
+                              ? AppColors.primaryLight
+                              : AppColors.primary,
                         ),
                         const SizedBox(width: 4),
                         Text(
@@ -117,9 +129,12 @@ class LocationMapPreviewWidget extends StatelessWidget {
                   bottom: 12,
                   left: 12,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     decoration: BoxDecoration(
-                      color: isDark ? AppColors.surfaceDark.withAlpha(230) : Colors.white.withAlpha(240),
+                      color: isDark
+                          ? AppColors.surfaceDark.withAlpha(230)
+                          : Colors.white.withAlpha(240),
                       borderRadius: AppRadius.radiusPill,
                     ),
                     child: Row(
@@ -128,7 +143,9 @@ class LocationMapPreviewWidget extends StatelessWidget {
                         Icon(
                           Icons.near_me_outlined,
                           size: 14,
-                          color: isDark ? AppColors.primaryLight : AppColors.primary,
+                          color: isDark
+                              ? AppColors.primaryLight
+                              : AppColors.primary,
                         ),
                         const SizedBox(width: 4),
                         Text(

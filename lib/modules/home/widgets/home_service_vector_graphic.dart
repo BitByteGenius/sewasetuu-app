@@ -91,7 +91,9 @@ class StayVectorPainter extends CustomPainter {
 
     final primaryColor = isSelected
         ? accentColor
-        : (isDark ? Colors.white.withValues(alpha: 0.85) : const Color(0xFF475569));
+        : (isDark
+            ? Colors.white.withValues(alpha: 0.85)
+            : const Color(0xFF475569));
     final secondaryColor = isSelected
         ? accentColor.withValues(alpha: 0.25)
         : (isDark
@@ -172,8 +174,10 @@ class StayVectorPainter extends CustomPainter {
       ..color = primaryColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.0;
-    canvas.drawLine(Offset(w * 0.50, h * 0.36), Offset(w * 0.50, h * 0.58), dividerPaint);
-    canvas.drawLine(Offset(w * 0.40, h * 0.50), Offset(w * 0.60, h * 0.50), dividerPaint);
+    canvas.drawLine(
+        Offset(w * 0.50, h * 0.36), Offset(w * 0.50, h * 0.58), dividerPaint);
+    canvas.drawLine(
+        Offset(w * 0.40, h * 0.50), Offset(w * 0.60, h * 0.50), dividerPaint);
 
     // Front Doorway
     final doorRect = RRect.fromRectAndCorners(
@@ -181,7 +185,11 @@ class StayVectorPainter extends CustomPainter {
       topLeft: const Radius.circular(3),
       topRight: const Radius.circular(3),
     );
-    canvas.drawRRect(doorRect, Paint()..color = primaryColor..style = PaintingStyle.fill);
+    canvas.drawRRect(
+        doorRect,
+        Paint()
+          ..color = primaryColor
+          ..style = PaintingStyle.fill);
 
     // Base Ground Deck Line
     canvas.drawLine(
@@ -222,7 +230,9 @@ class TripsVectorPainter extends CustomPainter {
 
     final primaryColor = isSelected
         ? accentColor
-        : (isDark ? Colors.white.withValues(alpha: 0.85) : const Color(0xFF475569));
+        : (isDark
+            ? Colors.white.withValues(alpha: 0.85)
+            : const Color(0xFF475569));
     final dialFillColor = isSelected
         ? (isDark
             ? accentColor.withValues(alpha: 0.18)
@@ -404,7 +414,9 @@ class ShopVectorPainter extends CustomPainter {
 
     final primaryColor = isSelected
         ? accentColor
-        : (isDark ? Colors.white.withValues(alpha: 0.85) : const Color(0xFF475569));
+        : (isDark
+            ? Colors.white.withValues(alpha: 0.85)
+            : const Color(0xFF475569));
     final secondaryColor = isSelected
         ? accentColor.withValues(alpha: 0.22)
         : (isDark
@@ -417,7 +429,8 @@ class ShopVectorPainter extends CustomPainter {
     // Dual Handles Arc
     final handlePath = Path();
     handlePath.moveTo(w * 0.34, h * 0.38);
-    handlePath.cubicTo(w * 0.34, h * 0.10, w * 0.66, h * 0.10, w * 0.66, h * 0.38);
+    handlePath.cubicTo(
+        w * 0.34, h * 0.10, w * 0.66, h * 0.10, w * 0.66, h * 0.38);
 
     final handlePaint = Paint()
       ..color = primaryColor
@@ -453,8 +466,10 @@ class ShopVectorPainter extends CustomPainter {
       ..color = secondaryColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.4;
-    canvas.drawLine(Offset(w * 0.26, h * 0.48), Offset(w * 0.74, h * 0.48), weavePaint);
-    canvas.drawLine(Offset(w * 0.28, h * 0.58), Offset(w * 0.72, h * 0.58), weavePaint);
+    canvas.drawLine(
+        Offset(w * 0.26, h * 0.48), Offset(w * 0.74, h * 0.48), weavePaint);
+    canvas.drawLine(
+        Offset(w * 0.28, h * 0.58), Offset(w * 0.72, h * 0.58), weavePaint);
 
     // Bag Stroke Outline
     final bagStroke = Paint()
@@ -467,8 +482,13 @@ class ShopVectorPainter extends CustomPainter {
 
     // Artisan Craft Badge / Gift Star on front of bag
     final badgePath = Path();
-    badgePath.addOval(Rect.fromCircle(center: Offset(w * 0.50, h * 0.68), radius: w * 0.12));
-    canvas.drawPath(badgePath, Paint()..color = tagColor..style = PaintingStyle.fill);
+    badgePath.addOval(
+        Rect.fromCircle(center: Offset(w * 0.50, h * 0.68), radius: w * 0.12));
+    canvas.drawPath(
+        badgePath,
+        Paint()
+          ..color = tagColor
+          ..style = PaintingStyle.fill);
 
     // Small star inside badge
     final starCenter = Offset(w * 0.50, h * 0.68);
@@ -476,8 +496,10 @@ class ShopVectorPainter extends CustomPainter {
       ..color = Colors.white
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.2;
-    canvas.drawLine(starCenter - Offset(0, w * 0.06), starCenter + Offset(0, w * 0.06), starPaint);
-    canvas.drawLine(starCenter - Offset(w * 0.06, 0), starCenter + Offset(w * 0.06, 0), starPaint);
+    canvas.drawLine(starCenter - Offset(0, w * 0.06),
+        starCenter + Offset(0, w * 0.06), starPaint);
+    canvas.drawLine(starCenter - Offset(w * 0.06, 0),
+        starCenter + Offset(w * 0.06, 0), starPaint);
   }
 
   @override
@@ -506,7 +528,9 @@ class RentalVectorPainter extends CustomPainter {
 
     final primaryColor = isSelected
         ? accentColor
-        : (isDark ? Colors.white.withValues(alpha: 0.85) : const Color(0xFF475569));
+        : (isDark
+            ? Colors.white.withValues(alpha: 0.85)
+            : const Color(0xFF475569));
     final secondaryColor = isSelected
         ? accentColor.withValues(alpha: 0.25)
         : (isDark
@@ -534,11 +558,13 @@ class RentalVectorPainter extends CustomPainter {
     carPath.moveTo(w * 0.10, h * 0.68); // Rear bumper
     carPath.lineTo(w * 0.12, h * 0.52); // Rear trunk
     carPath.lineTo(w * 0.26, h * 0.50); // Rear boot
-    carPath.quadraticBezierTo(w * 0.34, h * 0.32, w * 0.44, h * 0.32); // Roof curve
+    carPath.quadraticBezierTo(
+        w * 0.34, h * 0.32, w * 0.44, h * 0.32); // Roof curve
     carPath.lineTo(w * 0.66, h * 0.32); // Roof flat
     carPath.lineTo(w * 0.78, h * 0.48); // Windshield
     carPath.lineTo(w * 0.90, h * 0.54); // Hood
-    carPath.quadraticBezierTo(w * 0.94, h * 0.58, w * 0.94, h * 0.64); // Front nose
+    carPath.quadraticBezierTo(
+        w * 0.94, h * 0.58, w * 0.94, h * 0.64); // Front nose
     carPath.lineTo(w * 0.90, h * 0.68); // Front chin
 
     // Front Wheel Arch
@@ -602,12 +628,21 @@ class RentalVectorPainter extends CustomPainter {
     lightPath.lineTo(w * 0.98, h * 0.54);
     lightPath.lineTo(w * 0.98, h * 0.66);
     lightPath.close();
-    canvas.drawPath(lightPath, Paint()..color = lightGlowColor..style = PaintingStyle.fill);
+    canvas.drawPath(
+        lightPath,
+        Paint()
+          ..color = lightGlowColor
+          ..style = PaintingStyle.fill);
 
     // Wheels (Rear & Front)
     void drawWheel(Offset center, double radius) {
       // Outer Tire
-      canvas.drawCircle(center, radius, Paint()..color = primaryColor..style = PaintingStyle.fill);
+      canvas.drawCircle(
+          center,
+          radius,
+          Paint()
+            ..color = primaryColor
+            ..style = PaintingStyle.fill);
       // Rim
       canvas.drawCircle(
         center,
@@ -619,7 +654,12 @@ class RentalVectorPainter extends CustomPainter {
           ..style = PaintingStyle.fill,
       );
       // Hub
-      canvas.drawCircle(center, radius * 0.22, Paint()..color = primaryColor..style = PaintingStyle.fill);
+      canvas.drawCircle(
+          center,
+          radius * 0.22,
+          Paint()
+            ..color = primaryColor
+            ..style = PaintingStyle.fill);
     }
 
     final wheelRadius = w * 0.085;
@@ -663,7 +703,9 @@ class InstantServicesVectorPainter extends CustomPainter {
 
     final primaryColor = isSelected
         ? accentColor
-        : (isDark ? Colors.white.withValues(alpha: 0.85) : const Color(0xFF475569));
+        : (isDark
+            ? Colors.white.withValues(alpha: 0.85)
+            : const Color(0xFF475569));
     final secondaryColor = isSelected
         ? accentColor.withValues(alpha: 0.25)
         : (isDark

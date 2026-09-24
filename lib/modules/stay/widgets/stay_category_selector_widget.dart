@@ -54,7 +54,9 @@ class StayCategorySelectorWidget extends StatelessWidget {
                       Icon(
                         Icons.arrow_forward_ios_rounded,
                         size: 13,
-                        color: isDark ? AppColors.textMutedDark : AppColors.textMutedLight,
+                        color: isDark
+                            ? AppColors.textMutedDark
+                            : AppColors.textMutedLight,
                       ),
                     ],
                   ),
@@ -158,7 +160,8 @@ class _CategoryCardItemState extends State<_CategoryCardItem> {
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: widget.isDark ? 0.25 : 0.05),
+                      color: Colors.black
+                          .withValues(alpha: widget.isDark ? 0.25 : 0.05),
                       blurRadius: 8,
                       offset: const Offset(0, 3),
                     ),

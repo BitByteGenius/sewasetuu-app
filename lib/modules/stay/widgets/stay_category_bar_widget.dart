@@ -81,7 +81,9 @@ class StayCategoryBarWidget extends StatelessWidget {
               size: 16,
               color: hasActiveFilters
                   ? (isDark ? Colors.black : Colors.white)
-                  : (isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight),
+                  : (isDark
+                      ? AppColors.textPrimaryDark
+                      : AppColors.textPrimaryLight),
             ),
             const SizedBox(width: 6),
             Text(
@@ -89,7 +91,9 @@ class StayCategoryBarWidget extends StatelessWidget {
               style: AppTextStyles.labelMedium(isDark).copyWith(
                 color: hasActiveFilters
                     ? (isDark ? Colors.black : Colors.white)
-                    : (isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight),
+                    : (isDark
+                        ? AppColors.textPrimaryDark
+                        : AppColors.textPrimaryLight),
                 fontWeight: FontWeight.w700,
               ),
             ),

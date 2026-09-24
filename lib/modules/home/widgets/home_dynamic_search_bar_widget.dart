@@ -9,10 +9,12 @@ class HomeDynamicSearchBarWidget extends StatefulWidget {
   const HomeDynamicSearchBarWidget({super.key});
 
   @override
-  State<HomeDynamicSearchBarWidget> createState() => _HomeDynamicSearchBarWidgetState();
+  State<HomeDynamicSearchBarWidget> createState() =>
+      _HomeDynamicSearchBarWidgetState();
 }
 
-class _HomeDynamicSearchBarWidgetState extends State<HomeDynamicSearchBarWidget> {
+class _HomeDynamicSearchBarWidgetState
+    extends State<HomeDynamicSearchBarWidget> {
   bool _isPressed = false;
   bool _isMicPressed = false;
 
@@ -39,7 +41,8 @@ class _HomeDynamicSearchBarWidgetState extends State<HomeDynamicSearchBarWidget>
               color: isDark ? const Color(0xFF1E293B) : Colors.white,
               borderRadius: BorderRadius.circular(16),
               border: Border.all(
-                color: isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0),
+                color:
+                    isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0),
                 width: 1.2,
               ),
               boxShadow: isDark
@@ -65,7 +68,8 @@ class _HomeDynamicSearchBarWidgetState extends State<HomeDynamicSearchBarWidget>
                 Container(
                   padding: const EdgeInsets.all(6),
                   decoration: BoxDecoration(
-                    color: AppColors.primary.withValues(alpha: isDark ? 0.20 : 0.10),
+                    color: AppColors.primary
+                        .withValues(alpha: isDark ? 0.20 : 0.10),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
@@ -102,7 +106,9 @@ class _HomeDynamicSearchBarWidgetState extends State<HomeDynamicSearchBarWidget>
                         style: GoogleFonts.plusJakartaSans(
                           fontSize: 13.5,
                           fontWeight: FontWeight.w500,
-                          color: isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B),
+                          color: isDark
+                              ? const Color(0xFF94A3B8)
+                              : const Color(0xFF64748B),
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -116,7 +122,9 @@ class _HomeDynamicSearchBarWidgetState extends State<HomeDynamicSearchBarWidget>
                   height: 22,
                   width: 1,
                   margin: const EdgeInsets.symmetric(horizontal: 8),
-                  color: isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0),
+                  color: isDark
+                      ? const Color(0xFF334155)
+                      : const Color(0xFFE2E8F0),
                 ),
 
                 // Voice Search Action with interactive tap feedback
@@ -134,13 +142,18 @@ class _HomeDynamicSearchBarWidgetState extends State<HomeDynamicSearchBarWidget>
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: _isMicPressed
-                            ? (isDark ? AppColors.primaryContainerDark : AppColors.primaryContainer)
-                            : (isDark ? const Color(0xFF334155) : const Color(0xFFF1F5F9)),
+                            ? (isDark
+                                ? AppColors.primaryContainerDark
+                                : AppColors.primaryContainer)
+                            : (isDark
+                                ? const Color(0xFF334155)
+                                : const Color(0xFFF1F5F9)),
                       ),
                       child: Icon(
                         Icons.mic_none_rounded,
                         size: 19,
-                        color: isDark ? AppColors.primaryLight : AppColors.primary,
+                        color:
+                            isDark ? AppColors.primaryLight : AppColors.primary,
                       ),
                     ),
                   ),

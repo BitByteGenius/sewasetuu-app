@@ -8,7 +8,8 @@ class FullScreenGalleryScreen extends StatefulWidget {
   const FullScreenGalleryScreen({super.key});
 
   @override
-  State<FullScreenGalleryScreen> createState() => _FullScreenGalleryScreenState();
+  State<FullScreenGalleryScreen> createState() =>
+      _FullScreenGalleryScreenState();
 }
 
 class _FullScreenGalleryScreenState extends State<FullScreenGalleryScreen> {
@@ -20,7 +21,9 @@ class _FullScreenGalleryScreenState extends State<FullScreenGalleryScreen> {
   void initState() {
     super.initState();
     final args = Get.arguments as Map<String, dynamic>? ?? {};
-    _images = (args['images'] as List<dynamic>?)?.map((e) => e.toString()).toList() ?? [];
+    _images =
+        (args['images'] as List<dynamic>?)?.map((e) => e.toString()).toList() ??
+            [];
     _currentIndex = args['initialIndex'] as int? ?? 0;
     _pageController = PageController(initialPage: _currentIndex);
   }
@@ -37,7 +40,9 @@ class _FullScreenGalleryScreenState extends State<FullScreenGalleryScreen> {
       return Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(backgroundColor: Colors.black),
-        body: const Center(child: Text('No images available', style: TextStyle(color: Colors.white))),
+        body: const Center(
+            child: Text('No images available',
+                style: TextStyle(color: Colors.white))),
       );
     }
 
@@ -61,7 +66,8 @@ class _FullScreenGalleryScreenState extends State<FullScreenGalleryScreen> {
                     _images[index],
                     fit: BoxFit.contain,
                     errorBuilder: (context, error, stackTrace) => const Center(
-                      child: Icon(Icons.image_not_supported_rounded, color: Colors.white54, size: 48),
+                      child: Icon(Icons.image_not_supported_rounded,
+                          color: Colors.white54, size: 48),
                     ),
                   ),
                 ),
@@ -82,12 +88,14 @@ class _FullScreenGalleryScreenState extends State<FullScreenGalleryScreen> {
                       shape: BoxShape.circle,
                     ),
                     child: IconButton(
-                      icon: const Icon(Icons.close_rounded, color: Colors.white),
+                      icon:
+                          const Icon(Icons.close_rounded, color: Colors.white),
                       onPressed: () => Get.back(),
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
                     decoration: BoxDecoration(
                       color: Colors.black54,
                       borderRadius: AppRadius.radiusPill,

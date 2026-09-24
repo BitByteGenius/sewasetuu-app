@@ -31,25 +31,29 @@ class PopularDestinationsWidget extends StatelessWidget {
     DestinationItem(
       name: 'Shillong',
       state: 'Meghalaya',
-      imageUrl: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=600&q=80',
+      imageUrl:
+          'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=600&q=80',
       availableStays: 48,
     ),
     DestinationItem(
       name: 'Goa',
       state: 'India',
-      imageUrl: 'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=600&q=80',
+      imageUrl:
+          'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=600&q=80',
       availableStays: 120,
     ),
     DestinationItem(
       name: 'Manali',
       state: 'Himachal Pradesh',
-      imageUrl: 'https://images.unsplash.com/photo-1605649487212-47bdab064df8?auto=format&fit=crop&w=600&q=80',
+      imageUrl:
+          'https://images.unsplash.com/photo-1605649487212-47bdab064df8?auto=format&fit=crop&w=600&q=80',
       availableStays: 85,
     ),
     DestinationItem(
       name: 'Guwahati',
       state: 'Assam',
-      imageUrl: 'https://images.unsplash.com/photo-1571536802807-30451e3955d8?auto=format&fit=crop&w=600&q=80',
+      imageUrl:
+          'https://images.unsplash.com/photo-1571536802807-30451e3955d8?auto=format&fit=crop&w=600&q=80',
       availableStays: 160,
     ),
   ];
@@ -97,7 +101,9 @@ class PopularDestinationsWidget extends StatelessWidget {
                     width: 140,
                     height: 160,
                     decoration: BoxDecoration(
-                      color: isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariantLight,
+                      color: isDark
+                          ? AppColors.surfaceVariantDark
+                          : AppColors.surfaceVariantLight,
                     ),
                     child: Stack(
                       fit: StackFit.expand,
@@ -105,9 +111,13 @@ class PopularDestinationsWidget extends StatelessWidget {
                         Image.network(
                           item.imageUrl,
                           fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) => Container(
-                            color: isDark ? AppColors.surfaceVariantDark : AppColors.primaryContainer,
-                            child: const Center(child: Icon(Icons.landscape_rounded)),
+                          errorBuilder: (context, error, stackTrace) =>
+                              Container(
+                            color: isDark
+                                ? AppColors.surfaceVariantDark
+                                : AppColors.primaryContainer,
+                            child: const Center(
+                                child: Icon(Icons.landscape_rounded)),
                           ),
                         ),
                         Container(

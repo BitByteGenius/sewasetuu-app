@@ -77,10 +77,13 @@ class SearchController extends GetxController {
   void executeSearch() {
     final criteria = StayFilterCriteria(
       stayType: selectedStayType.value,
-      city: textController.text.trim().isNotEmpty ? textController.text.trim() : null,
+      city: textController.text.trim().isNotEmpty
+          ? textController.text.trim()
+          : null,
     );
 
-    if (textController.text.trim().isNotEmpty && !recentSearches.contains(textController.text.trim())) {
+    if (textController.text.trim().isNotEmpty &&
+        !recentSearches.contains(textController.text.trim())) {
       recentSearches.insert(0, textController.text.trim());
     }
 

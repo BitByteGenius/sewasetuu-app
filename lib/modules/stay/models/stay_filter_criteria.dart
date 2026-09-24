@@ -31,7 +31,10 @@ class StayFilterCriteria {
       minPrice: (json['min_price'] as num?)?.toDouble(),
       maxPrice: (json['max_price'] as num?)?.toDouble(),
       minRating: (json['min_rating'] as num?)?.toDouble(),
-      amenities: (json['amenities'] as List<dynamic>?)?.map((e) => e.toString()).toList() ?? [],
+      amenities: (json['amenities'] as List<dynamic>?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          [],
       city: json['city'] as String?,
       verifiedOnly: json['verified_only'] as bool?,
     );

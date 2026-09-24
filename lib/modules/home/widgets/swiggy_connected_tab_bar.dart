@@ -174,7 +174,8 @@ class _SwiggyConnectedTabBarState extends State<SwiggyConnectedTabBar>
                       : const Color(0xFFF1F5F9)),
               border: Border.all(
                 color: isSelected
-                    ? service.accentColor.withValues(alpha: isDark ? 0.70 : 0.50)
+                    ? service.accentColor
+                        .withValues(alpha: isDark ? 0.70 : 0.50)
                     : (isDark
                         ? Colors.white.withValues(alpha: 0.10)
                         : const Color(0xFFE2E8F0)),
@@ -183,7 +184,8 @@ class _SwiggyConnectedTabBarState extends State<SwiggyConnectedTabBar>
               boxShadow: isSelected
                   ? [
                       BoxShadow(
-                        color: service.accentColor.withValues(alpha: isDark ? 0.35 : 0.22),
+                        color: service.accentColor
+                            .withValues(alpha: isDark ? 0.35 : 0.22),
                         blurRadius: 10,
                         offset: const Offset(0, 2),
                       ),
@@ -253,9 +255,7 @@ class _SwiggyConnectedTabPainter extends CustomPainter {
 
     // 1. Draw Inactive Tabs Background Cards with enhanced corner radius
     final inactiveCardPaint = Paint()
-      ..color = isDark
-          ? Colors.black.withValues(alpha: 0.38)
-          : Colors.white
+      ..color = isDark ? Colors.black.withValues(alpha: 0.38) : Colors.white
       ..style = PaintingStyle.fill;
 
     final inactiveBorderPaint = Paint()

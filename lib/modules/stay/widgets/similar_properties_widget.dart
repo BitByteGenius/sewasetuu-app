@@ -36,9 +36,8 @@ class SimilarPropertiesWidget extends StatelessWidget {
           style: AppTextStyles.bodySmall(isDark),
         ),
         AppSpacing.gapV16,
-
         SizedBox(
-          height: 250,
+          height: 225,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             itemCount: similarStays.length,

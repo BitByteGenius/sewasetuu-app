@@ -36,7 +36,8 @@ class Staylist extends GetView<StayController> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     // Handle argument passed on navigation
-    if (Get.arguments is StayType && controller.selectedCategory.value != Get.arguments) {
+    if (Get.arguments is StayType &&
+        controller.selectedCategory.value != Get.arguments) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         controller.onCategorySelected(Get.arguments as StayType);
       });
@@ -95,7 +96,9 @@ class Staylist extends GetView<StayController> {
                   return Text(
                     '${controller.stays.length} places available',
                     style: AppTextStyles.labelMedium(isDark).copyWith(
-                      color: isDark ? AppColors.textMutedDark : AppColors.textMutedLight,
+                      color: isDark
+                          ? AppColors.textMutedDark
+                          : AppColors.textMutedLight,
                       fontWeight: FontWeight.w600,
                     ),
                   );
@@ -123,7 +126,8 @@ class Staylist extends GetView<StayController> {
                   return AppEmptyState(
                     icon: Icons.error_outline_rounded,
                     title: 'Oops! Failed to load stays',
-                    description: 'Something went wrong while fetching properties. Please try again.',
+                    description:
+                        'Something went wrong while fetching properties. Please try again.',
                     actionText: 'Retry',
                     onAction: controller.loadStays,
                   );
@@ -131,9 +135,11 @@ class Staylist extends GetView<StayController> {
                   return AppEmptyState(
                     icon: Icons.hotel_outlined,
                     title: 'No Stays Found',
-                    description: 'Try adjusting your filters or search criteria to see more available places.',
+                    description:
+                        'Try adjusting your filters or search criteria to see more available places.',
                     actionText: 'Reset Filters',
-                    onAction: () => controller.applyFilter(const StayFilterCriteria()),
+                    onAction: () =>
+                        controller.applyFilter(const StayFilterCriteria()),
                   );
                 case ViewState.loaded:
                 case ViewState.initial:
@@ -167,7 +173,9 @@ class Staylist extends GetView<StayController> {
     return Container(
       padding: const EdgeInsets.all(2),
       decoration: BoxDecoration(
-        color: isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariantLight,
+        color: isDark
+            ? AppColors.surfaceVariantDark
+            : AppColors.surfaceVariantLight,
         borderRadius: AppRadius.radiusPill,
         border: Border.all(
           color: isDark ? AppColors.borderDark : AppColors.borderLight,
@@ -234,7 +242,7 @@ class Staylist extends GetView<StayController> {
         crossAxisCount: 2,
         crossAxisSpacing: 12,
         mainAxisSpacing: 12,
-        childAspectRatio: 0.72,
+        childAspectRatio: 0.78,
       ),
       itemCount: controller.stays.length,
       itemBuilder: (context, index) {

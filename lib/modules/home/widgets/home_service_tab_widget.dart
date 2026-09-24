@@ -30,7 +30,8 @@ Path _buildTrapeziumPath(Size size, double slant, double radius) {
   // Top edge narrower by slant, bottom edge full width
   path.moveTo(slant + radius, 0);
   path.lineTo(w - slant - radius, 0);
-  path.quadraticBezierTo(w - slant, 0, w - slant + (radius * 0.7), radius * 0.7);
+  path.quadraticBezierTo(
+      w - slant, 0, w - slant + (radius * 0.7), radius * 0.7);
   path.lineTo(w - (radius * 0.7), h - radius);
   path.quadraticBezierTo(w, h, w - radius, h);
   path.lineTo(radius, h);
@@ -147,9 +148,8 @@ class _HomeServiceTabWidgetState extends State<HomeServiceTabWidget> {
     const slant = 4.5;
     const radius = 13.0;
 
-    final fillColor = isSelected
-        ? Colors.white
-        : Colors.white.withValues(alpha: 0.08);
+    final fillColor =
+        isSelected ? Colors.white : Colors.white.withValues(alpha: 0.08);
 
     final borderColor = isSelected
         ? _activeAccentColor.withValues(alpha: 0.85)
@@ -215,9 +215,11 @@ class _HomeServiceTabWidgetState extends State<HomeServiceTabWidget> {
                           curve: Curves.easeInOut,
                           style: GoogleFonts.plusJakartaSans(
                             fontSize: 11.5,
-                            fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
+                            fontWeight:
+                                isSelected ? FontWeight.w800 : FontWeight.w600,
                             color: isSelected
-                                ? const Color(0xFF0F172A) // Rich slate 900 for high contrast
+                                ? const Color(
+                                    0xFF0F172A) // Rich slate 900 for high contrast
                                 : Colors.white.withValues(alpha: 0.88),
                             letterSpacing: -0.2,
                             height: 1.1,
@@ -240,12 +242,15 @@ class _HomeServiceTabWidgetState extends State<HomeServiceTabWidget> {
                       width: isSelected ? 16 : 0,
                       height: 2.6,
                       decoration: BoxDecoration(
-                        color: isSelected ? _activeAccentColor : Colors.transparent,
+                        color: isSelected
+                            ? _activeAccentColor
+                            : Colors.transparent,
                         borderRadius: BorderRadius.circular(2),
                         boxShadow: isSelected
                             ? [
                                 BoxShadow(
-                                  color: _activeAccentColor.withValues(alpha: 0.5),
+                                  color:
+                                      _activeAccentColor.withValues(alpha: 0.5),
                                   blurRadius: 4,
                                   offset: const Offset(0, 1),
                                 ),

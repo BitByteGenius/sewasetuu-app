@@ -39,7 +39,6 @@ class RoomOptionsSelectorWidget extends StatelessWidget {
           style: AppTextStyles.bodySmall(isDark),
         ),
         AppSpacing.gapV16,
-
         ListView.separated(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -57,7 +56,9 @@ class RoomOptionsSelectorWidget extends StatelessWidget {
                   : (isDark ? AppColors.borderDark : AppColors.borderLight),
               borderWidth: isSelected ? 2 : 1,
               backgroundColor: isSelected
-                  ? (isDark ? AppColors.primaryContainerDark.withAlpha(50) : AppColors.primaryContainer.withAlpha(60))
+                  ? (isDark
+                      ? AppColors.primaryContainerDark.withAlpha(50)
+                      : AppColors.primaryContainer.withAlpha(60))
                   : null,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,10 +75,16 @@ class RoomOptionsSelectorWidget extends StatelessWidget {
                         ),
                       ),
                       Icon(
-                        isSelected ? Icons.radio_button_checked_rounded : Icons.radio_button_off_rounded,
+                        isSelected
+                            ? Icons.radio_button_checked_rounded
+                            : Icons.radio_button_off_rounded,
                         color: isSelected
-                            ? (isDark ? AppColors.primaryLight : AppColors.primary)
-                            : (isDark ? AppColors.textMutedDark : AppColors.textMutedLight),
+                            ? (isDark
+                                ? AppColors.primaryLight
+                                : AppColors.primary)
+                            : (isDark
+                                ? AppColors.textMutedDark
+                                : AppColors.textMutedLight),
                       ),
                     ],
                   ),
@@ -92,9 +99,12 @@ class RoomOptionsSelectorWidget extends StatelessWidget {
                     runSpacing: 6,
                     children: room.highlights.map((h) {
                       return Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 4),
                         decoration: BoxDecoration(
-                          color: isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariantLight,
+                          color: isDark
+                              ? AppColors.surfaceVariantDark
+                              : AppColors.surfaceVariantLight,
                           borderRadius: AppRadius.radiusSm,
                         ),
                         child: Text(

@@ -39,7 +39,8 @@ class SearchDatesStep extends StatelessWidget {
               child: _buildDatePill(
                 isDark: isDark,
                 title: 'CHECK-IN',
-                value: checkIn != null ? formatter.format(checkIn!) : 'Add date',
+                value:
+                    checkIn != null ? formatter.format(checkIn!) : 'Add date',
                 icon: Icons.calendar_today_rounded,
                 onTap: () => _pickDateRange(context),
               ),
@@ -49,7 +50,8 @@ class SearchDatesStep extends StatelessWidget {
               child: _buildDatePill(
                 isDark: isDark,
                 title: 'CHECK-OUT',
-                value: checkOut != null ? formatter.format(checkOut!) : 'Add date',
+                value:
+                    checkOut != null ? formatter.format(checkOut!) : 'Add date',
                 icon: Icons.event_available_rounded,
                 onTap: () => _pickDateRange(context),
               ),
@@ -75,7 +77,10 @@ class SearchDatesStep extends StatelessWidget {
               onTap: () {
                 final now = DateTime.now();
                 final daysUntilSaturday = DateTime.saturday - now.weekday;
-                final sat = now.add(Duration(days: daysUntilSaturday >= 0 ? daysUntilSaturday : daysUntilSaturday + 7));
+                final sat = now.add(Duration(
+                    days: daysUntilSaturday >= 0
+                        ? daysUntilSaturday
+                        : daysUntilSaturday + 7));
                 final sun = sat.add(const Duration(days: 2));
                 onDatesSelected(sat, sun);
               },
@@ -137,7 +142,9 @@ class SearchDatesStep extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         decoration: BoxDecoration(
-          color: isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariantLight,
+          color: isDark
+              ? AppColors.surfaceVariantDark
+              : AppColors.surfaceVariantLight,
           borderRadius: AppRadius.radiusMd,
           border: Border.all(
             color: isDark ? AppColors.borderDark : AppColors.borderLight,
@@ -182,7 +189,8 @@ class SearchDatesStep extends StatelessWidget {
   }) {
     return ActionChip(
       label: Text(label),
-      backgroundColor: isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariantLight,
+      backgroundColor:
+          isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariantLight,
       labelStyle: AppTextStyles.labelMedium(isDark),
       onPressed: onTap,
     );
@@ -194,8 +202,10 @@ class SearchDatesStep extends StatelessWidget {
     return ChoiceChip(
       label: Text(label),
       selected: isSelected,
-      selectedColor: isDark ? AppColors.primaryContainerDark : AppColors.primaryContainer,
-      backgroundColor: isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariantLight,
+      selectedColor:
+          isDark ? AppColors.primaryContainerDark : AppColors.primaryContainer,
+      backgroundColor:
+          isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariantLight,
       labelStyle: AppTextStyles.labelMedium(isDark).copyWith(
         color: isSelected
             ? (isDark ? AppColors.primaryLight : AppColors.primary)

@@ -16,9 +16,17 @@ class ReviewsBreakdownWidget extends StatelessWidget {
   });
 
   static const List<Map<String, dynamic>> dimensions = [
-    {'label': 'Cleanliness', 'score': 4.9, 'icon': Icons.cleaning_services_outlined},
+    {
+      'label': 'Cleanliness',
+      'score': 4.9,
+      'icon': Icons.cleaning_services_outlined
+    },
     {'label': 'Accuracy', 'score': 4.8, 'icon': Icons.verified_outlined},
-    {'label': 'Communication', 'score': 5.0, 'icon': Icons.chat_bubble_outline_rounded},
+    {
+      'label': 'Communication',
+      'score': 5.0,
+      'icon': Icons.chat_bubble_outline_rounded
+    },
     {'label': 'Location', 'score': 4.9, 'icon': Icons.location_on_outlined},
     {'label': 'Check-in', 'score': 4.8, 'icon': Icons.key_outlined},
     {'label': 'Value', 'score': 4.7, 'icon': Icons.sell_outlined},
@@ -81,7 +89,11 @@ class ReviewsBreakdownWidget extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Icon(icon, size: 14, color: isDark ? AppColors.textMutedDark : AppColors.textMutedLight),
+                        Icon(icon,
+                            size: 14,
+                            color: isDark
+                                ? AppColors.textMutedDark
+                                : AppColors.textMutedLight),
                         const SizedBox(width: 6),
                         Text(
                           dim['label'] as String,
@@ -105,7 +117,9 @@ class ReviewsBreakdownWidget extends StatelessWidget {
                   child: LinearProgressIndicator(
                     value: score / 5.0,
                     minHeight: 4,
-                    backgroundColor: isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariantLight,
+                    backgroundColor: isDark
+                        ? AppColors.surfaceVariantDark
+                        : AppColors.surfaceVariantLight,
                     valueColor: AlwaysStoppedAnimation<Color>(
                       isDark ? AppColors.primaryLight : AppColors.primary,
                     ),

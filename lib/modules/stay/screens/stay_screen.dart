@@ -29,7 +29,8 @@ class StayScreen extends GetView<StayController> {
         onRefresh: controller.loadStays,
         color: isDark ? AppColors.primaryLight : AppColors.primary,
         child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+          physics: const BouncingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics()),
           padding: const EdgeInsets.only(bottom: 100),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,80 +40,80 @@ class StayScreen extends GetView<StayController> {
               StayCategorySelectorWidget(
                 onCategorySelected: controller.onSelectStayType,
               ),
-            AppSpacing.gapV24,
-      
-            // 2. State-driven Content
-            Obx(() {
-              if (controller.state.value == ViewState.loading) {
-                return Padding(
-                  padding: AppSpacing.screenPadding,
-                  child: Column(
-                    children: const [
-                      StayCardSkeleton(),
-                      AppSpacing.gapV16,
-                      StayCardSkeleton(),
-                    ],
-                  ),
+              AppSpacing.gapV24,
+
+              // 2. State-driven Content
+              Obx(() {
+                if (controller.state.value == ViewState.loading) {
+                  return Padding(
+                    padding: AppSpacing.screenPadding,
+                    child: Column(
+                      children: const [
+                        StayCardSkeleton(),
+                        AppSpacing.gapV16,
+                        StayCardSkeleton(),
+                      ],
+                    ),
+                  );
+                }
+
+                return Column(
+                  children: [
+                    // Featured Accommodations
+                    FeaturedStaysCarouselWidget(
+                      stays: controller.featuredStays,
+                      onStayTap: (stay) => Get.toNamed(
+                        AppRoutes.stayDetails,
+                        arguments: stay.id,
+                      ),
+                      onViewAll: () => Get.toNamed(AppRoutes.stayList),
+                    ),
+                    AppSpacing.gapV24,
+
+                    // Recommended Stays
+                    RecommendedStaysWidget(
+                      stays: controller.recommendedStays,
+                      onStayTap: (stay) => Get.toNamed(
+                        AppRoutes.stayDetails,
+                        arguments: stay.id,
+                      ),
+                      onViewAll: () => Get.toNamed(AppRoutes.stayList),
+                    ),
+                    AppSpacing.gapV24,
+
+                    // Popular Destinations
+                    PopularDestinationsWidget(
+                      onSelectDestination: controller.onSelectDestination,
+                    ),
+                    AppSpacing.gapV24,
+
+                    // Nearby Stays
+                    NearbyStaysWidget(
+                      stays: controller.nearbyStays,
+                      currentCity: locationService.selectedCity.value,
+                      onStayTap: (stay) => Get.toNamed(
+                        AppRoutes.stayDetails,
+                        arguments: stay.id,
+                      ),
+                      onViewAll: () => Get.toNamed(AppRoutes.stayList),
+                    ),
+                    AppSpacing.gapV24,
+
+                    // Recently Viewed Stays
+                    RecentlyViewedWidget(
+                      stays: controller.recentlyViewedStays,
+                      onStayTap: (stay) => Get.toNamed(
+                        AppRoutes.stayDetails,
+                        arguments: stay.id,
+                      ),
+                    ),
+                    AppSpacing.gapV24,
+                  ],
                 );
-              }
-      
-              return Column(
-                children: [
-                  // Featured Accommodations
-                  FeaturedStaysCarouselWidget(
-                    stays: controller.featuredStays,
-                    onStayTap: (stay) => Get.toNamed(
-                      AppRoutes.stayDetails,
-                      arguments: stay.id,
-                    ),
-                    onViewAll: () => Get.toNamed(AppRoutes.stayList),
-                  ),
-                  AppSpacing.gapV24,
-      
-                  // Recommended Stays
-                  RecommendedStaysWidget(
-                    stays: controller.recommendedStays,
-                    onStayTap: (stay) => Get.toNamed(
-                      AppRoutes.stayDetails,
-                      arguments: stay.id,
-                    ),
-                    onViewAll: () => Get.toNamed(AppRoutes.stayList),
-                  ),
-                  AppSpacing.gapV24,
-      
-                  // Popular Destinations
-                  PopularDestinationsWidget(
-                    onSelectDestination: controller.onSelectDestination,
-                  ),
-                  AppSpacing.gapV24,
-      
-                  // Nearby Stays
-                  NearbyStaysWidget(
-                    stays: controller.nearbyStays,
-                    currentCity: locationService.selectedCity.value,
-                    onStayTap: (stay) => Get.toNamed(
-                      AppRoutes.stayDetails,
-                      arguments: stay.id,
-                    ),
-                    onViewAll: () => Get.toNamed(AppRoutes.stayList),
-                  ),
-                  AppSpacing.gapV24,
-      
-                  // Recently Viewed Stays
-                  RecentlyViewedWidget(
-                    stays: controller.recentlyViewedStays,
-                    onStayTap: (stay) => Get.toNamed(
-                      AppRoutes.stayDetails,
-                      arguments: stay.id,
-                    ),
-                  ),
-                  AppSpacing.gapV24,
-                ],
-              );
-            }),
-          ],
+              }),
+            ],
+          ),
         ),
-      ),
       ),
     );
   }

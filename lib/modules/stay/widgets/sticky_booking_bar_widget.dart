@@ -73,7 +73,8 @@ class StickyBookingBarWidget extends StatelessWidget {
                   Text(
                     'Or ${AppFormatters.formatCurrency(pricePerMonth!)}/mo for long stay',
                     style: AppTextStyles.labelSmall(isDark).copyWith(
-                      color: isDark ? AppColors.primaryLight : AppColors.primary,
+                      color:
+                          isDark ? AppColors.primaryLight : AppColors.primary,
                       fontWeight: FontWeight.w700,
                     ),
                   ),

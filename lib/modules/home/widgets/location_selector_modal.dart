@@ -109,7 +109,8 @@ class _LocationSelectorModalState extends State<LocationSelectorModal> {
                         style: GoogleFonts.plusJakartaSans(
                           fontSize: 18,
                           fontWeight: FontWeight.w800,
-                          color: isDark ? Colors.white : const Color(0xFF0F172A),
+                          color:
+                              isDark ? Colors.white : const Color(0xFF0F172A),
                         ),
                       ),
                       const SizedBox(height: 2),
@@ -118,7 +119,9 @@ class _LocationSelectorModalState extends State<LocationSelectorModal> {
                         style: GoogleFonts.plusJakartaSans(
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
-                          color: isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B),
+                          color: isDark
+                              ? const Color(0xFF94A3B8)
+                              : const Color(0xFF64748B),
                         ),
                       ),
                     ],
@@ -142,10 +145,13 @@ class _LocationSelectorModalState extends State<LocationSelectorModal> {
             child: Container(
               height: 48,
               decoration: BoxDecoration(
-                color: isDark ? const Color(0xFF0F172A) : const Color(0xFFF1F5F9),
+                color:
+                    isDark ? const Color(0xFF0F172A) : const Color(0xFFF1F5F9),
                 borderRadius: BorderRadius.circular(14),
                 border: Border.all(
-                  color: isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0),
+                  color: isDark
+                      ? const Color(0xFF334155)
+                      : const Color(0xFFE2E8F0),
                   width: 1.2,
                 ),
               ),
@@ -162,7 +168,9 @@ class _LocationSelectorModalState extends State<LocationSelectorModal> {
                   hintText: 'Search city, street, or landmark...',
                   hintStyle: GoogleFonts.plusJakartaSans(
                     fontSize: 13.5,
-                    color: isDark ? const Color(0xFF64748B) : const Color(0xFF94A3B8),
+                    color: isDark
+                        ? const Color(0xFF64748B)
+                        : const Color(0xFF94A3B8),
                   ),
                   prefixIcon: Icon(
                     Icons.search_rounded,
@@ -199,7 +207,8 @@ class _LocationSelectorModalState extends State<LocationSelectorModal> {
                   _buildSearchResultsSection(context, locationService, isDark),
                 ] else ...[
                   // C. Recent Searched Locations
-                  _buildRecentLocationsSection(context, locationService, isDark),
+                  _buildRecentLocationsSection(
+                      context, locationService, isDark),
                   const SizedBox(height: 18),
 
                   // D. Popular Cities Section
@@ -240,9 +249,7 @@ class _LocationSelectorModalState extends State<LocationSelectorModal> {
                 : AppColors.primaryContainer.withValues(alpha: 0.45),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: isDark
-                  ? const Color(0xFF0F766E)
-                  : const Color(0xFF99F6E4),
+              color: isDark ? const Color(0xFF0F766E) : const Color(0xFF99F6E4),
               width: 1.2,
             ),
           ),
@@ -271,7 +278,8 @@ class _LocationSelectorModalState extends State<LocationSelectorModal> {
                         padding: EdgeInsets.all(10.0),
                         child: CircularProgressIndicator(
                           strokeWidth: 2.2,
-                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.white),
                         ),
                       )
                     : const Icon(
@@ -286,7 +294,9 @@ class _LocationSelectorModalState extends State<LocationSelectorModal> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      isLocating ? 'Detecting GPS location...' : 'Use Current Location',
+                      isLocating
+                          ? 'Detecting GPS location...'
+                          : 'Use Current Location',
                       style: GoogleFonts.plusJakartaSans(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
@@ -301,7 +311,9 @@ class _LocationSelectorModalState extends State<LocationSelectorModal> {
                       style: GoogleFonts.plusJakartaSans(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
-                        color: isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B),
+                        color: isDark
+                            ? const Color(0xFF94A3B8)
+                            : const Color(0xFF64748B),
                       ),
                     ),
                   ],
@@ -310,7 +322,8 @@ class _LocationSelectorModalState extends State<LocationSelectorModal> {
               Icon(
                 Icons.arrow_forward_ios_rounded,
                 size: 14,
-                color: isDark ? const Color(0xFF64748B) : const Color(0xFF94A3B8),
+                color:
+                    isDark ? const Color(0xFF64748B) : const Color(0xFF94A3B8),
               ),
             ],
           ),
@@ -339,7 +352,8 @@ class _LocationSelectorModalState extends State<LocationSelectorModal> {
                   height: 28,
                   child: CircularProgressIndicator(
                     strokeWidth: 2.5,
-                    valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF14B8A6)),
+                    valueColor:
+                        AlwaysStoppedAnimation<Color>(Color(0xFF14B8A6)),
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -347,7 +361,9 @@ class _LocationSelectorModalState extends State<LocationSelectorModal> {
                   'Searching OpenStreetMap...',
                   style: GoogleFonts.plusJakartaSans(
                     fontSize: 13,
-                    color: isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B),
+                    color: isDark
+                        ? const Color(0xFF94A3B8)
+                        : const Color(0xFF64748B),
                   ),
                 ),
               ],
@@ -364,7 +380,8 @@ class _LocationSelectorModalState extends State<LocationSelectorModal> {
               'No matching locations found for "$_searchQuery".',
               style: GoogleFonts.plusJakartaSans(
                 fontSize: 13.5,
-                color: isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B),
+                color:
+                    isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B),
               ),
             ),
           ),
@@ -384,7 +401,8 @@ class _LocationSelectorModalState extends State<LocationSelectorModal> {
             ),
           ),
           const SizedBox(height: 8),
-          ...results.map((item) => _buildLocationTile(context, locationService, item, isDark)),
+          ...results.map((item) =>
+              _buildLocationTile(context, locationService, item, isDark)),
         ],
       );
     });
@@ -410,7 +428,9 @@ class _LocationSelectorModalState extends State<LocationSelectorModal> {
                 style: GoogleFonts.plusJakartaSans(
                   fontSize: 12.5,
                   fontWeight: FontWeight.w700,
-                  color: isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B),
+                  color: isDark
+                      ? const Color(0xFF94A3B8)
+                      : const Color(0xFF64748B),
                   letterSpacing: 0.5,
                 ),
               ),
@@ -418,7 +438,8 @@ class _LocationSelectorModalState extends State<LocationSelectorModal> {
                 onTap: locationService.clearRecentLocations,
                 behavior: HitTestBehavior.opaque,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                   child: Text(
                     'Clear All',
                     style: GoogleFonts.plusJakartaSans(
@@ -466,7 +487,8 @@ class _LocationSelectorModalState extends State<LocationSelectorModal> {
         const SizedBox(height: 8),
         ...LocationService.popularCities.map((city) {
           return Obx(() {
-            final isSelected = locationService.selectedCity.value.contains(city.split(',').first);
+            final isSelected = locationService.selectedCity.value
+                .contains(city.split(',').first);
 
             return InkWell(
               onTap: () {
@@ -475,7 +497,8 @@ class _LocationSelectorModalState extends State<LocationSelectorModal> {
               },
               borderRadius: BorderRadius.circular(12),
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
                 child: Row(
                   children: [
                     Container(
@@ -491,7 +514,9 @@ class _LocationSelectorModalState extends State<LocationSelectorModal> {
                         Icons.location_city_rounded,
                         color: isSelected
                             ? AppColors.primary
-                            : (isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B)),
+                            : (isDark
+                                ? const Color(0xFF94A3B8)
+                                : const Color(0xFF64748B)),
                         size: 18,
                       ),
                     ),
@@ -501,17 +526,23 @@ class _LocationSelectorModalState extends State<LocationSelectorModal> {
                         city,
                         style: GoogleFonts.plusJakartaSans(
                           fontSize: 14.5,
-                          fontWeight: isSelected ? FontWeight.w800 : FontWeight.w500,
+                          fontWeight:
+                              isSelected ? FontWeight.w800 : FontWeight.w500,
                           color: isSelected
-                              ? (isDark ? AppColors.primaryLight : AppColors.primary)
-                              : (isDark ? Colors.white : const Color(0xFF0F172A)),
+                              ? (isDark
+                                  ? AppColors.primaryLight
+                                  : AppColors.primary)
+                              : (isDark
+                                  ? Colors.white
+                                  : const Color(0xFF0F172A)),
                         ),
                       ),
                     ),
                     if (isSelected)
                       Icon(
                         Icons.check_circle_rounded,
-                        color: isDark ? AppColors.primaryLight : AppColors.primary,
+                        color:
+                            isDark ? AppColors.primaryLight : AppColors.primary,
                         size: 18,
                       ),
                   ],
@@ -563,7 +594,9 @@ class _LocationSelectorModalState extends State<LocationSelectorModal> {
                   isRecent ? Icons.history_rounded : Icons.location_on_rounded,
                   color: isSelected
                       ? (isDark ? AppColors.primaryLight : AppColors.primary)
-                      : (isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B)),
+                      : (isDark
+                          ? const Color(0xFF94A3B8)
+                          : const Color(0xFF64748B)),
                   size: 18,
                 ),
               ),
@@ -576,9 +609,12 @@ class _LocationSelectorModalState extends State<LocationSelectorModal> {
                       item.title,
                       style: GoogleFonts.plusJakartaSans(
                         fontSize: 14.5,
-                        fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
+                        fontWeight:
+                            isSelected ? FontWeight.w800 : FontWeight.w600,
                         color: isSelected
-                            ? (isDark ? AppColors.primaryLight : AppColors.primary)
+                            ? (isDark
+                                ? AppColors.primaryLight
+                                : AppColors.primary)
                             : (isDark ? Colors.white : const Color(0xFF0F172A)),
                       ),
                       maxLines: 1,
@@ -590,7 +626,9 @@ class _LocationSelectorModalState extends State<LocationSelectorModal> {
                       style: GoogleFonts.plusJakartaSans(
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
-                        color: isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B),
+                        color: isDark
+                            ? const Color(0xFF94A3B8)
+                            : const Color(0xFF64748B),
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,

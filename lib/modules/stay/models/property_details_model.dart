@@ -23,7 +23,10 @@ class RoomOptionItem {
       bedType: json['bed_type'] as String? ?? '',
       maxGuests: json['max_guests'] as String? ?? '',
       pricePerNight: (json['price_per_night'] as num?)?.toDouble() ?? 0.0,
-      highlights: (json['highlights'] as List<dynamic>?)?.map((e) => e.toString()).toList() ?? [],
+      highlights: (json['highlights'] as List<dynamic>?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          [],
     );
   }
 

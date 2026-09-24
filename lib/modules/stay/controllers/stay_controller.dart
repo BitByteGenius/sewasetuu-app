@@ -31,7 +31,8 @@ class StayController extends GetxController {
     super.onInit();
     if (Get.arguments is StayType) {
       selectedCategory.value = Get.arguments as StayType;
-      currentFilter.value = currentFilter.value.copyWith(stayType: selectedCategory.value);
+      currentFilter.value =
+          currentFilter.value.copyWith(stayType: selectedCategory.value);
     } else if (Get.arguments is StayFilterCriteria) {
       currentFilter.value = Get.arguments as StayFilterCriteria;
       selectedCategory.value = currentFilter.value.stayType;
@@ -123,7 +124,8 @@ class StayController extends GetxController {
         list.sort((a, b) => b.rating.compareTo(a.rating));
         break;
       case StaySortOption.recommended:
-        list.sort((a, b) => (b.isFeatured ? 1 : 0).compareTo(a.isFeatured ? 1 : 0));
+        list.sort(
+            (a, b) => (b.isFeatured ? 1 : 0).compareTo(a.isFeatured ? 1 : 0));
         break;
     }
     stays.assignAll(list);

@@ -6,7 +6,8 @@ import 'package:sewasetu/app/theme/app_radius.dart';
 import 'package:sewasetu/app/theme/app_shadows.dart';
 import 'package:sewasetu/app/theme/app_spacing.dart';
 import 'package:sewasetu/app/theme/app_text_styles.dart';
-import 'package:sewasetu/modules/stay/controllers/search_controller.dart' as stay_search;
+import 'package:sewasetu/modules/stay/controllers/search_controller.dart'
+    as stay_search;
 import 'package:sewasetu/modules/stay/widgets/search_dates_step.dart';
 import 'package:sewasetu/modules/stay/widgets/search_guests_step.dart';
 import 'package:sewasetu/modules/stay/widgets/search_location_step.dart';
@@ -89,9 +90,11 @@ class SearchScreen extends GetView<stay_search.SearchController> {
 
                   // 3. Who / Guests Accordion
                   Obx(() {
-                    final totalGuests = controller.adultsCount.value + controller.childrenCount.value;
+                    final totalGuests = controller.adultsCount.value +
+                        controller.childrenCount.value;
                     final rooms = controller.roomsCount.value;
-                    final guestText = '$totalGuests Guests, $rooms Room${rooms > 1 ? 's' : ''}';
+                    final guestText =
+                        '$totalGuests Guests, $rooms Room${rooms > 1 ? 's' : ''}';
 
                     return _buildAccordionCard(
                       context: context,
@@ -103,9 +106,12 @@ class SearchScreen extends GetView<stay_search.SearchController> {
                         adults: controller.adultsCount.value,
                         children: controller.childrenCount.value,
                         rooms: controller.roomsCount.value,
-                        onAdultsChanged: (val) => controller.adultsCount.value = val,
-                        onChildrenChanged: (val) => controller.childrenCount.value = val,
-                        onRoomsChanged: (val) => controller.roomsCount.value = val,
+                        onAdultsChanged: (val) =>
+                            controller.adultsCount.value = val,
+                        onChildrenChanged: (val) =>
+                            controller.childrenCount.value = val,
+                        onRoomsChanged: (val) =>
+                            controller.roomsCount.value = val,
                       ),
                     );
                   }),
@@ -114,7 +120,9 @@ class SearchScreen extends GetView<stay_search.SearchController> {
                   // 4. Property Category Selector Accordion
                   Obx(() {
                     final currentType = controller.selectedStayType.value;
-                    final typeText = currentType != null ? currentType.label : 'Any accommodation type';
+                    final typeText = currentType != null
+                        ? currentType.label
+                        : 'Any accommodation type';
 
                     return _buildAccordionCard(
                       context: context,
@@ -129,31 +137,53 @@ class SearchScreen extends GetView<stay_search.SearchController> {
                           ChoiceChip(
                             label: const Text('✨ All Categories'),
                             selected: controller.selectedStayType.value == null,
-                            selectedColor: isDark ? AppColors.primaryLight : AppColors.primary,
-                            backgroundColor: isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariantLight,
-                            labelStyle: AppTextStyles.labelMedium(isDark).copyWith(
+                            selectedColor: isDark
+                                ? AppColors.primaryLight
+                                : AppColors.primary,
+                            backgroundColor: isDark
+                                ? AppColors.surfaceVariantDark
+                                : AppColors.surfaceVariantLight,
+                            labelStyle:
+                                AppTextStyles.labelMedium(isDark).copyWith(
                               color: controller.selectedStayType.value == null
                                   ? (isDark ? Colors.black : Colors.white)
-                                  : (isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight),
-                              fontWeight: controller.selectedStayType.value == null ? FontWeight.w800 : FontWeight.w500,
+                                  : (isDark
+                                      ? AppColors.textPrimaryDark
+                                      : AppColors.textPrimaryLight),
+                              fontWeight:
+                                  controller.selectedStayType.value == null
+                                      ? FontWeight.w800
+                                      : FontWeight.w500,
                             ),
-                            onSelected: (_) => controller.selectedStayType.value = null,
+                            onSelected: (_) =>
+                                controller.selectedStayType.value = null,
                           ),
                           ...StayType.values.map((type) {
-                            final isSelected = controller.selectedStayType.value == type;
+                            final isSelected =
+                                controller.selectedStayType.value == type;
                             return ChoiceChip(
                               label: Text('${type.emoji} ${type.label}'),
                               selected: isSelected,
-                              selectedColor: isDark ? AppColors.primaryLight : AppColors.primary,
-                              backgroundColor: isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariantLight,
-                              labelStyle: AppTextStyles.labelMedium(isDark).copyWith(
+                              selectedColor: isDark
+                                  ? AppColors.primaryLight
+                                  : AppColors.primary,
+                              backgroundColor: isDark
+                                  ? AppColors.surfaceVariantDark
+                                  : AppColors.surfaceVariantLight,
+                              labelStyle:
+                                  AppTextStyles.labelMedium(isDark).copyWith(
                                 color: isSelected
                                     ? (isDark ? Colors.black : Colors.white)
-                                    : (isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight),
-                                fontWeight: isSelected ? FontWeight.w800 : FontWeight.w500,
+                                    : (isDark
+                                        ? AppColors.textPrimaryDark
+                                        : AppColors.textPrimaryLight),
+                                fontWeight: isSelected
+                                    ? FontWeight.w800
+                                    : FontWeight.w500,
                               ),
                               onSelected: (selected) {
-                                controller.selectedStayType.value = selected ? type : null;
+                                controller.selectedStayType.value =
+                                    selected ? type : null;
                               },
                             );
                           }),
@@ -183,7 +213,8 @@ class SearchScreen extends GetView<stay_search.SearchController> {
               top: false,
               child: AppButton.primary(
                 text: 'Search Accommodations',
-                icon: const Icon(Icons.search_rounded, color: Colors.white, size: 20),
+                icon: const Icon(Icons.search_rounded,
+                    color: Colors.white, size: 20),
                 width: double.infinity,
                 onPressed: controller.executeSearch,
               ),
@@ -223,7 +254,8 @@ class SearchScreen extends GetView<stay_search.SearchController> {
           children: [
             InkWell(
               onTap: () {
-                controller.currentSearchStep.value = isExpanded ? -1 : stepIndex;
+                controller.currentSearchStep.value =
+                    isExpanded ? -1 : stepIndex;
               },
               borderRadius: AppRadius.radiusLg,
               child: Padding(
@@ -245,15 +277,21 @@ class SearchScreen extends GetView<stay_search.SearchController> {
                           Text(
                             previewText,
                             style: AppTextStyles.bodySmall(isDark).copyWith(
-                              color: isDark ? AppColors.textMutedDark : AppColors.textMutedLight,
+                              color: isDark
+                                  ? AppColors.textMutedDark
+                                  : AppColors.textMutedLight,
                             ),
                           ),
                         ],
                       ],
                     ),
                     Icon(
-                      isExpanded ? Icons.keyboard_arrow_up_rounded : Icons.keyboard_arrow_down_rounded,
-                      color: isDark ? AppColors.textMutedDark : AppColors.textMutedLight,
+                      isExpanded
+                          ? Icons.keyboard_arrow_up_rounded
+                          : Icons.keyboard_arrow_down_rounded,
+                      color: isDark
+                          ? AppColors.textMutedDark
+                          : AppColors.textMutedLight,
                     ),
                   ],
                 ),
