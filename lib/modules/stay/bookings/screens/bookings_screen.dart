@@ -4,10 +4,10 @@ import 'package:sewasetu/app/routes/app_routes.dart';
 import 'package:sewasetu/app/theme/app_colors.dart';
 import 'package:sewasetu/app/theme/app_spacing.dart';
 import 'package:sewasetu/app/theme/app_text_styles.dart';
-import 'package:sewasetu/modules/bookings/bindings/bookings_binding.dart';
-import 'package:sewasetu/modules/bookings/controllers/bookings_controller.dart';
-import 'package:sewasetu/modules/bookings/models/booking_model.dart';
-import 'package:sewasetu/modules/bookings/widgets/booking_card.dart';
+import 'package:sewasetu/modules/stay/bookings/bindings/bookings_binding.dart';
+import 'package:sewasetu/modules/stay/bookings/controllers/bookings_controller.dart';
+import 'package:sewasetu/modules/stay/bookings/models/booking_model.dart';
+import 'package:sewasetu/modules/stay/bookings/widgets/booking_card.dart';
 import 'package:sewasetu/shared/widgets/app_empty_state.dart';
 
 /// My Bookings screen with Upcoming, Completed, and Cancelled tabs

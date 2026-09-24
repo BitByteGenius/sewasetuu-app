@@ -1,4 +1,4 @@
-// Central barrel export for Bookings Module
+// Central barrel export for Stay Bookings Sub-Module
 export 'bindings/bookings_binding.dart';
 export 'controllers/bookings_controller.dart';
 export 'models/booking_model.dart';

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sewasetu/app/routes/app_routes.dart';
 import 'package:sewasetu/modules/auth/auth.dart';
-import 'package:sewasetu/modules/bookings/bookings.dart';
 import 'package:sewasetu/modules/home/home.dart';
 import 'package:sewasetu/modules/notifications/notifications.dart';
 import 'package:sewasetu/modules/onboarding/onboarding.dart';

@@ -38,3 +38,4 @@ export 'widgets/stay_navigation_bar.dart';
 export 'widgets/stay_navigation_item.dart';
 export 'widgets/stay_sorting_sheet.dart';
 export 'widgets/sticky_booking_bar_widget.dart';
+export 'bookings/bookings.dart';

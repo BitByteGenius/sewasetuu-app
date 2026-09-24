@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:sewasetu/modules/bookings/models/booking_model.dart';
+import 'package:sewasetu/modules/stay/bookings/models/booking_model.dart';
 import 'package:sewasetu/shared/enums/booking_status.dart';
 
 /// Controller managing reservations across Upcoming, Completed, and Cancelled tabs

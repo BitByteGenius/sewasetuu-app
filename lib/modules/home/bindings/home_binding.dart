@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:sewasetu/core/services/location_service.dart';
-import 'package:sewasetu/modules/bookings/bookings.dart';
 import 'package:sewasetu/modules/home/controllers/home_controller.dart';
 import 'package:sewasetu/modules/profile/profile.dart';
 import 'package:sewasetu/modules/rental/rental.dart';

@@ -7,7 +7,7 @@ import 'package:sewasetu/app/theme/app_radius.dart';
 import 'package:sewasetu/app/theme/app_spacing.dart';
 import 'package:sewasetu/app/theme/app_text_styles.dart';
 import 'package:sewasetu/core/utils/formatters.dart';
-import 'package:sewasetu/modules/bookings/models/booking_model.dart';
+import 'package:sewasetu/modules/stay/bookings/models/booking_model.dart';
 import 'package:sewasetu/shared/widgets/app_button.dart';
 import 'package:sewasetu/shared/widgets/app_card.dart';
 
