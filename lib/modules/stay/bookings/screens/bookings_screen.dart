@@ -8,6 +8,7 @@ import 'package:sewasetu/modules/stay/bookings/bindings/bookings_binding.dart';
 import 'package:sewasetu/modules/stay/bookings/controllers/bookings_controller.dart';
 import 'package:sewasetu/modules/stay/bookings/models/booking_model.dart';
 import 'package:sewasetu/modules/stay/bookings/widgets/booking_card.dart';
+import 'package:sewasetu/modules/stay/controllers/stay_navigation_controller.dart';
 import 'package:sewasetu/shared/widgets/app_empty_state.dart';
 
 /// My Bookings screen with Upcoming, Completed, and Cancelled tabs
@@ -74,12 +75,18 @@ class BookingsScreen extends GetView<BookingsController> {
         title: emptyTitle,
         description: emptySubtitle,
         actionText: 'Explore Stays',
-        onAction: () => Get.toNamed(AppRoutes.stayList),
+        onAction: () {
+          if (Get.isRegistered<StayNavigationController>()) {
+            Get.find<StayNavigationController>().changeTab(0);
+          } else {
+            Get.toNamed(AppRoutes.stayList);
+          }
+        },
       );
     }
 
     return ListView.separated(
-      padding: AppSpacing.screenPadding,
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 90),
       itemCount: list.length,
       separatorBuilder: (context, index) => AppSpacing.gapV16,
       itemBuilder: (context, index) {

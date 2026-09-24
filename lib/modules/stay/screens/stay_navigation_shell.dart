@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sewasetu/app/routes/app_routes.dart';
 import 'package:sewasetu/app/theme/app_spacing.dart';
+import 'package:sewasetu/modules/stay/bookings/screens/bookings_screen.dart';
 import 'package:sewasetu/modules/stay/controllers/stay_controller.dart';
 import 'package:sewasetu/modules/stay/controllers/stay_navigation_controller.dart';
 import 'package:sewasetu/modules/stay/screens/stay_list_screen.dart';
@@ -45,8 +46,8 @@ class StayNavigationShell extends StatelessWidget {
                 // 2: Saved / Favorites
                 _buildSavedStaysTab(stayCtrl),
 
-                // 3: Bookings
-                _buildStayBookingsTab(),
+                // 3: Bookings & Activities
+                const BookingsScreen(),
               ],
             );
           }),
@@ -101,23 +102,6 @@ class StayNavigationShell extends StatelessWidget {
           },
         );
       }),
-    );
-  }
-
-  Widget _buildStayBookingsTab() {
-    return Scaffold(
-      appBar: const SewaAppBar(
-        titleText: 'Stay Bookings',
-        showBackButton: false,
-      ),
-      body: AppEmptyState(
-        icon: Icons.calendar_today_rounded,
-        title: 'No Active Reservations',
-        description:
-            'Your upcoming room, hotel, and homestay bookings will appear here once confirmed.',
-        actionText: 'Find a Place to Stay',
-        onAction: () => Get.find<StayNavigationController>().changeTab(0),
-      ),
     );
   }
 }

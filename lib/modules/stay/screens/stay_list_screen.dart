@@ -218,7 +218,7 @@ class Staylist extends GetView<StayController> {
 
   Widget _buildListView(BuildContext context) {
     return ListView.separated(
-      padding: AppSpacing.screenPadding,
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 90),
       itemCount: controller.stays.length,
       separatorBuilder: (context, index) => AppSpacing.gapV16,
       itemBuilder: (context, index) {
@@ -237,7 +237,7 @@ class Staylist extends GetView<StayController> {
 
   Widget _buildGridView(BuildContext context) {
     return GridView.builder(
-      padding: AppSpacing.screenPadding,
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 90),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         crossAxisSpacing: 12,
