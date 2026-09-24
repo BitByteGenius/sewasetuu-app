@@ -3,7 +3,7 @@ import 'package:sewasetu/core/services/location_service.dart';
 import 'package:sewasetu/modules/home/controllers/home_controller.dart';
 import 'package:sewasetu/modules/profile/profile.dart';
 import 'package:sewasetu/modules/rental/rental.dart';
-import 'package:sewasetu/modules/services/services.dart';
+import 'package:sewasetu/modules/home_services/services.dart';
 import 'package:sewasetu/modules/shop/shop.dart';
 import 'package:sewasetu/modules/stay/stay.dart';
 import 'package:sewasetu/modules/trips/trips.dart';

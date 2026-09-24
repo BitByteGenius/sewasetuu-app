@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sewasetu/modules/services/screens/instant_services_navigation_shell.dart';
-import 'package:sewasetu/modules/services/screens/services_screen.dart';
+import 'package:sewasetu/modules/home_services/screens/instant_services_navigation_shell.dart';
+import 'package:sewasetu/modules/home_services/screens/services_screen.dart';
 
 /// Primary screen wrapper for the Instant Services module within the Home
 /// service switcher's IndexedStack.

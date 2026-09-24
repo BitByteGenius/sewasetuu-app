@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sewasetu/app/theme/app_colors.dart';
-import 'package:sewasetu/modules/services/controllers/instant_services_navigation_controller.dart';
+import 'package:sewasetu/modules/home_services/controllers/instant_services_navigation_controller.dart';
 import 'package:sewasetu/modules/stay/widgets/stay_navigation_item.dart';
 
 /// Premium floating navigation bar for the Instant Services module.

@@ -8,7 +8,7 @@ import 'package:sewasetu/modules/onboarding/onboarding.dart';
 import 'package:sewasetu/modules/payment/payment.dart';
 import 'package:sewasetu/modules/profile/profile.dart';
 import 'package:sewasetu/modules/rental/rental.dart';
-import 'package:sewasetu/modules/services/services.dart';
+import 'package:sewasetu/modules/home_services/services.dart';
 import 'package:sewasetu/modules/shop/shop.dart';
 import 'package:sewasetu/modules/splash/splash.dart';
 import 'package:sewasetu/modules/stay/stay.dart';

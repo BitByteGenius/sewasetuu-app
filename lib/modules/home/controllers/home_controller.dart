@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sewasetu/app/routes/app_routes.dart';
 import 'package:sewasetu/core/services/location_service.dart';
-import 'package:sewasetu/modules/services/controllers/instant_services_navigation_controller.dart';
+import 'package:sewasetu/modules/home_services/controllers/instant_services_navigation_controller.dart';
 import 'package:sewasetu/modules/shop/shop_navigator.dart';
 import 'package:sewasetu/modules/stay/models/property_model.dart';
 import 'package:sewasetu/modules/stay/services/stay_service.dart';
