@@ -70,13 +70,15 @@ class _BookingCheckoutScreenState extends State<BookingCheckoutScreen> {
     }
   }
 
+  bool get isRoomOrFlat => stay.stayType == StayType.room;
+
   int get nightsCount {
     final diff = checkOut.difference(checkIn).inDays;
     return diff > 0 ? diff : 1;
   }
 
   double get baseAmount {
-    if (selectedPricingPlan == BookingPricingPlan.monthly) {
+    if (isRoomOrFlat || selectedPricingPlan == BookingPricingPlan.monthly) {
       return room.displayPricePerMonth * monthsCount;
     }
     return room.pricePerNight * nightsCount;
@@ -226,12 +228,17 @@ class _BookingCheckoutScreenState extends State<BookingCheckoutScreen> {
             ),
             AppSpacing.gapV4,
             Text(
-              'Select whether you want to book on a nightly or monthly rate plan',
+              isRoomOrFlat
+                  ? 'Room / Flat accommodations are billed on a monthly rental plan'
+                  : 'Select whether you want to book on a nightly or monthly rate plan',
               style: AppTextStyles.bodySmall(isDark),
             ),
             AppSpacing.gapV12,
             Row(
-              children: BookingPricingPlan.values.map((plan) {
+              children: (isRoomOrFlat
+                      ? [BookingPricingPlan.monthly]
+                      : BookingPricingPlan.values)
+                  .map((plan) {
                 final isSelected = selectedPricingPlan == plan;
                 final isMonthly = plan == BookingPricingPlan.monthly;
                 final rateLabel = isMonthly
@@ -241,18 +248,20 @@ class _BookingCheckoutScreenState extends State<BookingCheckoutScreen> {
                 return Expanded(
                   child: Padding(
                     padding: EdgeInsets.only(
-                      right: plan == BookingPricingPlan.nightly ? 6.0 : 0.0,
-                      left: plan == BookingPricingPlan.monthly ? 6.0 : 0.0,
+                      right: (!isRoomOrFlat && plan == BookingPricingPlan.nightly) ? 6.0 : 0.0,
+                      left: (!isRoomOrFlat && plan == BookingPricingPlan.monthly) ? 6.0 : 0.0,
                     ),
                     child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          selectedPricingPlan = plan;
-                          if (plan == BookingPricingPlan.monthly) {
-                            checkOut = checkIn.add(Duration(days: 30 * monthsCount));
-                          }
-                        });
-                      },
+                      onTap: isRoomOrFlat
+                          ? null
+                          : () {
+                              setState(() {
+                                selectedPricingPlan = plan;
+                                if (plan == BookingPricingPlan.monthly) {
+                                  checkOut = checkIn.add(Duration(days: 30 * monthsCount));
+                                }
+                              });
+                            },
                       borderRadius: AppRadius.radiusMd,
                       child: AnimatedContainer(
                         duration: const Duration(milliseconds: 200),
@@ -306,24 +315,6 @@ class _BookingCheckoutScreenState extends State<BookingCheckoutScreen> {
                                 color: isDark ? AppColors.primaryLight : AppColors.primary,
                               ),
                             ),
-                            // if (isMonthly) ...[
-                            //   const SizedBox(height: 4),
-                            //   Container(
-                            //     padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                            //     decoration: BoxDecoration(
-                            //       color: AppColors.success.withAlpha(30),
-                            //       borderRadius: AppRadius.radiusSm,
-                            //     ),
-                            //     child: Text(
-                            //       'Save ~15%',
-                            //       style: AppTextStyles.labelSmall(isDark).copyWith(
-                            //         fontSize: 10,
-                            //         color: AppColors.success,
-                            //         fontWeight: FontWeight.w700,
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ],
                           ],
                         ),
                       ),
@@ -346,7 +337,7 @@ class _BookingCheckoutScreenState extends State<BookingCheckoutScreen> {
               padding: AppSpacing.edgeInsetsMd,
               child: Column(
                 children: [
-                  if (selectedPricingPlan == BookingPricingPlan.monthly) ...[
+                  if (isRoomOrFlat || selectedPricingPlan == BookingPricingPlan.monthly) ...[
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
