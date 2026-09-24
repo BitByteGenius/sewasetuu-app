@@ -5,6 +5,7 @@ import 'package:sewasetu/app/theme/app_shadows.dart';
 import 'package:sewasetu/app/theme/app_text_styles.dart';
 import 'package:sewasetu/core/utils/formatters.dart';
 import 'package:sewasetu/modules/stay/stay.dart';
+import 'package:sewasetu/shared/enums/stay_type.dart';
 
 /// Stylized interactive map canvas with custom property price markers and 400m privacy circle
 class AppInteractiveMapCanvas extends StatefulWidget {
@@ -99,7 +100,11 @@ class _AppInteractiveMapCanvasState extends State<AppInteractiveMapCanvas> {
                         const SizedBox(width: 4),
                       ],
                       Text(
-                        AppFormatters.formatCurrency(stay.pricePerNight),
+                        AppFormatters.formatCurrency(
+                          stay.stayType == StayType.room
+                              ? stay.displayPricePerMonth
+                              : stay.pricePerNight,
+                        ),
                         style: AppTextStyles.labelMedium(isDark).copyWith(
                           fontWeight: FontWeight.w800,
                           color: isSelected

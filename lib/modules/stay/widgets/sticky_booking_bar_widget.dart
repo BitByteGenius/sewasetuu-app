@@ -5,12 +5,14 @@ import 'package:sewasetu/app/theme/app_shadows.dart';
 import 'package:sewasetu/app/theme/app_spacing.dart';
 import 'package:sewasetu/app/theme/app_text_styles.dart';
 import 'package:sewasetu/core/utils/formatters.dart';
+import 'package:sewasetu/shared/enums/stay_type.dart';
 import 'package:sewasetu/shared/widgets/app_button.dart';
 
 /// Sticky bottom booking action bar with pricing summary and "Book Now" CTA.
 class StickyBookingBarWidget extends StatelessWidget {
   final double pricePerNight;
   final double? pricePerMonth;
+  final StayType? stayType;
   final VoidCallback onBookNow;
   final bool isBooking;
 
@@ -18,6 +20,7 @@ class StickyBookingBarWidget extends StatelessWidget {
     super.key,
     required this.pricePerNight,
     this.pricePerMonth,
+    this.stayType,
     required this.onBookNow,
     this.isBooking = false,
   });
@@ -25,6 +28,9 @@ class StickyBookingBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isRoomOrFlat = stayType == StayType.room;
+    final effectiveMonthlyPrice =
+        pricePerMonth ?? (pricePerNight * 30 * 0.85).roundToDouble();
 
     return Container(
       padding: EdgeInsets.only(
@@ -52,32 +58,60 @@ class StickyBookingBarWidget extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.baseline,
-                  textBaseline: TextBaseline.alphabetic,
-                  children: [
-                    Text(
-                      AppFormatters.formatCurrency(pricePerNight),
-                      style: AppTextStyles.priceTag(isDark, fontSize: 22),
-                    ),
-                    Text(
-                      ' / night',
-                      style: AppTextStyles.bodySmall(isDark).copyWith(
-                        fontWeight: FontWeight.w600,
+                if (isRoomOrFlat) ...[
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
+                    children: [
+                      Text(
+                        AppFormatters.formatCurrency(effectiveMonthlyPrice),
+                        style: AppTextStyles.priceTag(isDark, fontSize: 22),
                       ),
-                    ),
-                  ],
-                ),
-                if (pricePerMonth != null) ...[
+                      Text(
+                        ' / month',
+                        style: AppTextStyles.bodySmall(isDark).copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
                   AppSpacing.gapV4,
                   Text(
-                    'Or ${AppFormatters.formatCurrency(pricePerMonth!)}/mo for long stay',
+                    'Monthly rental rate',
                     style: AppTextStyles.labelSmall(isDark).copyWith(
                       color:
                           isDark ? AppColors.primaryLight : AppColors.primary,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
+                ] else ...[
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
+                    children: [
+                      Text(
+                        AppFormatters.formatCurrency(pricePerNight),
+                        style: AppTextStyles.priceTag(isDark, fontSize: 22),
+                      ),
+                      Text(
+                        ' / night',
+                        style: AppTextStyles.bodySmall(isDark).copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                  if (pricePerMonth != null) ...[
+                    AppSpacing.gapV4,
+                    Text(
+                      'Or ${AppFormatters.formatCurrency(pricePerMonth!)}/mo for long stay',
+                      style: AppTextStyles.labelSmall(isDark).copyWith(
+                        color:
+                            isDark ? AppColors.primaryLight : AppColors.primary,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
                 ],
               ],
             ),

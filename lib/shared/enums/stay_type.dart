@@ -1,7 +1,7 @@
 /// Primary Stay Types supported in the marketplace
 enum StayType {
   room(
-    'Room',
+    'Room / Flat',
     'Single / double private rooms',
     '🚪',
     'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=500&q=80',
@@ -37,4 +37,7 @@ enum StayType {
   final String imageUrl;
 
   const StayType(this.label, this.description, this.emoji, this.imageUrl);
+
+  /// Helper to identify Room / Flat category which uses monthly rates
+  bool get isRoomOrFlat => this == StayType.room;
 }

@@ -5,6 +5,7 @@ import 'package:sewasetu/app/theme/app_spacing.dart';
 import 'package:sewasetu/app/theme/app_text_styles.dart';
 import 'package:sewasetu/core/utils/formatters.dart';
 import 'package:sewasetu/modules/stay/models/property_details_model.dart';
+import 'package:sewasetu/shared/enums/stay_type.dart';
 import 'package:sewasetu/shared/widgets/app_card.dart';
 
 /// Multi-room configuration picker with pricing and amenity highlights
@@ -12,17 +13,20 @@ class RoomOptionsSelectorWidget extends StatelessWidget {
   final List<RoomOptionItem> rooms;
   final String selectedRoomId;
   final ValueChanged<RoomOptionItem> onRoomSelected;
+  final StayType? stayType;
 
   const RoomOptionsSelectorWidget({
     super.key,
     required this.rooms,
     required this.selectedRoomId,
     required this.onRoomSelected,
+    this.stayType,
   });
 
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isRoomOrFlat = stayType == StayType.room;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -123,26 +127,28 @@ class RoomOptionsSelectorWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      // Nightly Price Tag
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Nightly Rate',
-                            style: AppTextStyles.labelSmall(isDark).copyWith(
-                              color: isDark
-                                  ? AppColors.textMutedDark
-                                  : AppColors.textMutedLight,
+                      // Nightly Price Tag (Only shown if NOT Room / Flat category)
+                      if (!isRoomOrFlat) ...[
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Nightly Rate',
+                              style: AppTextStyles.labelSmall(isDark).copyWith(
+                                color: isDark
+                                    ? AppColors.textMutedDark
+                                    : AppColors.textMutedLight,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            '${AppFormatters.formatCurrency(room.pricePerNight)} / night',
-                            style: AppTextStyles.priceTag(isDark, fontSize: 15),
-                          ),
-                        ],
-                      ),
-                      // Monthly Price Tag Badge
+                            const SizedBox(height: 2),
+                            Text(
+                              '${AppFormatters.formatCurrency(room.pricePerNight)} / night',
+                              style: AppTextStyles.priceTag(isDark, fontSize: 15),
+                            ),
+                          ],
+                        ),
+                      ],
+                      // Monthly Price Tag Badge (Primary for Room/Flat)
                       Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 10,
@@ -166,7 +172,9 @@ class RoomOptionsSelectorWidget extends StatelessWidget {
                           ),
                         ),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
+                          crossAxisAlignment: isRoomOrFlat
+                              ? CrossAxisAlignment.start
+                              : CrossAxisAlignment.end,
                           children: [
                             Row(
                               mainAxisSize: MainAxisSize.min,
@@ -194,9 +202,8 @@ class RoomOptionsSelectorWidget extends StatelessWidget {
                             const SizedBox(height: 2),
                             Text(
                               '${AppFormatters.formatCurrency(room.displayPricePerMonth)} / mo',
-                              style: AppTextStyles.titleSmall(isDark).copyWith(
+                              style: AppTextStyles.priceTag(isDark, fontSize: isRoomOrFlat ? 16 : 14).copyWith(
                                 fontWeight: FontWeight.w800,
-                                fontSize: 14,
                                 color: isDark
                                     ? AppColors.primaryLight
                                     : AppColors.primary,

@@ -10,6 +10,7 @@ import 'package:sewasetu/core/utils/formatters.dart';
 import 'package:sewasetu/modules/bookings/controllers/bookings_controller.dart';
 import 'package:sewasetu/modules/bookings/models/booking_model.dart';
 import 'package:sewasetu/modules/stay/stay.dart';
+import 'package:sewasetu/shared/enums/stay_type.dart';
 import 'package:sewasetu/shared/widgets/app_button.dart';
 import 'package:sewasetu/shared/widgets/app_card.dart';
 import 'package:sewasetu/shared/widgets/app_counter_stepper.dart';
@@ -58,7 +59,10 @@ class _BookingCheckoutScreenState extends State<BookingCheckoutScreen> {
     final args = Get.arguments as Map<String, dynamic>? ?? {};
     stay = args['stay'] as PropertyModel;
     room = args['room'] as RoomOptionItem;
-    if (args['pricingPlan'] is BookingPricingPlan) {
+    if (stay.stayType == StayType.room) {
+      selectedPricingPlan = BookingPricingPlan.monthly;
+      checkOut = checkIn.add(Duration(days: 30 * monthsCount));
+    } else if (args['pricingPlan'] is BookingPricingPlan) {
       selectedPricingPlan = args['pricingPlan'] as BookingPricingPlan;
       if (selectedPricingPlan == BookingPricingPlan.monthly) {
         checkOut = checkIn.add(Duration(days: 30 * monthsCount));

@@ -180,9 +180,7 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
                             ),
                             AppSpacing.gapV20,
                             const Divider(height: 1),
-                            AppSpacing.gapV20,
-
-                            // 7. Room Configurations Selector
+                            AppSpacing.gapV20,                             // 7. Room Configurations Selector
                             if (controller.availableRooms.isNotEmpty) ...[
                               Obx(() {
                                 return RoomOptionsSelectorWidget(
@@ -190,6 +188,7 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
                                   selectedRoomId:
                                       controller.selectedRoomId.value,
                                   onRoomSelected: controller.selectRoom,
+                                  stayType: stay.stayType,
                                 );
                               }),
                               AppSpacing.gapV16,
@@ -311,7 +310,8 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
                   bottom: 0,
                   child: StickyBookingBarWidget(
                     pricePerNight: selectedRoom.pricePerNight,
-                    pricePerMonth: stay.pricePerMonth,
+                    pricePerMonth: selectedRoom.displayPricePerMonth,
+                    stayType: stay.stayType,
                     isBooking: false,
                     onBookNow: controller.initiateBooking,
                   ),

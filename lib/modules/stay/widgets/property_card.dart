@@ -5,6 +5,7 @@ import 'package:sewasetu/app/theme/app_spacing.dart';
 import 'package:sewasetu/app/theme/app_text_styles.dart';
 import 'package:sewasetu/core/utils/formatters.dart';
 import 'package:sewasetu/modules/stay/models/property_model.dart';
+import 'package:sewasetu/shared/enums/stay_type.dart';
 import 'package:sewasetu/shared/widgets/app_badge.dart';
 import 'package:sewasetu/shared/widgets/app_card.dart';
 import 'package:sewasetu/shared/widgets/app_network_image.dart';
@@ -257,7 +258,7 @@ class StayCardWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        if (stay.pricePerNight > 0)
+                        if (stay.stayType != StayType.room && stay.pricePerNight > 0)
                           Text(
                             '${AppFormatters.formatCurrency(stay.pricePerNight)} / night',
                             style: AppTextStyles.labelSmall(isDark).copyWith(
@@ -478,7 +479,7 @@ class StayCardWidget extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-                if (stay.pricePerNight > 0 && monthlyPrice > 0)
+                if (stay.stayType != StayType.room && stay.pricePerNight > 0 && monthlyPrice > 0)
                   Text(
                     '${AppFormatters.formatCurrency(stay.pricePerNight)} / night',
                     style: AppTextStyles.labelSmall(isDark).copyWith(

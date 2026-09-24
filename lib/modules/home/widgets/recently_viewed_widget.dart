@@ -5,6 +5,7 @@ import 'package:sewasetu/app/theme/app_spacing.dart';
 import 'package:sewasetu/app/theme/app_text_styles.dart';
 import 'package:sewasetu/core/utils/formatters.dart';
 import 'package:sewasetu/modules/stay/stay.dart';
+import 'package:sewasetu/shared/enums/stay_type.dart';
 import 'package:sewasetu/shared/widgets/app_card.dart';
 import 'package:sewasetu/shared/widgets/app_network_image.dart';
 
@@ -95,7 +96,9 @@ class RecentlyViewedWidget extends StatelessWidget {
                           ),
                           AppSpacing.gapV4,
                           Text(
-                            '${AppFormatters.formatCurrency(stay.pricePerNight)} / night',
+                            stay.stayType == StayType.room
+                                ? '${AppFormatters.formatCurrency(stay.displayPricePerMonth)} / mo'
+                                : '${AppFormatters.formatCurrency(stay.pricePerNight)} / night',
                             style: AppTextStyles.labelMedium(isDark).copyWith(
                               fontWeight: FontWeight.w800,
                             ),
