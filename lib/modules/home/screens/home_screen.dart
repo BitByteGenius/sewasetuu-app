@@ -7,7 +7,7 @@ import 'package:sewasetu/modules/home/controllers/home_controller.dart';
 import 'package:sewasetu/modules/home/widgets/home_location_header_widget.dart';
 import 'package:sewasetu/modules/home/widgets/service_tab.dart';
 import 'package:sewasetu/modules/rental/screens/rentals_screen.dart';
-import 'package:sewasetu/modules/home_services/screens/instant_services_screen.dart';
+import 'package:sewasetu/modules/home_services/home_screen/screens/instant_services_screen.dart';
 import 'package:sewasetu/modules/shop/screens/shop_screen.dart';
 import 'package:sewasetu/modules/stay/screens/stay_screen.dart';
 import 'package:sewasetu/modules/trips/screens/trips_screen.dart';

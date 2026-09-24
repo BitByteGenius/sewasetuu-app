@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sewasetu/modules/home_services/controllers/instant_services_navigation_controller.dart';
-import 'package:sewasetu/modules/home_services/widgets/instant_services_navigation_bar.dart';
+import 'package:sewasetu/modules/home_services/home_screen/controllers/instant_services_navigation_controller.dart';
+import 'package:sewasetu/modules/home_services/home_screen/widgets/instant_services_navigation_bar.dart';
 import 'package:sewasetu/shared/widgets/app_bar/app_bar.dart';
 import 'package:sewasetu/shared/widgets/app_empty_state.dart';
 
