@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:sewasetu/core/storage/storage_service.dart';
 import 'package:sewasetu/modules/stay/models/property_model.dart';
@@ -112,7 +113,7 @@ class StayMockDataSourceImpl implements IStayMockDataSource {
         joinedDate: 'Joined Aug 2022',
       ),
       availableRooms: 5,
-      roomConfiguration: 'Single & Double Sharing',
+      roomConfiguration: 'Single & Double Sharing PG',
       distanceText: '500m from Commerce College',
     ),
     PropertyModel(
@@ -155,14 +156,14 @@ class StayMockDataSourceImpl implements IStayMockDataSource {
         joinedDate: 'Joined Jan 2020',
       ),
       availableRooms: 20,
-      roomConfiguration: 'Daily Subscription / Dine-in',
+      roomConfiguration: 'Daily Subscription Mess',
       distanceText: '1.0 km from Railway Station',
     ),
     PropertyModel(
       id: 'stay-4',
-      title: 'Boutique Studio Suite Room',
+      title: 'Boutique Studio Suite 1RK',
       description:
-          'Modern self-contained private room with kitchenette, balcony overlooking greenery, dedicated work desk, smart TV with OTT subscriptions.',
+          'Modern self-contained private 1RK room with kitchenette, balcony overlooking greenery, dedicated work desk, smart TV with OTT subscriptions.',
       stayType: StayType.room,
       address: 'Beltola, Survey Road',
       city: 'Guwahati, Assam',
@@ -200,12 +201,12 @@ class StayMockDataSourceImpl implements IStayMockDataSource {
         joinedDate: 'Joined Sep 2021',
       ),
       availableRooms: 2,
-      roomConfiguration: 'Private 1 RK Studio',
+      roomConfiguration: '1RK',
       distanceText: '1.5 km from Dispur Capital',
     ),
     PropertyModel(
       id: 'stay-5',
-      title: 'Azure Bay Luxury Beach Resort',
+      title: 'Azure Bay Luxury Beach Hotel & Resort',
       description:
           'Direct beachfront 5-star experience with infinity pool, spa, cocktail sunset lounge, and private beach cabanas in North Goa.',
       stayType: StayType.hotel,
@@ -245,12 +246,12 @@ class StayMockDataSourceImpl implements IStayMockDataSource {
         joinedDate: 'Joined 2019',
       ),
       availableRooms: 8,
-      roomConfiguration: 'Deluxe Sea View Suite',
+      roomConfiguration: 'Deluxe Sea View Suite Hotel',
       distanceText: 'Direct Access to Calangute Beach',
     ),
     PropertyModel(
       id: 'stay-6',
-      title: 'Snow Peak Alpine Wooden Cottage',
+      title: 'Snow Peak Alpine Wooden Cottage Homestay',
       description:
           'Charming cedar wood cottage in Old Manali surrounded by apple orchards, with wooden fireplace, panoramic Himalayan snow peaks view.',
       stayType: StayType.homestay,
@@ -289,8 +290,140 @@ class StayMockDataSourceImpl implements IStayMockDataSource {
         joinedDate: 'Joined 2021',
       ),
       availableRooms: 2,
-      roomConfiguration: '2 BR Wooden Attic Suite',
+      roomConfiguration: '2 BHK Wooden Attic Suite',
       distanceText: '1.2 km from Mall Road',
+    ),
+    PropertyModel(
+      id: 'stay-7',
+      title: 'Kamakhya Vista 1BHK Executive Flat',
+      description:
+          'Modern 1BHK apartment located within 200 meters of Kamakhya Gate. Includes modular kitchen, air conditioning, high-speed fiber internet, and 24/7 security.',
+      stayType: StayType.room,
+      address: 'Fatashil Main Road, Kamakhya Gate',
+      city: 'Guwahati, Assam',
+      latitude: 26.1568,
+      longitude: 91.7096,
+      pricePerNight: 1200,
+      pricePerMonth: 14500,
+      depositAmount: 5000,
+      furnishingStatus: 'Fully Furnished',
+      availableFrom: 'Immediate',
+      rating: 4.92,
+      reviewsCount: 44,
+      images: [
+        'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1200&q=80',
+        'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1200&q=80',
+      ],
+      amenities: [
+        'High-speed WiFi',
+        'Air Conditioner',
+        'Modular Kitchen',
+        'Geyser',
+        'Lift & Generator'
+      ],
+      isFeatured: true,
+      isVerified: true,
+      isFavorite: false,
+      host: StayHostEntity(
+        id: 'host-7',
+        name: 'Niloy Sengupta',
+        avatarUrl:
+            'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
+        isSuperHost: true,
+        responseRate: '100%',
+        joinedDate: 'Joined 2022',
+      ),
+      availableRooms: 1,
+      roomConfiguration: '1BHK',
+      distanceText: '160m from Kamakhya Gate',
+    ),
+    PropertyModel(
+      id: 'stay-8',
+      title: 'Hillview 2BHK Premium Residence',
+      description:
+          'Spacious 2BHK family apartment with balcony facing Kamakhya hills. Ideal for working professionals and families, located 280m from current GPS center.',
+      stayType: StayType.room,
+      address: 'Kamakhya Temple Road, Fatashil',
+      city: 'Guwahati, Assam',
+      latitude: 26.1542,
+      longitude: 91.7076,
+      pricePerNight: 1800,
+      pricePerMonth: 22000,
+      depositAmount: 10000,
+      furnishingStatus: 'Fully Furnished',
+      availableFrom: 'Immediate',
+      rating: 4.84,
+      reviewsCount: 62,
+      images: [
+        'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80',
+        'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80',
+      ],
+      amenities: [
+        '2 Covered Parking',
+        'High-speed WiFi',
+        'Power Backup',
+        'Washing Machine',
+        'Smart TV'
+      ],
+      isFeatured: true,
+      isVerified: true,
+      isFavorite: false,
+      host: StayHostEntity(
+        id: 'host-8',
+        name: 'Dr. Sarma',
+        avatarUrl:
+            'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200&q=80',
+        isSuperHost: true,
+        responseRate: '98%',
+        joinedDate: 'Joined 2020',
+      ),
+      availableRooms: 2,
+      roomConfiguration: '2BHK',
+      distanceText: '280m from Kamakhya Gate',
+    ),
+    PropertyModel(
+      id: 'stay-9',
+      title: 'Royal Horizon 3BHK Luxury Flat',
+      description:
+          'Premium 3BHK apartment within 350 meters of location center. Master bedroom with ensuite bathroom, grand living space, and dedicated car parking.',
+      stayType: StayType.room,
+      address: 'Nursery Bus Stop, Fatashil',
+      city: 'Guwahati, Assam',
+      latitude: 26.1582,
+      longitude: 91.7104,
+      pricePerNight: 2600,
+      pricePerMonth: 32000,
+      depositAmount: 15000,
+      furnishingStatus: 'Fully Furnished',
+      availableFrom: 'Next Week',
+      rating: 4.95,
+      reviewsCount: 31,
+      images: [
+        'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80',
+        'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80',
+      ],
+      amenities: [
+        '3 Master Bedrooms',
+        '3 Balconies',
+        'Reserved Parking',
+        '24/7 Power Backup',
+        'Intercom & CCTV'
+      ],
+      isFeatured: false,
+      isVerified: true,
+      isFavorite: false,
+      host: StayHostEntity(
+        id: 'host-9',
+        name: 'Pooja Choudhury',
+        avatarUrl:
+            'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+        isSuperHost: false,
+        responseRate: '96%',
+        joinedDate: 'Joined 2023',
+      ),
+      availableRooms: 1,
+      roomConfiguration: '3BHK',
+      distanceText: '350m from Kamakhya Gate',
     ),
   ];
 
@@ -340,7 +473,8 @@ class StayMockDataSourceImpl implements IStayMockDataSource {
         final matchesCity = stay.city.toLowerCase().contains(query);
         final matchesAddress = stay.address.toLowerCase().contains(query);
         final matchesType = stay.stayType.label.toLowerCase().contains(query);
-        if (!matchesTitle && !matchesCity && !matchesAddress && !matchesType) {
+        final matchesConfig = stay.roomConfiguration.toLowerCase().contains(query);
+        if (!matchesTitle && !matchesCity && !matchesAddress && !matchesType && !matchesConfig) {
           return false;
         }
       }
@@ -348,6 +482,18 @@ class StayMockDataSourceImpl implements IStayMockDataSource {
       if (filter != null) {
         if (filter.stayType != null && stay.stayType != filter.stayType) {
           return false;
+        }
+        if (filter.roomCategory != null &&
+            filter.roomCategory!.isNotEmpty &&
+            filter.roomCategory != 'All') {
+          final cat = filter.roomCategory!.toLowerCase().trim();
+          final matchesTitle = stay.title.toLowerCase().contains(cat);
+          final matchesConfig = stay.roomConfiguration.toLowerCase().contains(cat);
+          final matchesType = stay.stayType.name.toLowerCase() == cat ||
+              stay.stayType.label.toLowerCase().contains(cat);
+          if (!matchesTitle && !matchesConfig && !matchesType) {
+            return false;
+          }
         }
         if (filter.minPrice != null && stay.pricePerNight < filter.minPrice!) {
           return false;
@@ -362,7 +508,22 @@ class StayMockDataSourceImpl implements IStayMockDataSource {
           return false;
         }
         if (filter.city != null && filter.city!.isNotEmpty) {
-          if (!stay.city.toLowerCase().contains(filter.city!.toLowerCase())) {
+          final targetCity = filter.city!.toLowerCase().trim();
+          if (!stay.city.toLowerCase().contains(targetCity) &&
+              !stay.address.toLowerCase().contains(targetCity)) {
+            return false;
+          }
+        }
+        if (filter.userLatitude != null &&
+            filter.userLongitude != null &&
+            filter.maxRadiusMeters != null) {
+          final distMeters = Geolocator.distanceBetween(
+            filter.userLatitude!,
+            filter.userLongitude!,
+            stay.latitude,
+            stay.longitude,
+          );
+          if (distMeters > filter.maxRadiusMeters!) {
             return false;
           }
         }
