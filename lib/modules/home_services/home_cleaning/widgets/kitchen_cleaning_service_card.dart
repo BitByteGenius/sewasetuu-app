@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sewasetu/app/theme/app_colors.dart';
 import 'package:sewasetu/shared/widgets/app_network_image.dart';
 import '../models/kitchen_cleaning_model.dart';
 import 'kitchen_cleaning_options_sheet.dart';
 
-/// Service item card matching the exact visual layouts shown in reference photos.
+/// Premium Service item card matching the exact visual layouts shown in reference photos.
 class KitchenCleaningServiceCard extends StatelessWidget {
   final KitchenCleaningServiceItem item;
   final int quantity;
@@ -41,8 +42,8 @@ class KitchenCleaningServiceCard extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: isDark ? 0.25 : 0.03),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
+            blurRadius: 10,
+            offset: const Offset(0, 3),
           ),
         ],
       ),
@@ -109,7 +110,7 @@ class KitchenCleaningServiceCard extends StatelessWidget {
                         const Icon(
                           Icons.star_rounded,
                           size: 15,
-                          color: Color(0xFFEAB308),
+                          color: Color(0xFFF59E0B),
                         ),
                         const SizedBox(width: 2),
                         Text(
@@ -282,9 +283,12 @@ class KitchenCleaningServiceCard extends StatelessWidget {
 
           const SizedBox(height: 6),
 
-          // View details > toggle link
+          // View details > toggle link with AnimatedCrossFade
           InkWell(
-            onTap: onToggleExpand,
+            onTap: () {
+              HapticFeedback.selectionClick();
+              onToggleExpand();
+            },
             borderRadius: BorderRadius.circular(4),
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 4),
@@ -334,6 +338,7 @@ class KitchenCleaningServiceCard extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
             ),
             onPressed: () {
+              HapticFeedback.lightImpact();
               if (item.hasOptions) {
                 KitchenCleaningOptionsSheet.show(
                   context,
@@ -390,7 +395,10 @@ class KitchenCleaningServiceCard extends StatelessWidget {
             constraints: const BoxConstraints(minWidth: 32, minHeight: 36),
             padding: EdgeInsets.zero,
             icon: const Icon(Icons.remove, size: 16, color: Colors.white),
-            onPressed: onDecrement,
+            onPressed: () {
+              HapticFeedback.lightImpact();
+              onDecrement();
+            },
           ),
           Text(
             '$quantity',
@@ -404,7 +412,10 @@ class KitchenCleaningServiceCard extends StatelessWidget {
             constraints: const BoxConstraints(minWidth: 32, minHeight: 36),
             padding: EdgeInsets.zero,
             icon: const Icon(Icons.add, size: 16, color: Colors.white),
-            onPressed: () => onAdd(null),
+            onPressed: () {
+              HapticFeedback.lightImpact();
+              onAdd(null);
+            },
           ),
         ],
       ),

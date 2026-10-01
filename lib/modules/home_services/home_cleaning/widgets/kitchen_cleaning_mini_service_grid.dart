@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sewasetu/app/theme/app_colors.dart';
 import 'package:sewasetu/shared/widgets/app_network_image.dart';
@@ -48,7 +49,7 @@ class KitchenCleaningMiniServiceGrid extends StatelessWidget {
             crossAxisCount: 2,
             crossAxisSpacing: 14,
             mainAxisSpacing: 16,
-            childAspectRatio: 0.76,
+            childAspectRatio: 0.72,
           ),
           itemBuilder: (context, index) {
             final item = items[index];
@@ -192,6 +193,7 @@ class KitchenCleaningMiniServiceGrid extends StatelessWidget {
           ),
         ),
         onPressed: () {
+          HapticFeedback.lightImpact();
           if (item.hasOptions) {
             KitchenCleaningOptionsSheet.show(
               context,
@@ -225,7 +227,10 @@ class KitchenCleaningMiniServiceGrid extends StatelessWidget {
             constraints: const BoxConstraints(minWidth: 24, minHeight: 28),
             padding: EdgeInsets.zero,
             icon: const Icon(Icons.remove, size: 14, color: Colors.white),
-            onPressed: () => onDecrement(item.id),
+            onPressed: () {
+              HapticFeedback.lightImpact();
+              onDecrement(item.id);
+            },
           ),
           Text(
             '$qty',
@@ -239,7 +244,10 @@ class KitchenCleaningMiniServiceGrid extends StatelessWidget {
             constraints: const BoxConstraints(minWidth: 24, minHeight: 28),
             padding: EdgeInsets.zero,
             icon: const Icon(Icons.add, size: 14, color: Colors.white),
-            onPressed: () => onAdd(item),
+            onPressed: () {
+              HapticFeedback.lightImpact();
+              onAdd(item);
+            },
           ),
         ],
       ),

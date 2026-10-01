@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sewasetu/app/theme/app_colors.dart';
 import 'package:sewasetu/shared/widgets/app_network_image.dart';
@@ -31,29 +32,30 @@ class KitchenCleaningHeaderWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Text(
-              //   'Kitchen Cleaning',
-              //   style: GoogleFonts.plusJakartaSans(
-              //     fontSize: 26,
-              //     fontWeight: FontWeight.w800,
-              //     color: isDark ? AppColors.textPrimaryDark : const Color(0xFF1E293B),
-              //   ),
-              // ),
-              // const SizedBox(height: 4),
+              Text(
+                'Kitchen Cleaning',
+                style: GoogleFonts.plusJakartaSans(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: -0.4,
+                  color: isDark ? AppColors.textPrimaryDark : const Color(0xFF0F172A),
+                ),
+              ),
+              const SizedBox(height: 4),
               Row(
                 children: [
                   const Icon(
                     Icons.star_rounded,
                     size: 17,
-                    color: Color(0xFFEAB308), // Amber gold star
+                    color: Color(0xFFF59E0B), // Amber gold star
                   ),
                   const SizedBox(width: 4),
                   Text(
                     '4.77 ',
                     style: GoogleFonts.plusJakartaSans(
-                      fontSize: 13,
+                      fontSize: 13.5,
                       fontWeight: FontWeight.w700,
-                      color: isDark ? AppColors.textPrimaryDark : const Color(0xFF334155),
+                      color: isDark ? AppColors.textPrimaryDark : const Color(0xFF1E293B),
                     ),
                   ),
                   Text(
@@ -75,7 +77,7 @@ class KitchenCleaningHeaderWidget extends StatelessWidget {
         // Quick Category Nav Card Container
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 16),
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
           decoration: BoxDecoration(
             color: isDark ? AppColors.surfaceDark : Colors.white,
             borderRadius: BorderRadius.circular(20),
@@ -85,9 +87,9 @@ class KitchenCleaningHeaderWidget extends StatelessWidget {
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: isDark ? 0.25 : 0.04),
-                blurRadius: 8,
-                offset: const Offset(0, 2),
+                color: Colors.black.withValues(alpha: isDark ? 0.25 : 0.03),
+                blurRadius: 10,
+                offset: const Offset(0, 3),
               ),
             ],
           ),
@@ -98,16 +100,20 @@ class KitchenCleaningHeaderWidget extends StatelessWidget {
 
               return Expanded(
                 child: GestureDetector(
-                  onTap: () => onSelectCategory(cat.id),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                  onTap: () {
+                    HapticFeedback.lightImpact();
+                    onSelectCategory(cat.id);
+                  },
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
                     decoration: BoxDecoration(
                       color: isSelected
                           ? (isDark
                               ? AppColors.primaryLight.withValues(alpha: 0.15)
                               : const Color(0xFFF0FDF4))
                           : Colors.transparent,
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(14),
                     ),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
