@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:sewasetu/app/theme/app_colors.dart';
 import 'package:sewasetu/shared/enums/view_state.dart';
+import 'package:sewasetu/modules/home_services/home_cleaning/widgets/home_cleaning_bottom_sheet.dart';
 import '../data/services_mock_data.dart';
 import '../models/service_category_item.dart';
 import '../models/service_faq_item.dart';
@@ -115,7 +116,16 @@ class ServicesController extends GetxController {
   }
 
   /// Handle category tap
-  void onCategorySelected(String categoryName) {
+  void onCategorySelected(String categoryName, [BuildContext? context]) {
+    final lowerName = categoryName.trim().toLowerCase();
+    if (lowerName.contains('home cleaning') || lowerName == 'cleaning') {
+      final ctx = context ?? Get.context;
+      if (ctx != null) {
+        HomeCleaningBottomSheet.show(ctx);
+        return;
+      }
+    }
+
     Get.snackbar(
       'Category Selected',
       'Browsing $categoryName services...',

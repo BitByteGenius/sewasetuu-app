@@ -49,7 +49,7 @@ class ServicesScreen extends StatelessWidget {
                 // 1. Primary 4x2 Header Categories Grid
                 ServicesHeaderCategoriesWidget(
                   categories: controller.headerCategories,
-                  onCategoryTap: controller.onCategorySelected,
+                  onCategoryTap: (cat) => controller.onCategorySelected(cat, context),
                 ),
 
                 //AppSpacing.gapV24,
@@ -85,7 +85,7 @@ class ServicesScreen extends StatelessWidget {
                   title: 'Home Cleaning Services',
                   items: controller.cleaningSubcategories,
                   ringColor: const Color(0xFFF43F5E), // Rose/Pink accent ring from screenshot
-                  onSeeAll: () => controller.onCategorySelected('Home Cleaning'),
+                  onSeeAll: () => controller.onCategorySelected('Home Cleaning', context),
                   onItemTap: (item) => controller.onBookService(item.name),
                 ),
 

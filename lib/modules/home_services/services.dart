@@ -16,3 +16,7 @@ export 'home_screen/models/service_relocation_item.dart';
 export 'home_screen/models/service_review_item.dart';
 export 'home_screen/models/service_spotlight_item.dart';
 export 'home_screen/models/service_subcategory_item.dart';
+
+// Home Cleaning Sub-Module
+export 'home_cleaning/home_cleaning.dart';
+
