@@ -15,4 +15,21 @@ class HomeCleaningCategoryModel {
     required this.fallbackIcon,
     this.description,
   });
+
+  factory HomeCleaningCategoryModel.fromJson(Map<String, dynamic> json) {
+    return HomeCleaningCategoryModel(
+      id: json['id'] as String? ?? '',
+      title: json['title'] as String? ?? '',
+      imageUrl: json['image_url'] as String? ?? '',
+      fallbackIcon: Icons.cleaning_services_rounded,
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'title': title,
+        'image_url': imageUrl,
+        'description': description,
+      };
 }

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:sewasetu/app/theme/app_colors.dart';
-import 'package:sewasetu/shared/enums/view_state.dart';
 import 'package:sewasetu/modules/home_services/home_cleaning/widgets/home_cleaning_bottom_sheet.dart';
-import '../data/services_mock_data.dart';
+import 'package:sewasetu/shared/enums/view_state.dart';
+import '../data/services_repository.dart';
 import '../models/service_category_item.dart';
 import '../models/service_faq_item.dart';
 import '../models/service_offer_item.dart';
@@ -14,9 +14,14 @@ import '../models/service_review_item.dart';
 import '../models/service_spotlight_item.dart';
 import '../models/service_subcategory_item.dart';
 
-/// GetX controller managing UI state, interactive actions, and future backend feeds
+/// GetX controller managing UI state, interactive actions, and repository data feeds
 /// for the primary Services screen.
 class ServicesController extends GetxController {
+  final ServicesRepository _repository;
+
+  ServicesController({ServicesRepository? repository})
+      : _repository = repository ?? ServicesRepositoryImpl();
+
   final state = ViewState.initial.obs;
 
   // Active page index for promotional offers carousel
@@ -25,7 +30,7 @@ class ServicesController extends GetxController {
   // Track expanded FAQs
   final expandedFaqIds = <String>{}.obs;
 
-  // Data streams (structured for direct backend API swap)
+  // Data streams (decoupled via ServicesRepository for 1-click backend integration)
   final headerCategories = <ServiceCategoryItem>[].obs;
   final promotionalOffers = <ServiceOfferItem>[].obs;
   final spotlightService = Rxn<ServiceSpotlightItem>();
@@ -42,22 +47,31 @@ class ServicesController extends GetxController {
     loadServicesData();
   }
 
-  /// Initial load / mock fetch with state management
+  /// Initial load / API fetch with parallel execution and state management
   Future<void> loadServicesData() async {
     state.value = ViewState.loading;
     try {
-      // Simulate minor network latency
-      await Future<void>.delayed(const Duration(milliseconds: 150));
+      final results = await Future.wait([
+        _repository.getHeaderCategories(),
+        _repository.getPromotionalOffers(),
+        _repository.getSpotlightService(),
+        _repository.getCleaningSubcategories(),
+        _repository.getRepairSubcategories(),
+        _repository.getPopularServices(),
+        _repository.getRelocationOptions(),
+        _repository.getCustomerReviews(),
+        _repository.getFaqItems(),
+      ]);
 
-      headerCategories.assignAll(ServicesMockData.headerCategories);
-      promotionalOffers.assignAll(ServicesMockData.promotionalOffers);
-      spotlightService.value = ServicesMockData.spotlightService;
-      cleaningSubcategories.assignAll(ServicesMockData.homeCleaningSubcategories);
-      repairSubcategories.assignAll(ServicesMockData.homeRepairSubcategories);
-      popularServices.assignAll(ServicesMockData.popularServices);
-      relocationOptions.assignAll(ServicesMockData.relocationOptions);
-      customerReviews.assignAll(ServicesMockData.customerReviews);
-      faqItems.assignAll(ServicesMockData.faqItems);
+      headerCategories.assignAll(results[0] as List<ServiceCategoryItem>);
+      promotionalOffers.assignAll(results[1] as List<ServiceOfferItem>);
+      spotlightService.value = results[2] as ServiceSpotlightItem?;
+      cleaningSubcategories.assignAll(results[3] as List<ServiceSubcategoryItem>);
+      repairSubcategories.assignAll(results[4] as List<ServiceSubcategoryItem>);
+      popularServices.assignAll(results[5] as List<ServicePopularItem>);
+      relocationOptions.assignAll(results[6] as List<ServiceRelocationItem>);
+      customerReviews.assignAll(results[7] as List<ServiceReviewItem>);
+      faqItems.assignAll(results[8] as List<ServiceFaqItem>);
 
       state.value = ViewState.loaded;
     } catch (e) {
