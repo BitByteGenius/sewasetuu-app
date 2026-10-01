@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:sewasetu/app/theme/app_colors.dart';
 import 'package:sewasetu/shared/enums/view_state.dart';
 import '../models/home_cleaning_category_model.dart';
+import '../screens/kitchen_cleaning_screen.dart';
 
 /// Controller managing state and user interactions for the Home Cleaning module.
 class HomeCleaningController extends GetxController {
@@ -66,6 +67,13 @@ class HomeCleaningController extends GetxController {
     if (Get.isBottomSheetOpen ?? false) {
       Get.back();
     }
+
+    if (category.id == 'kitchen' ||
+        category.title.toLowerCase().contains('kitchen')) {
+      Get.to(() => const KitchenCleaningScreen());
+      return;
+    }
+
     Get.snackbar(
       'Service Selected',
       'Opening ${category.title.replaceAll('\n', ' ')} booking flow...',
