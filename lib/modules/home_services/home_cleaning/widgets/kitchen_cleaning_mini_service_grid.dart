@@ -6,7 +6,7 @@ import 'package:sewasetu/shared/widgets/app_network_image.dart';
 import '../models/kitchen_cleaning_model.dart';
 import 'kitchen_cleaning_options_sheet.dart';
 
-/// 2-Column Grid widget for Mini Services section matching reference image 5.
+/// 2-Column Grid widget for Mini Services section with premium modern cards.
 class KitchenCleaningMiniServiceGrid extends StatelessWidget {
   final List<KitchenCleaningServiceItem> items;
   final Function(String serviceId) getItemQuantity;
@@ -29,146 +29,364 @@ class KitchenCleaningMiniServiceGrid extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // Header Section with count pill
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 20, 16, 12),
-          child: Text(
-            'Mini Services',
-            style: GoogleFonts.plusJakartaSans(
-              fontSize: 20,
-              fontWeight: FontWeight.w800,
-              color: isDark ? AppColors.textPrimaryDark : const Color(0xFF1E293B),
-            ),
+          child: Row(
+            children: [
+              Text(
+                'Mini Services',
+                style: GoogleFonts.plusJakartaSans(
+                  fontSize: 19,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: -0.3,
+                  color: isDark
+                      ? AppColors.textPrimaryDark
+                      : const Color(0xFF0F172A),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                decoration: BoxDecoration(
+                  color: isDark
+                      ? AppColors.primaryLight.withValues(alpha: 0.15)
+                      : const Color(0xFFCCFBF1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  '${items.length}',
+                  style: GoogleFonts.plusJakartaSans(
+                    fontSize: 11.5,
+                    fontWeight: FontWeight.w800,
+                    color: isDark
+                        ? AppColors.primaryLight
+                        : const Color(0xFF0F766E),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
-        GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          itemCount: items.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 14,
-            mainAxisSpacing: 16,
-            childAspectRatio: 0.72,
-          ),
-          itemBuilder: (context, index) {
-            final item = items[index];
-            final qty = getItemQuantity(item.id);
-            return _buildMiniCard(context, item, qty, isDark);
+
+        // Grid Builder with responsive ratio (0.57-0.61) preventing overflow
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final screenWidth = MediaQuery.of(context).size.width;
+            final double childAspectRatio = screenWidth < 360
+                ? 0.57
+                : (screenWidth < 400 ? 0.59 : 0.61);
+
+            return GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              itemCount: items.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 12,
+                mainAxisSpacing: 14,
+                childAspectRatio: childAspectRatio,
+              ),
+              itemBuilder: (context, index) {
+                final item = items[index];
+                final qty = getItemQuantity(item.id);
+                return _MiniServiceCard(
+                  key: ValueKey(item.id),
+                  item: item,
+                  qty: qty,
+                  isDark: isDark,
+                  onAdd: onAdd,
+                  onDecrement: onDecrement,
+                );
+              },
+            );
           },
         ),
       ],
     );
   }
+}
 
-  Widget _buildMiniCard(
-    BuildContext context,
-    KitchenCleaningServiceItem item,
-    int qty,
-    bool isDark,
-  ) {
-    return Container(
-      decoration: BoxDecoration(
-        color: isDark ? AppColors.surfaceDark : Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: isDark ? AppColors.borderDark : const Color(0xFFE2E8F0),
+class _MiniServiceCard extends StatefulWidget {
+  final KitchenCleaningServiceItem item;
+  final int qty;
+  final bool isDark;
+  final ValueChanged<KitchenCleaningServiceItem> onAdd;
+  final ValueChanged<String> onDecrement;
+
+  const _MiniServiceCard({
+    super.key,
+    required this.item,
+    required this.qty,
+    required this.isDark,
+    required this.onAdd,
+    required this.onDecrement,
+  });
+
+  @override
+  State<_MiniServiceCard> createState() => _MiniServiceCardState();
+}
+
+class _MiniServiceCardState extends State<_MiniServiceCard> {
+  bool _isPressed = false;
+
+  void _handleCardTap() {
+    HapticFeedback.lightImpact();
+    if (widget.item.hasOptions) {
+      KitchenCleaningOptionsSheet.show(
+        context,
+        service: widget.item,
+        onOptionSelected: (opt) => widget.onAdd(widget.item),
+      );
+    } else {
+      if (widget.qty <= 0) {
+        widget.onAdd(widget.item);
+      }
+    }
+  }
+
+  void _handleAddPressed() {
+    HapticFeedback.lightImpact();
+    if (widget.qty > 0) {
+      // Service can only be added once. Tapping ADDED removes it.
+      widget.onDecrement(widget.item.id);
+    } else {
+      if (widget.item.hasOptions) {
+        KitchenCleaningOptionsSheet.show(
+          context,
+          service: widget.item,
+          onOptionSelected: (opt) => widget.onAdd(widget.item),
+        );
+      } else {
+        widget.onAdd(widget.item);
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final item = widget.item;
+    final qty = widget.qty;
+    final isDark = widget.isDark;
+    final isSelected = qty > 0;
+
+    return AnimatedScale(
+      scale: _isPressed ? 0.97 : 1.0,
+      duration: const Duration(milliseconds: 120),
+      curve: Curves.easeOutCubic,
+      child: Container(
+        decoration: BoxDecoration(
+          color: isDark ? AppColors.surfaceDark : Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: isSelected
+                ? const Color(0xFF0F766E)
+                : (isDark ? AppColors.borderDark : const Color(0xFFE2E8F0)),
+            width: isSelected ? 1.5 : 1.0,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: isDark
+                  ? Colors.black.withValues(alpha: 0.25)
+                  : const Color(0xFF0F172A).withValues(alpha: 0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 3),
+            ),
+          ],
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.03),
-            blurRadius: 6,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Top Image Container with floating Add button
-          Stack(
-            children: [
-              Container(
-                height: 120,
-                width: double.infinity,
-                decoration: const BoxDecoration(
-                  borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(15)),
-                ),
-                child: ClipRRect(
-                  borderRadius:
-                      const BorderRadius.vertical(top: Radius.circular(15)),
-                  child: AppNetworkImage(
-                    imageUrl: item.imageUrl ?? '',
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-
-              // Floating Add Button / Counter at bottom right of image
-              Positioned(
-                bottom: 8,
-                right: 8,
-                child: _buildMiniAddButton(context, item, qty, isDark),
-              ),
-            ],
-          ),
-
-          // Bottom Content
-          Padding(
-            padding: const EdgeInsets.all(10),
+        clipBehavior: Clip.antiAlias,
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTapDown: (_) => setState(() => _isPressed = true),
+            onTapUp: (_) => setState(() => _isPressed = false),
+            onTapCancel: () => setState(() => _isPressed = false),
+            onTap: _handleCardTap,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  item.title,
-                  style: GoogleFonts.plusJakartaSans(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w700,
-                    color: isDark
-                        ? AppColors.textPrimaryDark
-                        : const Color(0xFF1E293B),
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 4),
+                // Top Image Container with gradient overlay and floating Add / Added button
+                Stack(
+                  children: [
+                    Container(
+                      height: 108,
+                      width: double.infinity,
+                      color: isDark
+                          ? AppColors.surfaceVariantDark
+                          : const Color(0xFFF1F5F9),
+                      child: AppNetworkImage(
+                        imageUrl: item.imageUrl ?? '',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
 
-                Text(
-                  '🕒 ${item.duration}',
-                  style: GoogleFonts.plusJakartaSans(
-                    fontSize: 11,
-                    color: isDark
-                        ? AppColors.textMutedDark
-                        : const Color(0xFF64748B),
-                  ),
-                ),
-                const SizedBox(height: 4),
+                    // Subtle Dark Gradient Overlay at bottom of image for contrast
+                    Positioned.fill(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.transparent,
+                              Colors.black.withValues(alpha: 0.05),
+                              Colors.black.withValues(alpha: 0.25),
+                            ],
+                            stops: const [0.4, 0.7, 1.0],
+                          ),
+                        ),
+                      ),
+                    ),
 
-                Text(
-                  '₹${item.price.toStringAsFixed(0)}',
-                  style: GoogleFonts.plusJakartaSans(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w900,
-                    color: isDark
-                        ? AppColors.textPrimaryDark
-                        : const Color(0xFF0F172A),
-                  ),
-                ),
-                const SizedBox(height: 4),
+                    // Top Left Eco Badge or Tag if present
+                    if (item.isEcoSafe || item.badgeText != null)
+                      Positioned(
+                        top: 8,
+                        left: 8,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 6, vertical: 2.5),
+                          decoration: BoxDecoration(
+                            color: item.isEcoSafe
+                                ? const Color(0xFF16A34A)
+                                : const Color(0xFFFEF3C7),
+                            borderRadius: BorderRadius.circular(6),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.1),
+                                blurRadius: 4,
+                              ),
+                            ],
+                          ),
+                          child: Text(
+                            item.badgeText ?? 'ECO',
+                            style: GoogleFonts.plusJakartaSans(
+                              fontSize: 9.5,
+                              fontWeight: FontWeight.w800,
+                              color: item.isEcoSafe
+                                  ? Colors.white
+                                  : const Color(0xFF92400E),
+                            ),
+                          ),
+                        ),
+                      ),
 
-                Text(
-                  'View details >',
-                  style: GoogleFonts.plusJakartaSans(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w700,
-                    color: const Color(0xFF4338CA),
+                    // Floating Add / Added Button at bottom right of image
+                    Positioned(
+                      bottom: 8,
+                      right: 8,
+                      child: _buildMiniAddButton(context, item, isSelected, isDark),
+                    ),
+                  ],
+                ),
+
+                // Bottom Content section filling remaining space
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Service Title (max 2 lines)
+                        Text(
+                          item.title,
+                          style: GoogleFonts.plusJakartaSans(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w700,
+                            height: 1.25,
+                            color: isDark
+                                ? AppColors.textPrimaryDark
+                                : const Color(0xFF1E293B),
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 4),
+
+                        // Duration info
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.schedule_rounded,
+                              size: 12,
+                              color: Color(0xFF0F766E),
+                            ),
+                            const SizedBox(width: 3),
+                            Expanded(
+                              child: Text(
+                                item.duration,
+                                style: GoogleFonts.plusJakartaSans(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w600,
+                                  color: isDark
+                                      ? AppColors.textMutedDark
+                                      : const Color(0xFF64748B),
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        // Dynamic Flexible Spacer pushing price and details to bottom
+                        //const Spacer(),
+
+                        // Subtle Divider before price section
+                        Container(
+                          height: 1,
+                          margin: const EdgeInsets.only(bottom: 6),
+                          color: isDark
+                              ? AppColors.borderDark.withValues(alpha: 0.5)
+                              : const Color(0xFFF1F5F9),
+                        ),
+
+                        // Price & View Details Row
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              '₹${item.price.toStringAsFixed(0)}',
+                              style: GoogleFonts.plusJakartaSans(
+                                fontSize: 14.5,
+                                fontWeight: FontWeight.w900,
+                                color: isDark
+                                    ? AppColors.textPrimaryDark
+                                    : const Color(0xFF0F172A),
+                              ),
+                            ),
+
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  'View details',
+                                  style: GoogleFonts.plusJakartaSans(
+                                    fontSize: 10.5,
+                                    fontWeight: FontWeight.w700,
+                                    color: const Color(0xFF4338CA),
+                                  ),
+                                ),
+                                const Icon(
+                                  Icons.chevron_right_rounded,
+                                  size: 13,
+                                  color: Color(0xFF4338CA),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }
@@ -176,80 +394,100 @@ class KitchenCleaningMiniServiceGrid extends StatelessWidget {
   Widget _buildMiniAddButton(
     BuildContext context,
     KitchenCleaningServiceItem item,
-    int qty,
+    bool isSelected,
     bool isDark,
   ) {
-    if (qty <= 0) {
-      return ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.white,
-          foregroundColor: const Color(0xFF0F766E),
-          elevation: 2,
-          minimumSize: const Size(60, 28),
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-            side: const BorderSide(color: Color(0xFF0F766E)),
-          ),
+    if (!isSelected) {
+      return Container(
+        height: 28,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: const Color(0xFF0F766E), width: 1.2),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.12),
+              blurRadius: 4,
+              offset: const Offset(0, 2),
+            ),
+          ],
         ),
-        onPressed: () {
-          HapticFeedback.lightImpact();
-          if (item.hasOptions) {
-            KitchenCleaningOptionsSheet.show(
-              context,
-              service: item,
-              onOptionSelected: (opt) => onAdd(item),
-            );
-          } else {
-            onAdd(item);
-          }
-        },
-        child: Text(
-          'Add',
-          style: GoogleFonts.plusJakartaSans(
-            fontSize: 11.5,
-            fontWeight: FontWeight.w900,
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(7),
+            onTap: _handleAddPressed,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'ADD',
+                    style: GoogleFonts.plusJakartaSans(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w900,
+                      color: const Color(0xFF0F766E),
+                      letterSpacing: 0.3,
+                    ),
+                  ),
+                  const SizedBox(width: 2),
+                  const Icon(
+                    Icons.add_rounded,
+                    size: 13,
+                    color: Color(0xFF0F766E),
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
       );
     }
 
+    // Selected state: Service added once -> Display "ADDED ✓"
     return Container(
       height: 28,
       decoration: BoxDecoration(
         color: const Color(0xFF0F766E),
         borderRadius: BorderRadius.circular(8),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          IconButton(
-            constraints: const BoxConstraints(minWidth: 24, minHeight: 28),
-            padding: EdgeInsets.zero,
-            icon: const Icon(Icons.remove, size: 14, color: Colors.white),
-            onPressed: () {
-              HapticFeedback.lightImpact();
-              onDecrement(item.id);
-            },
-          ),
-          Text(
-            '$qty',
-            style: GoogleFonts.plusJakartaSans(
-              fontSize: 12,
-              fontWeight: FontWeight.w900,
-              color: Colors.white,
-            ),
-          ),
-          IconButton(
-            constraints: const BoxConstraints(minWidth: 24, minHeight: 28),
-            padding: EdgeInsets.zero,
-            icon: const Icon(Icons.add, size: 14, color: Colors.white),
-            onPressed: () {
-              HapticFeedback.lightImpact();
-              onAdd(item);
-            },
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF0F766E).withValues(alpha: 0.3),
+            blurRadius: 6,
+            offset: const Offset(0, 2),
           ),
         ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(7),
+          onTap: _handleAddPressed,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(
+                  Icons.check_rounded,
+                  size: 14,
+                  color: Colors.white,
+                ),
+                const SizedBox(width: 3),
+                Text(
+                  'ADDED',
+                  style: GoogleFonts.plusJakartaSans(
+                    fontSize: 10.5,
+                    fontWeight: FontWeight.w900,
+                    color: Colors.white,
+                    letterSpacing: 0.3,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
