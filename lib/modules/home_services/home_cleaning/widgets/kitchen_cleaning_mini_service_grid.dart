@@ -6,7 +6,7 @@ import 'package:sewasetu/shared/widgets/app_network_image.dart';
 import '../models/kitchen_cleaning_model.dart';
 import 'kitchen_cleaning_options_sheet.dart';
 
-/// 2-Column Grid widget for Mini Services section with premium modern cards.
+/// 2-Column Grid widget for Mini Services section with compact premium modern cards.
 class KitchenCleaningMiniServiceGrid extends StatelessWidget {
   final List<KitchenCleaningServiceItem> items;
   final Function(String serviceId) getItemQuantity;
@@ -31,13 +31,13 @@ class KitchenCleaningMiniServiceGrid extends StatelessWidget {
       children: [
         // Header Section with count pill
         Padding(
-          padding: const EdgeInsets.fromLTRB(16, 20, 16, 12),
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 10),
           child: Row(
             children: [
               Text(
                 'Mini Services',
                 style: GoogleFonts.plusJakartaSans(
-                  fontSize: 19,
+                  fontSize: 18,
                   fontWeight: FontWeight.w800,
                   letterSpacing: -0.3,
                   color: isDark
@@ -48,17 +48,17 @@ class KitchenCleaningMiniServiceGrid extends StatelessWidget {
               const SizedBox(width: 8),
               Container(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                    const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
                 decoration: BoxDecoration(
                   color: isDark
                       ? AppColors.primaryLight.withValues(alpha: 0.15)
                       : const Color(0xFFCCFBF1),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(
                   '${items.length}',
                   style: GoogleFonts.plusJakartaSans(
-                    fontSize: 11.5,
+                    fontSize: 11,
                     fontWeight: FontWeight.w800,
                     color: isDark
                         ? AppColors.primaryLight
@@ -70,13 +70,13 @@ class KitchenCleaningMiniServiceGrid extends StatelessWidget {
           ),
         ),
 
-        // Grid Builder with responsive ratio (0.57-0.61) preventing overflow
+        // Grid Builder with compact ratio (0.67-0.70)
         LayoutBuilder(
           builder: (context, constraints) {
             final screenWidth = MediaQuery.of(context).size.width;
             final double childAspectRatio = screenWidth < 360
-                ? 0.57
-                : (screenWidth < 400 ? 0.59 : 0.61);
+                ? 0.66
+                : (screenWidth < 400 ? 0.68 : 0.70);
 
             return GridView.builder(
               shrinkWrap: true,
@@ -86,7 +86,7 @@ class KitchenCleaningMiniServiceGrid extends StatelessWidget {
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 crossAxisSpacing: 12,
-                mainAxisSpacing: 14,
+                mainAxisSpacing: 12,
                 childAspectRatio: childAspectRatio,
               ),
               itemBuilder: (context, index) {
@@ -179,7 +179,7 @@ class _MiniServiceCardState extends State<_MiniServiceCard> {
       child: Container(
         decoration: BoxDecoration(
           color: isDark ? AppColors.surfaceDark : Colors.white,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(14),
           border: Border.all(
             color: isSelected
                 ? const Color(0xFF0F766E)
@@ -190,9 +190,9 @@ class _MiniServiceCardState extends State<_MiniServiceCard> {
             BoxShadow(
               color: isDark
                   ? Colors.black.withValues(alpha: 0.25)
-                  : const Color(0xFF0F172A).withValues(alpha: 0.05),
-              blurRadius: 10,
-              offset: const Offset(0, 3),
+                  : const Color(0xFF0F172A).withValues(alpha: 0.04),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
             ),
           ],
         ),
@@ -207,11 +207,11 @@ class _MiniServiceCardState extends State<_MiniServiceCard> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Top Image Container with gradient overlay and floating Add / Added button
+                // Top Image Container (compact height: 96)
                 Stack(
                   children: [
                     Container(
-                      height: 108,
+                      height: 96,
                       width: double.infinity,
                       color: isDark
                           ? AppColors.surfaceVariantDark
@@ -243,16 +243,16 @@ class _MiniServiceCardState extends State<_MiniServiceCard> {
                     // Top Left Eco Badge or Tag if present
                     if (item.isEcoSafe || item.badgeText != null)
                       Positioned(
-                        top: 8,
-                        left: 8,
+                        top: 6,
+                        left: 6,
                         child: Container(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 6, vertical: 2.5),
+                              horizontal: 5, vertical: 2),
                           decoration: BoxDecoration(
                             color: item.isEcoSafe
                                 ? const Color(0xFF16A34A)
                                 : const Color(0xFFFEF3C7),
-                            borderRadius: BorderRadius.circular(6),
+                            borderRadius: BorderRadius.circular(5),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.black.withValues(alpha: 0.1),
@@ -263,7 +263,7 @@ class _MiniServiceCardState extends State<_MiniServiceCard> {
                           child: Text(
                             item.badgeText ?? 'ECO',
                             style: GoogleFonts.plusJakartaSans(
-                              fontSize: 9.5,
+                              fontSize: 9,
                               fontWeight: FontWeight.w800,
                               color: item.isEcoSafe
                                   ? Colors.white
@@ -275,8 +275,8 @@ class _MiniServiceCardState extends State<_MiniServiceCard> {
 
                     // Floating Add / Added Button at bottom right of image
                     Positioned(
-                      bottom: 8,
-                      right: 8,
+                      bottom: 6,
+                      right: 6,
                       child: _buildMiniAddButton(context, item, isSelected, isDark),
                     ),
                   ],
@@ -285,7 +285,7 @@ class _MiniServiceCardState extends State<_MiniServiceCard> {
                 // Bottom Content section filling remaining space
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.fromLTRB(9, 7, 9, 7),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -293,9 +293,9 @@ class _MiniServiceCardState extends State<_MiniServiceCard> {
                         Text(
                           item.title,
                           style: GoogleFonts.plusJakartaSans(
-                            fontSize: 13,
+                            fontSize: 12.5,
                             fontWeight: FontWeight.w700,
-                            height: 1.25,
+                            height: 1.2,
                             color: isDark
                                 ? AppColors.textPrimaryDark
                                 : const Color(0xFF1E293B),
@@ -303,14 +303,14 @@ class _MiniServiceCardState extends State<_MiniServiceCard> {
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: 3),
 
                         // Duration info
                         Row(
                           children: [
                             const Icon(
                               Icons.schedule_rounded,
-                              size: 12,
+                              size: 11,
                               color: Color(0xFF0F766E),
                             ),
                             const SizedBox(width: 3),
@@ -318,7 +318,7 @@ class _MiniServiceCardState extends State<_MiniServiceCard> {
                               child: Text(
                                 item.duration,
                                 style: GoogleFonts.plusJakartaSans(
-                                  fontSize: 11,
+                                  fontSize: 10.5,
                                   fontWeight: FontWeight.w600,
                                   color: isDark
                                       ? AppColors.textMutedDark
@@ -332,12 +332,12 @@ class _MiniServiceCardState extends State<_MiniServiceCard> {
                         ),
 
                         // Dynamic Flexible Spacer pushing price and details to bottom
-                        //const Spacer(),
+                        const Spacer(),
 
                         // Subtle Divider before price section
                         Container(
                           height: 1,
-                          margin: const EdgeInsets.only(bottom: 6),
+                          margin: const EdgeInsets.only(bottom: 4),
                           color: isDark
                               ? AppColors.borderDark.withValues(alpha: 0.5)
                               : const Color(0xFFF1F5F9),
@@ -351,7 +351,7 @@ class _MiniServiceCardState extends State<_MiniServiceCard> {
                             Text(
                               '₹${item.price.toStringAsFixed(0)}',
                               style: GoogleFonts.plusJakartaSans(
-                                fontSize: 14.5,
+                                fontSize: 14,
                                 fontWeight: FontWeight.w900,
                                 color: isDark
                                     ? AppColors.textPrimaryDark
@@ -365,14 +365,14 @@ class _MiniServiceCardState extends State<_MiniServiceCard> {
                                 Text(
                                   'View details',
                                   style: GoogleFonts.plusJakartaSans(
-                                    fontSize: 10.5,
+                                    fontSize: 10,
                                     fontWeight: FontWeight.w700,
                                     color: const Color(0xFF4338CA),
                                   ),
                                 ),
                                 const Icon(
                                   Icons.chevron_right_rounded,
-                                  size: 13,
+                                  size: 12,
                                   color: Color(0xFF4338CA),
                                 ),
                               ],
@@ -399,33 +399,33 @@ class _MiniServiceCardState extends State<_MiniServiceCard> {
   ) {
     if (!isSelected) {
       return Container(
-        height: 28,
+        height: 26,
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(7),
           border: Border.all(color: const Color(0xFF0F766E), width: 1.2),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.12),
-              blurRadius: 4,
-              offset: const Offset(0, 2),
+              blurRadius: 3,
+              offset: const Offset(0, 1.5),
             ),
           ],
         ),
         child: Material(
           color: Colors.transparent,
           child: InkWell(
-            borderRadius: BorderRadius.circular(7),
+            borderRadius: BorderRadius.circular(6),
             onTap: _handleAddPressed,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 9),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
                     'ADD',
                     style: GoogleFonts.plusJakartaSans(
-                      fontSize: 11,
+                      fontSize: 10.5,
                       fontWeight: FontWeight.w900,
                       color: const Color(0xFF0F766E),
                       letterSpacing: 0.3,
@@ -434,7 +434,7 @@ class _MiniServiceCardState extends State<_MiniServiceCard> {
                   const SizedBox(width: 2),
                   const Icon(
                     Icons.add_rounded,
-                    size: 13,
+                    size: 12,
                     color: Color(0xFF0F766E),
                   ),
                 ],
@@ -447,38 +447,38 @@ class _MiniServiceCardState extends State<_MiniServiceCard> {
 
     // Selected state: Service added once -> Display "ADDED ✓"
     return Container(
-      height: 28,
+      height: 26,
       decoration: BoxDecoration(
         color: const Color(0xFF0F766E),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(7),
         boxShadow: [
           BoxShadow(
             color: const Color(0xFF0F766E).withValues(alpha: 0.3),
-            blurRadius: 6,
-            offset: const Offset(0, 2),
+            blurRadius: 5,
+            offset: const Offset(0, 1.5),
           ),
         ],
       ),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          borderRadius: BorderRadius.circular(7),
+          borderRadius: BorderRadius.circular(6),
           onTap: _handleAddPressed,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 7),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Icon(
                   Icons.check_rounded,
-                  size: 14,
+                  size: 13,
                   color: Colors.white,
                 ),
-                const SizedBox(width: 3),
+                const SizedBox(width: 2),
                 Text(
                   'ADDED',
                   style: GoogleFonts.plusJakartaSans(
-                    fontSize: 10.5,
+                    fontSize: 10,
                     fontWeight: FontWeight.w900,
                     color: Colors.white,
                     letterSpacing: 0.3,
