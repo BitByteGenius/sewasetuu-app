@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:sewasetu/app/theme/app_colors.dart';
 import 'package:sewasetu/app/theme/app_radius.dart';
 import 'package:sewasetu/app/theme/app_shadows.dart';
-import 'package:sewasetu/app/theme/app_spacing.dart';
 import 'package:sewasetu/app/theme/app_text_styles.dart';
 import 'package:sewasetu/core/utils/formatters.dart';
 import 'package:sewasetu/modules/stay/models/property_model.dart';
-import 'package:sewasetu/shared/enums/stay_type.dart';
 import 'package:sewasetu/shared/widgets/app_network_image.dart';
 
 /// Redesigned Modern & Compact Accommodation Card following:
