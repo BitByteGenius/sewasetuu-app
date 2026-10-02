@@ -43,6 +43,7 @@ class KitchenCleaningServiceItem {
   final String ratingCount;
   final String duration;
   final double price;
+  final double? originalPrice;
   final String? startsAtText;
   final String? imageUrl;
   final List<String> bulletPoints;
@@ -60,6 +61,7 @@ class KitchenCleaningServiceItem {
     required this.ratingCount,
     required this.duration,
     required this.price,
+    this.originalPrice,
     this.startsAtText,
     this.imageUrl,
     this.bulletPoints = const [],

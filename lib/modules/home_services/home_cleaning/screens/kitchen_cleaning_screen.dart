@@ -15,6 +15,7 @@ import '../widgets/kitchen_cleaning_offer_carousel.dart';
 import '../widgets/kitchen_cleaning_promise_widget.dart';
 import '../widgets/kitchen_cleaning_reviews_breakdown_widget.dart';
 import '../widgets/kitchen_cleaning_service_card.dart';
+import '../../common_widgets/my_cart_widgets.dart';
 
 /// Primary detail screen for Kitchen Cleaning module matching all 8 reference mockups.
 class KitchenCleaningScreen extends StatelessWidget {
@@ -63,18 +64,7 @@ class KitchenCleaningScreen extends StatelessWidget {
                 IconButton(
                   icon: const Icon(Icons.shopping_cart_outlined),
                   onPressed: () {
-                    if (controller.isCartNotEmpty) {
-                      Get.snackbar(
-                        'Cart Summary',
-                        '${controller.totalCartCount} items selected. Total: ₹${controller.totalCartPrice.toStringAsFixed(0)}',
-                        snackPosition: SnackPosition.BOTTOM,
-                        backgroundColor: const Color(0xFF0F766E),
-                        colorText: Colors.white,
-                        duration: const Duration(seconds: 3),
-                        margin: const EdgeInsets.all(16),
-                        borderRadius: 12,
-                      );
-                    }
+                    Get.to(() => const MyCartWidgets());
                   },
                 ),
                 if (cartCount > 0)
@@ -254,16 +244,7 @@ class KitchenCleaningScreen extends StatelessWidget {
                 itemQuantity: controller.totalCartCount,
                 totalPrice: controller.totalCartPrice,
                 onViewCart: () {
-                  Get.snackbar(
-                    'Checkout',
-                    'Navigating to checkout with ${controller.totalCartCount} items...',
-                    snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: const Color(0xFF0F766E),
-                    colorText: Colors.white,
-                    duration: const Duration(seconds: 2),
-                    margin: const EdgeInsets.all(16),
-                    borderRadius: 12,
-                  );
+                  Get.to(() => const MyCartWidgets());
                 },
               );
             }),

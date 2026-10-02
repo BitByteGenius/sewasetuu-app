@@ -136,6 +136,8 @@ class KitchenCleaningData {
     ),
   ];
 
+ 
+
   /// Main services dataset
   static const List<KitchenCleaningServiceItem> allServices = [
     // --- SECTION 1: Occupied Kitchen Cleaning ---
@@ -149,6 +151,7 @@ class KitchenCleaningData {
       ratingCount: '5.6K+',
       duration: '3 hrs',
       price: 1459.0,
+      originalPrice: 2114.0,
       imageUrl:
           'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=800&q=80',
       bulletPoints: [
@@ -243,6 +246,7 @@ class KitchenCleaningData {
       ratingCount: '4K+',
       duration: '2 hrs 30 mins',
       price: 849.0,
+      originalPrice: 1299.0,
       imageUrl:
           'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80',
       bulletPoints: [

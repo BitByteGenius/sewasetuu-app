@@ -61,18 +61,22 @@ class KitchenCleaningController extends GetxController {
     final emptyOffset = _getWidgetOffset(emptySectionKey);
     final miniOffset = _getWidgetOffset(miniSectionKey);
 
+    String? targetCategory;
     if (miniOffset != null && scrollOffset >= miniOffset - 150) {
-      if (activeNavCategory.value != 'mini') {
-        activeNavCategory.value = 'mini';
-      }
+      targetCategory = 'mini';
     } else if (emptyOffset != null && scrollOffset >= emptyOffset - 150) {
-      if (activeNavCategory.value != 'empty') {
-        activeNavCategory.value = 'empty';
-      }
+      targetCategory = 'empty';
     } else if (occupiedOffset != null && scrollOffset >= occupiedOffset - 150) {
-      if (activeNavCategory.value != 'occupied') {
-        activeNavCategory.value = 'occupied';
-      }
+      targetCategory = 'occupied';
+    }
+
+    if (targetCategory != null && activeNavCategory.value != targetCategory) {
+      final newCategory = targetCategory;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (activeNavCategory.value != newCategory) {
+          activeNavCategory.value = newCategory;
+        }
+      });
     }
   }
 
@@ -98,6 +102,7 @@ class KitchenCleaningController extends GetxController {
       state.value = ViewState.error;
     }
   }
+
 
   // --- CART GETTERS ---
   int get totalCartCount =>
@@ -156,6 +161,11 @@ class KitchenCleaningController extends GetxController {
         cartItems.removeAt(existingIndex);
       }
     }
+  }
+
+  void removeItemCompletely(String serviceId) {
+    cartItems.removeWhere((i) => i.service.id == serviceId);
+    cartItems.refresh();
   }
 
   // --- UI INTERACTION ACTIONS ---
