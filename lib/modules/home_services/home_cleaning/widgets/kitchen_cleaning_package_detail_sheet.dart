@@ -111,7 +111,7 @@ class _KitchenCleaningPackageDetailSheetState
 
                   const SizedBox(height: 12),
 
-                  // 2. Service Title & Essential Badge
+                  // 2. Service Title & Dynamic Selected Package Badge
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 18),
                     child: Column(
@@ -127,27 +127,44 @@ class _KitchenCleaningPackageDetailSheetState
                                 : const Color(0xFF0F172A),
                           ),
                         ),
-                        if (data.badgeText != null) ...[
-                          const SizedBox(height: 4),
-                          Row(
-                            children: [
-                              const Icon(
-                                Icons.star_border_rounded,
-                                size: 14,
-                                color: Color(0xFFD97706),
+                        const SizedBox(height: 4),
+                        Builder(
+                          builder: (context) {
+                            final currentPkg = _selectedPackage;
+                            final badgeTitle =
+                                currentPkg.title.replaceAll('\n', ' ');
+                            final isPremiumPkg = currentPkg.id.contains('steam') ||
+                                currentPkg.id.contains('eco');
+                            final badgeColor = isPremiumPkg
+                                ? const Color(0xFF7E22CE)
+                                : const Color(0xFFD97706);
+
+                            return AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 200),
+                              child: Row(
+                                key: ValueKey(currentPkg.id),
+                                children: [
+                                  Icon(
+                                    isPremiumPkg
+                                        ? Icons.workspace_premium_outlined
+                                        : Icons.star_border_rounded,
+                                    size: 14,
+                                    color: badgeColor,
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    badgeTitle,
+                                    style: GoogleFonts.plusJakartaSans(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w700,
+                                      color: badgeColor,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              const SizedBox(width: 4),
-                              Text(
-                                data.badgeText!,
-                                style: GoogleFonts.plusJakartaSans(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w700,
-                                  color: const Color(0xFFD97706),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
+                            );
+                          },
+                        ),
                       ],
                     ),
                   ),
