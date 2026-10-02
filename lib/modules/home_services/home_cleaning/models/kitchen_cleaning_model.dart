@@ -168,6 +168,20 @@ class KitchenFaqItem {
     required this.question,
     required this.answer,
   });
+
+  factory KitchenFaqItem.fromJson(Map<String, dynamic> json) {
+    return KitchenFaqItem(
+      id: json['id'] as String? ?? '',
+      question: json['question'] as String? ?? '',
+      answer: json['answer'] as String? ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'question': question,
+        'answer': answer,
+      };
 }
 
 /// Cart Line Item model
@@ -185,3 +199,189 @@ class KitchenCartItem {
   double get unitPrice => selectedOption?.price ?? service.price;
   double get totalPrice => unitPrice * quantity;
 }
+
+/// Represents individual feature row value in package comparison matrix (bool or text value)
+class KitchenFeatureValue {
+  final bool? isSupported; // true = ✓, false = ✕, null = text mode
+  final String? textValue; // e.g., "LOW", "ZERO"
+
+  const KitchenFeatureValue.bool(bool value)
+      : isSupported = value,
+        textValue = null;
+
+  const KitchenFeatureValue.text(String text)
+      : isSupported = null,
+        textValue = text;
+
+  factory KitchenFeatureValue.fromJson(dynamic json) {
+    if (json is bool) {
+      return KitchenFeatureValue.bool(json);
+    } else if (json is String) {
+      return KitchenFeatureValue.text(json);
+    }
+    return const KitchenFeatureValue.bool(false);
+  }
+
+  dynamic toJson() => isSupported ?? textValue;
+}
+
+/// Package Column header model (e.g. Essential, Power Steam, Eco-Smart)
+class KitchenPackageColumn {
+  final String id;
+  final String title;
+  final String? badgeTag; // e.g. 'Popular'
+  final IconData? icon;
+  final double price;
+  final double? originalPrice;
+  final bool isPopular;
+
+  const KitchenPackageColumn({
+    required this.id,
+    required this.title,
+    this.badgeTag,
+    this.icon,
+    required this.price,
+    this.originalPrice,
+    this.isPopular = false,
+  });
+
+  factory KitchenPackageColumn.fromJson(Map<String, dynamic> json) {
+    return KitchenPackageColumn(
+      id: json['id'] as String? ?? '',
+      title: json['title'] as String? ?? '',
+      badgeTag: json['badge_tag'] as String?,
+      price: (json['price'] as num?)?.toDouble() ?? 0.0,
+      originalPrice: (json['original_price'] as num?)?.toDouble(),
+      isPopular: json['is_popular'] as bool? ?? false,
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'title': title,
+        'badge_tag': badgeTag,
+        'price': price,
+        'original_price': originalPrice,
+        'is_popular': isPopular,
+      };
+}
+
+/// Feature Comparison Row inside matrix table
+class KitchenFeatureRow {
+  final String id;
+  final String featureName;
+  final Map<String, KitchenFeatureValue> columnValues;
+
+  const KitchenFeatureRow({
+    required this.id,
+    required this.featureName,
+    required this.columnValues,
+  });
+
+  factory KitchenFeatureRow.fromJson(Map<String, dynamic> json) {
+    final values = <String, KitchenFeatureValue>{};
+    if (json['column_values'] is Map) {
+      (json['column_values'] as Map<String, dynamic>).forEach((k, v) {
+        values[k] = KitchenFeatureValue.fromJson(v);
+      });
+    }
+    return KitchenFeatureRow(
+      id: json['id'] as String? ?? '',
+      featureName: json['feature_name'] as String? ?? '',
+      columnValues: values,
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'feature_name': featureName,
+        'column_values': columnValues.map((k, v) => MapEntry(k, v.toJson())),
+      };
+}
+
+/// Category Accordion Group inside matrix table (e.g. "Kitchen Cleaning")
+class KitchenComparisonGroup {
+  final String groupTitle;
+  final String? iconName;
+  final List<KitchenFeatureRow> features;
+
+  const KitchenComparisonGroup({
+    required this.groupTitle,
+    this.iconName,
+    required this.features,
+  });
+
+  factory KitchenComparisonGroup.fromJson(Map<String, dynamic> json) {
+    return KitchenComparisonGroup(
+      groupTitle: json['group_title'] as String? ?? '',
+      iconName: json['icon_name'] as String?,
+      features: (json['features'] as List<dynamic>?)
+              ?.map((e) => KitchenFeatureRow.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        'group_title': groupTitle,
+        'icon_name': iconName,
+        'features': features.map((f) => f.toJson()).toList(),
+      };
+}
+
+/// Comprehensive Detail View Data model for Occupied & Empty Kitchen detail screens
+class KitchenServiceDetailData {
+  final String serviceId;
+  final String title;
+  final String? badgeText;
+  final String bannerImageUrl;
+  final String bookingStatsText;
+  final List<KitchenPackageColumn> packages;
+  final List<KitchenComparisonGroup> comparisonGroups;
+  final List<KitchenFaqItem> faqItems;
+
+  const KitchenServiceDetailData({
+    required this.serviceId,
+    required this.title,
+    this.badgeText,
+    required this.bannerImageUrl,
+    required this.bookingStatsText,
+    required this.packages,
+    required this.comparisonGroups,
+    required this.faqItems,
+  });
+
+  factory KitchenServiceDetailData.fromJson(Map<String, dynamic> json) {
+    return KitchenServiceDetailData(
+      serviceId: json['service_id'] as String? ?? '',
+      title: json['title'] as String? ?? '',
+      badgeText: json['badge_text'] as String?,
+      bannerImageUrl: json['banner_image_url'] as String? ?? '',
+      bookingStatsText: json['booking_stats_text'] as String? ?? '',
+      packages: (json['packages'] as List<dynamic>?)
+              ?.map((p) => KitchenPackageColumn.fromJson(p as Map<String, dynamic>))
+              .toList() ??
+          [],
+      comparisonGroups: (json['comparison_groups'] as List<dynamic>?)
+              ?.map((g) => KitchenComparisonGroup.fromJson(g as Map<String, dynamic>))
+              .toList() ??
+          [],
+      faqItems: (json['faq_items'] as List<dynamic>?)
+              ?.map((f) => KitchenFaqItem.fromJson(f as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        'service_id': serviceId,
+        'title': title,
+        'badge_text': badgeText,
+        'banner_image_url': bannerImageUrl,
+        'booking_stats_text': bookingStatsText,
+        'packages': packages.map((p) => p.toJson()).toList(),
+        'comparison_groups': comparisonGroups.map((g) => g.toJson()).toList(),
+        'faq_items': faqItems.map((f) => f.toJson()).toList(),
+      };
+}
+

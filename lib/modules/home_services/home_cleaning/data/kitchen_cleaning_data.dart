@@ -460,4 +460,384 @@ class KitchenCleaningData {
           'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=400&q=80',
     ),
   ];
+
+  /// Detail comparison data feed for Occupied & Empty Kitchen Cleaning modal screens
+  static KitchenServiceDetailData getDetailData(String serviceIdOrTitle) {
+    final isEmpty = serviceIdOrTitle.toLowerCase().contains('empty') ||
+        serviceIdOrTitle == 'emp_essential';
+
+    if (isEmpty) {
+      return emptyKitchenDetailData;
+    }
+    return occupiedKitchenDetailData;
+  }
+
+  static const KitchenServiceDetailData occupiedKitchenDetailData =
+      KitchenServiceDetailData(
+    serviceId: 'occupied',
+    title: 'Occupied Kitchen Cleaning',
+    badgeText: 'Essential',
+    bannerImageUrl:
+        'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=1000&q=80',
+    bookingStatsText: '15k bookings near you | ★ 4.74',
+    packages: [
+      KitchenPackageColumn(
+        id: 'essential',
+        title: 'Essential',
+        price: 1459.0,
+        originalPrice: 2114.0,
+        icon: Icons.star_border_rounded,
+      ),
+      KitchenPackageColumn(
+        id: 'power_steam',
+        title: 'Power\nSteam',
+        badgeTag: 'Popular',
+        isPopular: true,
+        price: 1959.0,
+        originalPrice: 2699.0,
+        icon: Icons.workspace_premium_rounded,
+      ),
+      KitchenPackageColumn(
+        id: 'eco_smart',
+        title: 'Eco-\nSmart',
+        price: 2009.0,
+        originalPrice: 2899.0,
+        icon: Icons.workspace_premium_rounded,
+      ),
+    ],
+    comparisonGroups: [
+      KitchenComparisonGroup(
+        groupTitle: 'Kitchen Cleaning',
+        iconName: 'kitchen',
+        features: [
+          KitchenFeatureRow(
+            id: 'steam_cleaning',
+            featureName: 'Steam cleaning',
+            columnValues: {
+              'essential': KitchenFeatureValue.bool(false),
+              'power_steam': KitchenFeatureValue.bool(true),
+              'eco_smart': KitchenFeatureValue.bool(true),
+            },
+          ),
+          KitchenFeatureRow(
+            id: 'chimney_cleaning',
+            featureName: 'Chimney cleaning (if selected)',
+            columnValues: {
+              'essential': KitchenFeatureValue.bool(true),
+              'power_steam': KitchenFeatureValue.bool(true),
+              'eco_smart': KitchenFeatureValue.bool(true),
+            },
+          ),
+          KitchenFeatureRow(
+            id: 'utensil_rearrangement',
+            featureName: 'Utensil re-arrangement',
+            columnValues: {
+              'essential': KitchenFeatureValue.bool(false),
+              'power_steam': KitchenFeatureValue.bool(true),
+              'eco_smart': KitchenFeatureValue.bool(true),
+            },
+          ),
+          KitchenFeatureRow(
+            id: 'tiles_slabs_windows',
+            featureName: 'Cleaning of tiles, slabs and windows',
+            columnValues: {
+              'essential': KitchenFeatureValue.bool(true),
+              'power_steam': KitchenFeatureValue.bool(true),
+              'eco_smart': KitchenFeatureValue.bool(true),
+            },
+          ),
+          KitchenFeatureRow(
+            id: 'appliances_cleaning',
+            featureName:
+                'Appliances exterior + interior cleaning (if added separately)',
+            columnValues: {
+              'essential': KitchenFeatureValue.bool(true),
+              'power_steam': KitchenFeatureValue.bool(true),
+              'eco_smart': KitchenFeatureValue.bool(true),
+            },
+          ),
+          KitchenFeatureRow(
+            id: 'cabinet_exterior',
+            featureName: "Cabinet's cleaning (Exterior)",
+            columnValues: {
+              'essential': KitchenFeatureValue.bool(true),
+              'power_steam': KitchenFeatureValue.bool(true),
+              'eco_smart': KitchenFeatureValue.bool(true),
+            },
+          ),
+          KitchenFeatureRow(
+            id: 'cabinet_interior',
+            featureName: "Cabinet's cleaning (Interior)",
+            columnValues: {
+              'essential': KitchenFeatureValue.bool(false),
+              'power_steam': KitchenFeatureValue.bool(true),
+              'eco_smart': KitchenFeatureValue.bool(true),
+            },
+          ),
+          KitchenFeatureRow(
+            id: 'oil_stain_removal',
+            featureName: 'Oil stain removal',
+            columnValues: {
+              'essential': KitchenFeatureValue.bool(true),
+              'power_steam': KitchenFeatureValue.bool(true),
+              'eco_smart': KitchenFeatureValue.bool(true),
+            },
+          ),
+          KitchenFeatureRow(
+            id: 'gas_stove_hob',
+            featureName: 'Gas stove & hob cleaning',
+            columnValues: {
+              'essential': KitchenFeatureValue.bool(true),
+              'power_steam': KitchenFeatureValue.bool(true),
+              'eco_smart': KitchenFeatureValue.bool(true),
+            },
+          ),
+          KitchenFeatureRow(
+            id: 'sink_under_sink',
+            featureName: 'Sink and under the sink cleaning',
+            columnValues: {
+              'essential': KitchenFeatureValue.bool(true),
+              'power_steam': KitchenFeatureValue.bool(true),
+              'eco_smart': KitchenFeatureValue.bool(true),
+            },
+          ),
+          KitchenFeatureRow(
+            id: 'odourless_cleaning',
+            featureName: 'Odourless cleaning',
+            columnValues: {
+              'essential': KitchenFeatureValue.bool(false),
+              'power_steam': KitchenFeatureValue.bool(false),
+              'eco_smart': KitchenFeatureValue.bool(true),
+            },
+          ),
+          KitchenFeatureRow(
+            id: 'eco_friendly',
+            featureName: 'Eco-Friendly',
+            columnValues: {
+              'essential': KitchenFeatureValue.bool(false),
+              'power_steam': KitchenFeatureValue.bool(false),
+              'eco_smart': KitchenFeatureValue.bool(true),
+            },
+          ),
+          KitchenFeatureRow(
+            id: 'residue_after_cleaning',
+            featureName: 'Residue after cleaning',
+            columnValues: {
+              'essential': KitchenFeatureValue.text('LOW'),
+              'power_steam': KitchenFeatureValue.text('LOW'),
+              'eco_smart': KitchenFeatureValue.text('ZERO'),
+            },
+          ),
+        ],
+      ),
+    ],
+    faqItems: faqItemsDetailList,
+  );
+
+  static const KitchenServiceDetailData emptyKitchenDetailData =
+      KitchenServiceDetailData(
+    serviceId: 'empty',
+    title: 'Empty Kitchen Cleaning',
+    badgeText: 'Essential',
+    bannerImageUrl:
+        'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=80',
+    bookingStatsText: '12k bookings near you | ★ 4.75',
+    packages: [
+      KitchenPackageColumn(
+        id: 'essential',
+        title: 'Essential',
+        price: 849.0,
+        originalPrice: 1299.0,
+        icon: Icons.star_border_rounded,
+      ),
+      KitchenPackageColumn(
+        id: 'power_steam',
+        title: 'Power\nSteam',
+        badgeTag: 'Popular',
+        isPopular: true,
+        price: 1249.0,
+        originalPrice: 1799.0,
+        icon: Icons.workspace_premium_rounded,
+      ),
+      KitchenPackageColumn(
+        id: 'eco_smart',
+        title: 'Eco-\nSmart',
+        price: 1399.0,
+        originalPrice: 1999.0,
+        icon: Icons.workspace_premium_rounded,
+      ),
+    ],
+    comparisonGroups: [
+      KitchenComparisonGroup(
+        groupTitle: 'Kitchen Cleaning',
+        iconName: 'kitchen',
+        features: [
+          KitchenFeatureRow(
+            id: 'steam_cleaning',
+            featureName: 'Steam cleaning',
+            columnValues: {
+              'essential': KitchenFeatureValue.bool(false),
+              'power_steam': KitchenFeatureValue.bool(true),
+              'eco_smart': KitchenFeatureValue.bool(true),
+            },
+          ),
+          KitchenFeatureRow(
+            id: 'chimney_cleaning',
+            featureName: 'Chimney cleaning (if selected)',
+            columnValues: {
+              'essential': KitchenFeatureValue.bool(true),
+              'power_steam': KitchenFeatureValue.bool(true),
+              'eco_smart': KitchenFeatureValue.bool(true),
+            },
+          ),
+          KitchenFeatureRow(
+            id: 'tiles_slabs_windows',
+            featureName: 'Cleaning of tiles, slabs and windows',
+            columnValues: {
+              'essential': KitchenFeatureValue.bool(true),
+              'power_steam': KitchenFeatureValue.bool(true),
+              'eco_smart': KitchenFeatureValue.bool(true),
+            },
+          ),
+          KitchenFeatureRow(
+            id: 'cabinet_exterior',
+            featureName: "Cabinet's cleaning (Exterior)",
+            columnValues: {
+              'essential': KitchenFeatureValue.bool(true),
+              'power_steam': KitchenFeatureValue.bool(true),
+              'eco_smart': KitchenFeatureValue.bool(true),
+            },
+          ),
+          KitchenFeatureRow(
+            id: 'cabinet_interior',
+            featureName: "Cabinet's cleaning (Interior)",
+            columnValues: {
+              'essential': KitchenFeatureValue.bool(true),
+              'power_steam': KitchenFeatureValue.bool(true),
+              'eco_smart': KitchenFeatureValue.bool(true),
+            },
+          ),
+          KitchenFeatureRow(
+            id: 'oil_stain_removal',
+            featureName: 'Oil stain removal',
+            columnValues: {
+              'essential': KitchenFeatureValue.bool(true),
+              'power_steam': KitchenFeatureValue.bool(true),
+              'eco_smart': KitchenFeatureValue.bool(true),
+            },
+          ),
+          KitchenFeatureRow(
+            id: 'gas_stove_hob',
+            featureName: 'Gas stove & hob cleaning',
+            columnValues: {
+              'essential': KitchenFeatureValue.bool(true),
+              'power_steam': KitchenFeatureValue.bool(true),
+              'eco_smart': KitchenFeatureValue.bool(true),
+            },
+          ),
+          KitchenFeatureRow(
+            id: 'sink_under_sink',
+            featureName: 'Sink and under the sink cleaning',
+            columnValues: {
+              'essential': KitchenFeatureValue.bool(true),
+              'power_steam': KitchenFeatureValue.bool(true),
+              'eco_smart': KitchenFeatureValue.bool(true),
+            },
+          ),
+          KitchenFeatureRow(
+            id: 'odourless_cleaning',
+            featureName: 'Odourless cleaning',
+            columnValues: {
+              'essential': KitchenFeatureValue.bool(false),
+              'power_steam': KitchenFeatureValue.bool(false),
+              'eco_smart': KitchenFeatureValue.bool(true),
+            },
+          ),
+          KitchenFeatureRow(
+            id: 'eco_friendly',
+            featureName: 'Eco-Friendly',
+            columnValues: {
+              'essential': KitchenFeatureValue.bool(false),
+              'power_steam': KitchenFeatureValue.bool(false),
+              'eco_smart': KitchenFeatureValue.bool(true),
+            },
+          ),
+          KitchenFeatureRow(
+            id: 'residue_after_cleaning',
+            featureName: 'Residue after cleaning',
+            columnValues: {
+              'essential': KitchenFeatureValue.text('LOW'),
+              'power_steam': KitchenFeatureValue.text('LOW'),
+              'eco_smart': KitchenFeatureValue.text('ZERO'),
+            },
+          ),
+        ],
+      ),
+    ],
+    faqItems: faqItemsDetailList,
+  );
+
+  static const List<KitchenFaqItem> faqItemsDetailList = [
+    KitchenFaqItem(
+      id: 'faq_det_1',
+      question: 'Do I need to provide any cleaning supplies or equipment?',
+      answer:
+          'No, our professionals carry all required specialized cleaning agents, micro-fiber cloths, and steam machines.',
+    ),
+    KitchenFaqItem(
+      id: 'faq_det_2',
+      question: 'Can I reschedule or cancel my cleaning service?',
+      answer:
+          'Yes! You can easily reschedule or cancel your slot up to 4 hours prior to the appointment through the app.',
+    ),
+    KitchenFaqItem(
+      id: 'faq_det_3',
+      question: 'Will the cleaners move furniture while cleaning?',
+      answer:
+          'Our team will move light appliances and standard furniture. Heavy fixed structures will be cleaned around.',
+    ),
+    KitchenFaqItem(
+      id: 'faq_det_4',
+      question: 'What happens if I am not satisfied with the cleaning?',
+      answer:
+          'We offer a 100% satisfaction guarantee. If any area is missed, we will re-clean it free of charge within 7 days.',
+    ),
+    KitchenFaqItem(
+      id: 'faq_det_5',
+      question: 'What is included in a deep cleaning service?',
+      answer:
+          'It includes tile degreasing, slab & sink sanitization, exterior & interior cabinet wipe down, exhaust fan & window cleaning.',
+    ),
+    KitchenFaqItem(
+      id: 'faq_det_6',
+      question: 'How often should I book a deep cleaning service?',
+      answer:
+          'We recommend booking a deep kitchen cleaning every 2 to 3 months to maintain hygiene and prevent oil accumulation.',
+    ),
+    KitchenFaqItem(
+      id: 'faq_det_7',
+      question: 'Will my bathroom be sanitized after cleaning?',
+      answer:
+          'Bathroom cleaning is available as a separate service or combined home package.',
+    ),
+    KitchenFaqItem(
+      id: 'faq_det_8',
+      question: 'Are your cleaning agents eco-friendly?',
+      answer:
+          'Yes, especially under our Eco-Smart package, all cleaning solutions are non-toxic, eco-certified, and safe for kids & pets.',
+    ),
+    KitchenFaqItem(
+      id: 'faq_det_9',
+      question: 'Is the service safe for pets and kids?',
+      answer:
+          'Absolutely. We use non-corrosive, food-safe and fume-free cleaning solutions.',
+    ),
+    KitchenFaqItem(
+      id: 'faq_det_10',
+      question: 'Do I need to be home during the cleaning service?',
+      answer:
+          'It is recommended to be present at the start and end of service for inspection, though not mandatory during cleaning.',
+    ),
+  ];
 }
+

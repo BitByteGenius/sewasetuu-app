@@ -3,8 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sewasetu/app/theme/app_colors.dart';
 import 'package:sewasetu/shared/widgets/app_network_image.dart';
+import '../data/kitchen_cleaning_data.dart';
 import '../models/kitchen_cleaning_model.dart';
 import 'kitchen_cleaning_options_sheet.dart';
+import 'kitchen_cleaning_package_detail_sheet.dart';
 
 /// Premium Service item card matching the exact visual layouts shown in reference photos.
 class KitchenCleaningServiceCard extends StatelessWidget {
@@ -14,6 +16,7 @@ class KitchenCleaningServiceCard extends StatelessWidget {
   final VoidCallback onToggleExpand;
   final ValueChanged<ServiceOptionItem?> onAdd;
   final VoidCallback onDecrement;
+  final VoidCallback? onViewDetails;
 
   const KitchenCleaningServiceCard({
     super.key,
@@ -23,6 +26,7 @@ class KitchenCleaningServiceCard extends StatelessWidget {
     required this.onToggleExpand,
     required this.onAdd,
     required this.onDecrement,
+    this.onViewDetails,
   });
 
   @override
@@ -283,11 +287,35 @@ class KitchenCleaningServiceCard extends StatelessWidget {
 
           const SizedBox(height: 6),
 
-          // View details > toggle link with AnimatedCrossFade
+          // View details > trigger comparison package sheet or toggle details
           InkWell(
             onTap: () {
               HapticFeedback.selectionClick();
-              onToggleExpand();
+              if (onViewDetails != null) {
+                onViewDetails!();
+              } else if (item.sectionId == 'occupied' ||
+                  item.sectionId == 'empty' ||
+                  item.id.contains('occ') ||
+                  item.id.contains('emp') ||
+                  item.title.toLowerCase().contains('occupied') ||
+                  item.title.toLowerCase().contains('empty')) {
+                final detailData = KitchenCleaningData.getDetailData(
+                    item.id.isNotEmpty ? item.id : item.title);
+                KitchenCleaningPackageDetailSheet.show(
+                  context,
+                  detailData: detailData,
+                  onProceed: (selectedPkg) {
+                    final opt = ServiceOptionItem(
+                      id: selectedPkg.id,
+                      name: selectedPkg.title,
+                      price: selectedPkg.price,
+                    );
+                    onAdd(opt);
+                  },
+                );
+              } else {
+                onToggleExpand();
+              }
             },
             borderRadius: BorderRadius.circular(4),
             child: Padding(
@@ -296,7 +324,7 @@ class KitchenCleaningServiceCard extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    isExpanded ? 'Hide details' : 'View details',
+                    'View details',
                     style: GoogleFonts.plusJakartaSans(
                       fontSize: 12.5,
                       fontWeight: FontWeight.w700,
@@ -304,12 +332,10 @@ class KitchenCleaningServiceCard extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 2),
-                  Icon(
-                    isExpanded
-                        ? Icons.keyboard_arrow_up_rounded
-                        : Icons.keyboard_arrow_right_rounded,
+                  const Icon(
+                    Icons.keyboard_arrow_right_rounded,
                     size: 16,
-                    color: const Color(0xFF4338CA),
+                    color: Color(0xFF4338CA),
                   ),
                 ],
               ),
