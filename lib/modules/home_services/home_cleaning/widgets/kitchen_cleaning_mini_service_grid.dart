@@ -6,7 +6,6 @@ import 'package:sewasetu/shared/widgets/app_network_image.dart';
 import '../data/kitchen_cleaning_data.dart';
 import '../models/kitchen_cleaning_model.dart';
 import 'kitchen_cleaning_item_detail_sheet.dart';
-import 'kitchen_cleaning_options_sheet.dart';
 
 /// 2-Column Grid widget for Mini Services section with compact premium modern cards.
 class KitchenCleaningMiniServiceGrid extends StatelessWidget {
@@ -151,15 +150,7 @@ class _MiniServiceCardState extends State<_MiniServiceCard> {
       // Service can only be added once. Tapping ADDED removes it.
       widget.onDecrement(widget.item.id);
     } else {
-      if (widget.item.hasOptions) {
-        KitchenCleaningOptionsSheet.show(
-          context,
-          service: widget.item,
-          onOptionSelected: (opt) => widget.onAdd(widget.item),
-        );
-      } else {
-        widget.onAdd(widget.item);
-      }
+      _handleCardTap();
     }
   }
 
