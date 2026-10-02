@@ -32,16 +32,57 @@ class KitchenCleaningController extends GetxController {
   // Reactive Cart State
   final cartItems = <KitchenCartItem>[].obs;
 
+  // Section GlobalKeys for precise viewport scrolling
+  final GlobalKey occupiedSectionKey = GlobalKey();
+  final GlobalKey emptySectionKey = GlobalKey();
+  final GlobalKey miniSectionKey = GlobalKey();
+
+  bool _isProgrammaticScroll = false;
+
   @override
   void onInit() {
     super.onInit();
     loadData();
+    scrollController.addListener(_onScrollUpdate);
   }
 
   @override
   void onClose() {
+    scrollController.removeListener(_onScrollUpdate);
     scrollController.dispose();
     super.onClose();
+  }
+
+  void _onScrollUpdate() {
+    if (_isProgrammaticScroll || !scrollController.hasClients) return;
+
+    final scrollOffset = scrollController.offset;
+    final occupiedOffset = _getWidgetOffset(occupiedSectionKey);
+    final emptyOffset = _getWidgetOffset(emptySectionKey);
+    final miniOffset = _getWidgetOffset(miniSectionKey);
+
+    if (miniOffset != null && scrollOffset >= miniOffset - 150) {
+      if (activeNavCategory.value != 'mini') {
+        activeNavCategory.value = 'mini';
+      }
+    } else if (emptyOffset != null && scrollOffset >= emptyOffset - 150) {
+      if (activeNavCategory.value != 'empty') {
+        activeNavCategory.value = 'empty';
+      }
+    } else if (occupiedOffset != null && scrollOffset >= occupiedOffset - 150) {
+      if (activeNavCategory.value != 'occupied') {
+        activeNavCategory.value = 'occupied';
+      }
+    }
+  }
+
+  double? _getWidgetOffset(GlobalKey key) {
+    final context = key.currentContext;
+    if (context == null) return null;
+    final renderBox = context.findRenderObject() as RenderBox?;
+    if (renderBox == null || !renderBox.attached) return null;
+    final position = renderBox.localToGlobal(Offset.zero);
+    return position.dy + scrollController.offset - kToolbarHeight - 60;
   }
 
   void loadData() {
@@ -151,24 +192,52 @@ class KitchenCleaningController extends GetxController {
     );
   }
 
-  /// Scroll smoothly to target section
+  /// Scroll smoothly to target section using GlobalKeys
   void scrollToSection(String sectionId) {
     activeNavCategory.value = sectionId;
-    double offset = 0;
-    if (sectionId == 'occupied') {
-      offset = 240;
-    } else if (sectionId == 'empty') {
-      offset = 950;
-    } else if (sectionId == 'mini') {
-      offset = 1800;
-    }
+    final targetKey = _getSectionKey(sectionId);
+    final context = targetKey?.currentContext;
 
-    if (scrollController.hasClients) {
-      scrollController.animateTo(
-        offset,
+    if (context != null) {
+      _isProgrammaticScroll = true;
+      Scrollable.ensureVisible(
+        context,
         duration: const Duration(milliseconds: 500),
         curve: Curves.easeInOutCubic,
-      );
+        alignment: 0.0,
+      ).then((_) {
+        _isProgrammaticScroll = false;
+      });
+    } else {
+      double offset = 0;
+      if (sectionId == 'occupied') {
+        offset = 240;
+      } else if (sectionId == 'empty') {
+        offset = 950;
+      } else if (sectionId == 'mini') {
+        offset = 1800;
+      }
+
+      if (scrollController.hasClients) {
+        scrollController.animateTo(
+          offset,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeInOutCubic,
+        );
+      }
+    }
+  }
+
+  GlobalKey? _getSectionKey(String sectionId) {
+    switch (sectionId) {
+      case 'occupied':
+        return occupiedSectionKey;
+      case 'empty':
+        return emptySectionKey;
+      case 'mini':
+        return miniSectionKey;
+      default:
+        return null;
     }
   }
 }

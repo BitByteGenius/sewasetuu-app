@@ -99,72 +99,87 @@ class KitchenCleaningHeaderWidget extends StatelessWidget {
               final isSelected = activeCategoryId == cat.id;
 
               return Expanded(
-                child: GestureDetector(
-                  onTap: () {
-                    HapticFeedback.lightImpact();
-                    onSelectCategory(cat.id);
-                  },
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: isSelected
-                          ? (isDark
-                              ? AppColors.primaryLight.withValues(alpha: 0.15)
-                              : const Color(0xFFF0FDF4))
-                          : Colors.transparent,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 3),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
                       borderRadius: BorderRadius.circular(14),
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        // Image / Graphic Container
-                        Container(
-                          width: 64,
-                          height: 52,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: isDark
-                                ? AppColors.surfaceVariantDark
-                                : const Color(0xFFF8FAFC),
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: AppNetworkImage(
-                              imageUrl: cat.imageUrl,
-                              fit: BoxFit.cover,
-                              errorWidget: Center(
-                                child: Icon(
-                                  cat.fallbackIcon ?? Icons.cleaning_services_rounded,
-                                  size: 26,
-                                  color: const Color(0xFF0F766E),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-
-                        // Title Text
-                        Text(
-                          cat.title.replaceAll('\n', ' '),
-                          textAlign: TextAlign.center,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.plusJakartaSans(
-                            fontSize: 11.5,
-                            fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
-                            height: 1.2,
+                      onTap: () {
+                        HapticFeedback.lightImpact();
+                        onSelectCategory(cat.id);
+                      },
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 200),
+                        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: isSelected
+                              ? (isDark
+                                  ? AppColors.primaryLight.withValues(alpha: 0.15)
+                                  : const Color(0xFFF0FDF4))
+                              : Colors.transparent,
+                          borderRadius: BorderRadius.circular(14),
+                          border: Border.all(
                             color: isSelected
                                 ? (isDark
                                     ? AppColors.primaryLight
                                     : const Color(0xFF0F766E))
-                                : (isDark
-                                    ? AppColors.textPrimaryDark
-                                    : const Color(0xFF334155)),
+                                : Colors.transparent,
+                            width: isSelected ? 1.3 : 1.0,
                           ),
                         ),
-                      ],
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            // Image / Graphic Container
+                            Container(
+                              width: 64,
+                              height: 52,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                color: isDark
+                                    ? AppColors.surfaceVariantDark
+                                    : const Color(0xFFF8FAFC),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: AppNetworkImage(
+                                  imageUrl: cat.imageUrl,
+                                  fit: BoxFit.cover,
+                                  errorWidget: Center(
+                                    child: Icon(
+                                      cat.fallbackIcon ?? Icons.cleaning_services_rounded,
+                                      size: 26,
+                                      color: const Color(0xFF0F766E),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+
+                            // Title Text
+                            Text(
+                              cat.title.replaceAll('\n', ' '),
+                              textAlign: TextAlign.center,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: GoogleFonts.plusJakartaSans(
+                                fontSize: 11.5,
+                                fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
+                                height: 1.2,
+                                color: isSelected
+                                    ? (isDark
+                                        ? AppColors.primaryLight
+                                        : const Color(0xFF0F766E))
+                                    : (isDark
+                                        ? AppColors.textPrimaryDark
+                                        : const Color(0xFF334155)),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ),

@@ -152,6 +152,7 @@ class KitchenCleaningScreen extends StatelessWidget {
                   // 3. SECTION 1: Occupied Kitchen Cleaning
                   _buildSectionHeader(
                     context,
+                    key: controller.occupiedSectionKey,
                     title: 'Occupied Kitchen Cleaning',
                     heroImageUrl:
                         'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=800&q=80',
@@ -176,6 +177,7 @@ class KitchenCleaningScreen extends StatelessWidget {
                   // 4. SECTION 2: Empty Kitchen Cleaning
                   _buildSectionHeader(
                     context,
+                    key: controller.emptySectionKey,
                     title: 'Empty Kitchen Cleaning',
                     heroImageUrl:
                         'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80',
@@ -212,11 +214,14 @@ class KitchenCleaningScreen extends StatelessWidget {
                       })),
 
                   // 6. SECTION 3: Mini Services 2-Column Grid
-                  KitchenCleaningMiniServiceGrid(
-                    items: miniServices,
-                    getItemQuantity: controller.getItemQuantity,
-                    onAdd: (item) => controller.addItem(item),
-                    onDecrement: controller.decrementItem,
+                  KeyedSubtree(
+                    key: controller.miniSectionKey,
+                    child: KitchenCleaningMiniServiceGrid(
+                      items: miniServices,
+                      getItemQuantity: controller.getItemQuantity,
+                      onAdd: (item) => controller.addItem(item),
+                      onDecrement: controller.decrementItem,
+                    ),
                   ),
 
                   const SizedBox(height: 16),
@@ -270,11 +275,13 @@ class KitchenCleaningScreen extends StatelessWidget {
 
   Widget _buildSectionHeader(
     BuildContext context, {
+    Key? key,
     required String title,
     required String heroImageUrl,
     required bool isDark,
   }) {
     return Column(
+      key: key,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Hero Image Banner with Flat 10% Off Text Overlay
