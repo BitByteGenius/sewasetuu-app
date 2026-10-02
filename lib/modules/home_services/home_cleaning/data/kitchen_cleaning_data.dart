@@ -309,12 +309,25 @@ class KitchenCleaningData {
       ratingCount: '25.3K+',
       duration: '30 mins',
       price: 379.0,
+      startsAtText: 'Starts at ₹379',
       imageUrl:
           'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=500&q=80',
       bulletPoints: [
         'Degreasing and stain removal of one chimney',
         'Mesh and filter deep cleaning',
         'Digital chimney cleaning is carried out only on the exterior',
+      ],
+      options: [
+        ServiceOptionItem(
+          id: 'opt_chimney_1',
+          name: 'Standard Mesh Chimney',
+          price: 379.0,
+        ),
+        ServiceOptionItem(
+          id: 'opt_chimney_2',
+          name: 'Baffle Filter Heavy Degrease',
+          price: 499.0,
+        ),
       ],
     ),
     KitchenCleaningServiceItem(
