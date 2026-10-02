@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sewasetu/app/theme/app_colors.dart';
 import 'package:sewasetu/shared/widgets/app_network_image.dart';
@@ -92,15 +93,17 @@ class KitchenCleaningMiniServiceGrid extends StatelessWidget {
               ),
               itemBuilder: (context, index) {
                 final item = items[index];
-                final qty = getItemQuantity(item.id);
-                return _MiniServiceCard(
-                  key: ValueKey(item.id),
-                  item: item,
-                  qty: qty,
-                  isDark: isDark,
-                  onAdd: onAdd,
-                  onDecrement: onDecrement,
-                );
+                return Obx(() {
+                  final qty = getItemQuantity(item.id);
+                  return _MiniServiceCard(
+                    key: ValueKey(item.id),
+                    item: item,
+                    qty: qty,
+                    isDark: isDark,
+                    onAdd: onAdd,
+                    onDecrement: onDecrement,
+                  );
+                });
               },
             );
           },
