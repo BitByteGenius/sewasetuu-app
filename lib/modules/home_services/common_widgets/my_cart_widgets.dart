@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sewasetu/app/theme/app_colors.dart';
 import 'package:sewasetu/shared/widgets/app_bar/sewa_app_bar.dart';
 import 'package:sewasetu/shared/widgets/app_network_image.dart';
 import '../home_cleaning/controller/kitchen_cleaning_controller.dart';
@@ -9,86 +10,101 @@ import '../home_cleaning/data/kitchen_cleaning_data.dart';
 import '../home_cleaning/models/kitchen_cleaning_model.dart';
 
 /// Comprehensive My Cart UI matching the exact reference mockup (media_1790961147895.jpg).
-/// Connected to the reactive KitchenCleaningController state architecture.
+/// Connected to reactive KitchenCleaningController state architecture with native sticky bottom bar
 class MyCartWidgets extends StatelessWidget {
   const MyCartWidgets({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final controller = Get.isRegistered<KitchenCleaningController>()
         ? Get.find<KitchenCleaningController>()
         : Get.put(KitchenCleaningController());
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFF1F3F9), // Light lavender-gray background
-      appBar: SewaAppBar(
-        titleText: 'My Cart',
-        showBackButton: true,
-      ),
-      body: Obx(() {
-        final cartItems = controller.cartItems;
+    return Obx(() {
+      final cartItems = controller.cartItems;
+      final hasCartItems = cartItems.isNotEmpty;
 
-        if (cartItems.isEmpty) {
-          return _buildEmptyCartView(context);
-        }
+      return Scaffold(
+        backgroundColor:
+            isDark ? AppColors.backgroundDark : const Color(0xFFF1F3F9),
+        appBar: const SewaAppBar(
+          titleText: 'My Cart',
+          showBackButton: true,
+        ),
+        body: !hasCartItems
+            ? _buildEmptyCartView(context, isDark)
+            : SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // 1. Cart Items List
+                    ListView.separated(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: cartItems.length,
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(height: 12),
+                      itemBuilder: (context, index) {
+                        final item = cartItems[index];
+                        return _buildCartItemCard(
+                            context, controller, item, isDark);
+                      },
+                    ),
 
-        return Stack(
-          children: [
-            // Scrollable Content View
-            SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 120),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // 1. Cart Items List
-                  ListView.separated(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: cartItems.length,
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(height: 12),
-                    itemBuilder: (context, index) {
-                      final item = cartItems[index];
-                      return _buildCartItemCard(context, controller, item);
-                    },
-                  ),
+                    const SizedBox(height: 24),
 
-                  const SizedBox(height: 24),
+                    // 2. Recommended Add-ons Section
+                    _buildRecommendedAddonsSection(context, controller, isDark),
 
-                  // 2. Recommended Add-ons Section
-                  _buildRecommendedAddonsSection(context, controller),
-
-                  const SizedBox(height: 24),
-                ],
+                    const SizedBox(height: 24),
+                  ],
+                ),
               ),
-            ),
-
-            // 3. Fixed Bottom Checkout Bar
-            _buildBottomCheckoutBar(context, controller),
-          ],
-        );
-      }),
-    );
+        bottomNavigationBar: hasCartItems
+            ? _buildStickyBottomCheckoutBar(context, controller, isDark)
+            : null,
+      );
+    });
   }
 
   Widget _buildCartItemCard(
     BuildContext context,
     KitchenCleaningController controller,
     KitchenCartItem item,
+    bool isDark,
   ) {
     final service = item.service;
     final isPackageType =
         service.originalPrice != null || item.selectedOption != null;
 
+    final cardBgColor = isDark ? AppColors.surfaceDark : Colors.white;
+    final cardBorderColor =
+        isDark ? AppColors.borderDark : const Color(0xFFE2E8F0);
+    final titleTextColor =
+        isDark ? AppColors.textPrimaryDark : const Color(0xFF1E293B);
+    final subtitleTextColor =
+        isDark ? AppColors.textMutedDark : const Color(0xFF64748B);
+    final priceTextColor =
+        isDark ? AppColors.textPrimaryDark : const Color(0xFF0F172A);
+    final strikethroughColor =
+        isDark ? AppColors.textMutedDark : const Color(0xFF94A3B8);
+    final actionBgColor =
+        isDark ? const Color(0xFF132338) : const Color(0xFFE6F4F1);
+    final actionTextColor =
+        isDark ? const Color(0xFF14B8A6) : const Color(0xFF0F766E);
+
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: cardBgColor,
         borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: cardBorderColor, width: 1.0),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.03),
+            color: Colors.black.withValues(alpha: isDark ? 0.25 : 0.03),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -106,7 +122,9 @@ class MyCartWidgets extends StatelessWidget {
                 height: 68,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
-                  color: const Color(0xFFF8FAFC),
+                  color: isDark
+                      ? AppColors.surfaceVariantDark
+                      : const Color(0xFFF8FAFC),
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
@@ -127,12 +145,14 @@ class MyCartWidgets extends StatelessWidget {
                         const EdgeInsets.symmetric(horizontal: 6, vertical: 2.5),
                     decoration: BoxDecoration(
                       color: service.badgeText!.contains('Machine')
-                          ? const Color(0xFFF3E8FF)
+                          ? (isDark
+                              ? const Color(0xFF581C87)
+                              : const Color(0xFFF3E8FF))
                           : const Color(0xFFFEF3C7),
                       borderRadius: BorderRadius.circular(6),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.08),
+                          color: Colors.black.withValues(alpha: 0.12),
                           blurRadius: 3,
                         ),
                       ],
@@ -143,7 +163,9 @@ class MyCartWidgets extends StatelessWidget {
                         fontSize: 9.5,
                         fontWeight: FontWeight.w800,
                         color: service.badgeText!.contains('Machine')
-                            ? const Color(0xFF6B21A8)
+                            ? (isDark
+                                ? const Color(0xFFF3E8FF)
+                                : const Color(0xFF6B21A8))
                             : const Color(0xFF92400E),
                       ),
                     ),
@@ -164,7 +186,7 @@ class MyCartWidgets extends StatelessWidget {
                   style: GoogleFonts.plusJakartaSans(
                     fontSize: 15,
                     fontWeight: FontWeight.w700,
-                    color: const Color(0xFF1E293B),
+                    color: titleTextColor,
                   ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -180,7 +202,7 @@ class MyCartWidgets extends StatelessWidget {
                         style: GoogleFonts.plusJakartaSans(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
-                          color: const Color(0xFF94A3B8),
+                          color: strikethroughColor,
                           decoration: TextDecoration.lineThrough,
                         ),
                       ),
@@ -191,7 +213,7 @@ class MyCartWidgets extends StatelessWidget {
                       style: GoogleFonts.plusJakartaSans(
                         fontSize: 16.5,
                         fontWeight: FontWeight.w900,
-                        color: const Color(0xFF0F172A),
+                        color: priceTextColor,
                       ),
                     ),
                   ],
@@ -207,7 +229,7 @@ class MyCartWidgets extends StatelessWidget {
                     style: GoogleFonts.plusJakartaSans(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
-                      color: const Color(0xFF64748B),
+                      color: subtitleTextColor,
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -232,7 +254,7 @@ class MyCartWidgets extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFE6F4F1),
+                    color: actionBgColor,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
@@ -240,7 +262,7 @@ class MyCartWidgets extends StatelessWidget {
                     style: GoogleFonts.plusJakartaSans(
                       fontSize: 11.5,
                       fontWeight: FontWeight.w800,
-                      color: const Color(0xFF0F766E),
+                      color: actionTextColor,
                       letterSpacing: 0.2,
                     ),
                   ),
@@ -251,7 +273,7 @@ class MyCartWidgets extends StatelessWidget {
             Container(
               height: 34,
               decoration: BoxDecoration(
-                color: const Color(0xFFE6F4F1),
+                color: actionBgColor,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Row(
@@ -263,11 +285,11 @@ class MyCartWidgets extends StatelessWidget {
                       controller.decrementItem(service.id);
                     },
                     behavior: HitTestBehavior.opaque,
-                    child: const Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 6),
                       child: Icon(Icons.remove,
-                          size: 15, color: Color(0xFF0F766E)),
+                          size: 15, color: actionTextColor),
                     ),
                   ),
                   Text(
@@ -275,7 +297,7 @@ class MyCartWidgets extends StatelessWidget {
                     style: GoogleFonts.plusJakartaSans(
                       fontSize: 13.5,
                       fontWeight: FontWeight.w800,
-                      color: const Color(0xFF0F172A),
+                      color: priceTextColor,
                     ),
                   ),
                   GestureDetector(
@@ -284,11 +306,10 @@ class MyCartWidgets extends StatelessWidget {
                       controller.addItem(service, item.selectedOption);
                     },
                     behavior: HitTestBehavior.opaque,
-                    child: const Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                      child:
-                          Icon(Icons.add, size: 15, color: Color(0xFF0F766E)),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 6),
+                      child: Icon(Icons.add, size: 15, color: actionTextColor),
                     ),
                   ),
                 ],
@@ -302,6 +323,7 @@ class MyCartWidgets extends StatelessWidget {
   Widget _buildRecommendedAddonsSection(
     BuildContext context,
     KitchenCleaningController controller,
+    bool isDark,
   ) {
     final miniServices =
         controller.services.where((s) => s.sectionId == 'mini').toList();
@@ -313,6 +335,12 @@ class MyCartWidgets extends StatelessWidget {
 
     if (addons.isEmpty) return const SizedBox.shrink();
 
+    final cardBgColor = isDark ? AppColors.surfaceDark : Colors.white;
+    final cardBorderColor =
+        isDark ? AppColors.borderDark : const Color(0xFFE2E8F0);
+    final sectionTitleColor =
+        isDark ? AppColors.textPrimaryDark : const Color(0xFF1E293B);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -321,18 +349,19 @@ class MyCartWidgets extends StatelessWidget {
           style: GoogleFonts.plusJakartaSans(
             fontSize: 16,
             fontWeight: FontWeight.w800,
-            color: const Color(0xFF1E293B),
+            color: sectionTitleColor,
           ),
         ),
         const SizedBox(height: 10),
         Container(
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: cardBgColor,
             borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: cardBorderColor, width: 1.0),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.03),
+                color: Colors.black.withValues(alpha: isDark ? 0.25 : 0.03),
                 blurRadius: 8,
                 offset: const Offset(0, 2),
               ),
@@ -347,7 +376,7 @@ class MyCartWidgets extends StatelessWidget {
               separatorBuilder: (context, index) => const SizedBox(width: 12),
               itemBuilder: (context, index) {
                 final addon = addons[index];
-                return _buildAddonCard(context, controller, addon);
+                return _buildAddonCard(context, controller, addon, isDark);
               },
             ),
           ),
@@ -360,8 +389,19 @@ class MyCartWidgets extends StatelessWidget {
     BuildContext context,
     KitchenCleaningController controller,
     KitchenCleaningServiceItem addon,
+    bool isDark,
   ) {
     final isInCart = controller.getItemQuantity(addon.id) > 0;
+    final titleColor =
+        isDark ? AppColors.textPrimaryDark : const Color(0xFF334155);
+    final priceColor =
+        isDark ? AppColors.textPrimaryDark : const Color(0xFF0F172A);
+    final btnBgColor = isInCart
+        ? const Color(0xFF0F766E)
+        : (isDark ? const Color(0xFF132338) : const Color(0xFFE6F4F1));
+    final btnTextColor = isInCart
+        ? Colors.white
+        : (isDark ? const Color(0xFF14B8A6) : const Color(0xFF0F766E));
 
     return SizedBox(
       width: 110,
@@ -376,7 +416,9 @@ class MyCartWidgets extends StatelessWidget {
                 height: 95,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
-                  color: const Color(0xFFF8FAFC),
+                  color: isDark
+                      ? AppColors.surfaceVariantDark
+                      : const Color(0xFFF8FAFC),
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
@@ -404,9 +446,7 @@ class MyCartWidgets extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 8, vertical: 3.5),
                     decoration: BoxDecoration(
-                      color: isInCart
-                          ? const Color(0xFF0F766E)
-                          : const Color(0xFFE6F4F1),
+                      color: btnBgColor,
                       borderRadius: BorderRadius.circular(7),
                       boxShadow: [
                         BoxShadow(
@@ -421,7 +461,7 @@ class MyCartWidgets extends StatelessWidget {
                       style: GoogleFonts.plusJakartaSans(
                         fontSize: 10.5,
                         fontWeight: FontWeight.w800,
-                        color: isInCart ? Colors.white : const Color(0xFF0F766E),
+                        color: btnTextColor,
                       ),
                     ),
                   ),
@@ -439,7 +479,7 @@ class MyCartWidgets extends StatelessWidget {
               fontSize: 11.5,
               fontWeight: FontWeight.w600,
               height: 1.2,
-              color: const Color(0xFF334155),
+              color: titleColor,
             ),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
@@ -453,7 +493,7 @@ class MyCartWidgets extends StatelessWidget {
             style: GoogleFonts.plusJakartaSans(
               fontSize: 14,
               fontWeight: FontWeight.w900,
-              color: const Color(0xFF0F172A),
+              color: priceColor,
             ),
           ),
         ],
@@ -461,84 +501,86 @@ class MyCartWidgets extends StatelessWidget {
     );
   }
 
-  Widget _buildBottomCheckoutBar(
+  Widget _buildStickyBottomCheckoutBar(
     BuildContext context,
     KitchenCleaningController controller,
+    bool isDark,
   ) {
-    return Positioned(
-      left: 0,
-      right: 0,
-      bottom: 0,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.08),
-              blurRadius: 12,
-              offset: const Offset(0, -4),
-            ),
-          ],
+    return Container(
+      decoration: BoxDecoration(
+        color: isDark ? AppColors.surfaceDark : Colors.white,
+        border: Border(
+          top: BorderSide(
+            color: isDark ? AppColors.borderDark : const Color(0xFFE2E8F0),
+            width: 1.0,
+          ),
         ),
-        child: SafeArea(
-          top: false,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // Total Amount
-                Text(
-                  '₹${controller.totalCartPrice.toStringAsFixed(0)}',
-                  style: GoogleFonts.plusJakartaSans(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w900,
-                    color: const Color(0xFF0F172A),
-                  ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.08),
+            blurRadius: 12,
+            offset: const Offset(0, -4),
+          ),
+        ],
+      ),
+      child: SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // Total Amount
+              Text(
+                '₹${controller.totalCartPrice.toStringAsFixed(0)}',
+                style: GoogleFonts.plusJakartaSans(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w900,
+                  color: isDark ? AppColors.textPrimaryDark : const Color(0xFF0F172A),
                 ),
+              ),
 
-                // Select Address CTA Button
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF0F766E), // Emerald Teal CTA
-                    foregroundColor: Colors.white,
-                    elevation: 0,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 24, vertical: 14),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  onPressed: () {
-                    HapticFeedback.mediumImpact();
-                    Get.snackbar(
-                      'Select Address',
-                      'Proceeding to address selection with total: ₹${controller.totalCartPrice.toStringAsFixed(0)}',
-                      snackPosition: SnackPosition.BOTTOM,
-                      backgroundColor: const Color(0xFF0F766E),
-                      colorText: Colors.white,
-                      duration: const Duration(seconds: 3),
-                      margin: const EdgeInsets.all(16),
-                      borderRadius: 12,
-                    );
-                  },
-                  child: Text(
-                    'Select Address',
-                    style: GoogleFonts.plusJakartaSans(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w800,
-                    ),
+              // Select Address CTA Button
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF0F766E), // Emerald Teal CTA
+                  foregroundColor: Colors.white,
+                  elevation: 0,
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 24, vertical: 14),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-              ],
-            ),
+                onPressed: () {
+                  HapticFeedback.mediumImpact();
+                  Get.snackbar(
+                    'Select Address',
+                    'Proceeding to address selection with total: ₹${controller.totalCartPrice.toStringAsFixed(0)}',
+                    snackPosition: SnackPosition.BOTTOM,
+                    backgroundColor: const Color(0xFF0F766E),
+                    colorText: Colors.white,
+                    duration: const Duration(seconds: 3),
+                    margin: const EdgeInsets.all(16),
+                    borderRadius: 12,
+                  );
+                },
+                child: Text(
+                  'Select Address',
+                  style: GoogleFonts.plusJakartaSans(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 
-  Widget _buildEmptyCartView(BuildContext context) {
+  Widget _buildEmptyCartView(BuildContext context, bool isDark) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(32),
@@ -547,14 +589,14 @@ class MyCartWidgets extends StatelessWidget {
           children: [
             Container(
               padding: const EdgeInsets.all(24),
-              decoration: const BoxDecoration(
-                color: Color(0xFFE6F4F1),
+              decoration: BoxDecoration(
+                color: isDark ? const Color(0xFF132338) : const Color(0xFFE6F4F1),
                 shape: BoxShape.circle,
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.shopping_cart_outlined,
                 size: 64,
-                color: Color(0xFF0F766E),
+                color: isDark ? const Color(0xFF14B8A6) : const Color(0xFF0F766E),
               ),
             ),
             const SizedBox(height: 20),
@@ -563,7 +605,7 @@ class MyCartWidgets extends StatelessWidget {
               style: GoogleFonts.plusJakartaSans(
                 fontSize: 20,
                 fontWeight: FontWeight.w800,
-                color: const Color(0xFF1E293B),
+                color: isDark ? AppColors.textPrimaryDark : const Color(0xFF1E293B),
               ),
             ),
             const SizedBox(height: 8),
@@ -572,7 +614,7 @@ class MyCartWidgets extends StatelessWidget {
               textAlign: TextAlign.center,
               style: GoogleFonts.plusJakartaSans(
                 fontSize: 14,
-                color: const Color(0xFF64748B),
+                color: isDark ? AppColors.textMutedDark : const Color(0xFF64748B),
               ),
             ),
             const SizedBox(height: 24),
