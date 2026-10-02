@@ -13,6 +13,7 @@ import '../models/service_relocation_item.dart';
 import '../models/service_review_item.dart';
 import '../models/service_spotlight_item.dart';
 import '../models/service_subcategory_item.dart';
+import '../widgets/instant_services_bottom_sheet.dart';
 
 /// GetX controller managing UI state, interactive actions, and repository data feeds
 /// for the primary Services screen.
@@ -132,10 +133,18 @@ class ServicesController extends GetxController {
   /// Handle category tap
   void onCategorySelected(String categoryName, [BuildContext? context]) {
     final lowerName = categoryName.trim().toLowerCase();
+    final ctx = context ?? Get.context;
+
     if (lowerName.contains('home cleaning') || lowerName == 'cleaning') {
-      final ctx = context ?? Get.context;
       if (ctx != null) {
         HomeCleaningBottomSheet.show(ctx);
+        return;
+      }
+    }
+
+    if (lowerName.contains('instant')) {
+      if (ctx != null) {
+        InstantServicesBottomSheet.show(ctx);
         return;
       }
     }
