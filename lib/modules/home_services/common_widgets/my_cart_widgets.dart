@@ -5,25 +5,24 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sewasetu/app/theme/app_colors.dart';
 import 'package:sewasetu/shared/widgets/app_bar/sewa_app_bar.dart';
 import 'package:sewasetu/shared/widgets/app_network_image.dart';
-import '../home_cleaning/controller/kitchen_cleaning_controller.dart';
-import '../home_cleaning/data/kitchen_cleaning_data.dart';
+import '../home_cleaning/controller/my_cart_controller.dart';
 import '../home_cleaning/models/kitchen_cleaning_model.dart';
 
-/// Comprehensive My Cart UI matching the exact reference mockup (media_1790961147895.jpg).
-/// Connected to reactive KitchenCleaningController state architecture with native sticky bottom bar
+/// Comprehensive My Cart UI matching the exact reference mockup.
+/// Connected to MyCartController logic with native sticky bottom bar & separate add-on cards.
 class MyCartWidgets extends StatelessWidget {
   const MyCartWidgets({super.key});
 
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final controller = Get.isRegistered<KitchenCleaningController>()
-        ? Get.find<KitchenCleaningController>()
-        : Get.put(KitchenCleaningController());
+    final controller = Get.isRegistered<MyCartController>()
+        ? Get.find<MyCartController>()
+        : Get.put(MyCartController());
 
     return Obx(() {
       final cartItems = controller.cartItems;
-      final hasCartItems = cartItems.isNotEmpty;
+      final hasCartItems = controller.hasCartItems;
 
       return Scaffold(
         backgroundColor:
@@ -56,7 +55,7 @@ class MyCartWidgets extends StatelessWidget {
 
                     const SizedBox(height: 24),
 
-                    // 2. Recommended Add-ons Section
+                    // 2. Recommended Add-ons Section (Separate cards)
                     _buildRecommendedAddonsSection(context, controller, isDark),
 
                     const SizedBox(height: 24),
@@ -72,7 +71,7 @@ class MyCartWidgets extends StatelessWidget {
 
   Widget _buildCartItemCard(
     BuildContext context,
-    KitchenCleaningController controller,
+    MyCartController controller,
     KitchenCartItem item,
     bool isDark,
   ) {
@@ -322,22 +321,12 @@ class MyCartWidgets extends StatelessWidget {
 
   Widget _buildRecommendedAddonsSection(
     BuildContext context,
-    KitchenCleaningController controller,
+    MyCartController controller,
     bool isDark,
   ) {
-    final miniServices =
-        controller.services.where((s) => s.sectionId == 'mini').toList();
-    final addons = miniServices.isNotEmpty
-        ? miniServices
-        : KitchenCleaningData.allServices
-            .where((s) => s.sectionId == 'mini')
-            .toList();
-
+    final addons = controller.recommendedAddons;
     if (addons.isEmpty) return const SizedBox.shrink();
 
-    final cardBgColor = isDark ? AppColors.surfaceDark : Colors.white;
-    final cardBorderColor =
-        isDark ? AppColors.borderDark : const Color(0xFFE2E8F0);
     final sectionTitleColor =
         isDark ? AppColors.textPrimaryDark : const Color(0xFF1E293B);
 
@@ -352,33 +341,18 @@ class MyCartWidgets extends StatelessWidget {
             color: sectionTitleColor,
           ),
         ),
-        const SizedBox(height: 10),
-        Container(
-          padding: const EdgeInsets.all(14),
-          decoration: BoxDecoration(
-            color: cardBgColor,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: cardBorderColor, width: 1.0),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: isDark ? 0.25 : 0.03),
-                blurRadius: 8,
-                offset: const Offset(0, 2),
-              ),
-            ],
-          ),
-          child: SizedBox(
-            height: 175,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              physics: const BouncingScrollPhysics(),
-              itemCount: addons.length,
-              separatorBuilder: (context, index) => const SizedBox(width: 12),
-              itemBuilder: (context, index) {
-                final addon = addons[index];
-                return _buildAddonCard(context, controller, addon, isDark);
-              },
-            ),
+        const SizedBox(height: 12),
+        SizedBox(
+          height: 185,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            physics: const BouncingScrollPhysics(),
+            itemCount: addons.length,
+            separatorBuilder: (context, index) => const SizedBox(width: 12),
+            itemBuilder: (context, index) {
+              final addon = addons[index];
+              return _buildAddonCard(context, controller, addon, isDark);
+            },
           ),
         ),
       ],
@@ -387,11 +361,15 @@ class MyCartWidgets extends StatelessWidget {
 
   Widget _buildAddonCard(
     BuildContext context,
-    KitchenCleaningController controller,
+    MyCartController controller,
     KitchenCleaningServiceItem addon,
     bool isDark,
   ) {
-    final isInCart = controller.getItemQuantity(addon.id) > 0;
+    final isInCart = controller.isItemInCart(addon.id);
+
+    final cardBgColor = isDark ? AppColors.surfaceDark : Colors.white;
+    final cardBorderColor =
+        isDark ? AppColors.borderDark : const Color(0xFFE2E8F0);
     final titleColor =
         isDark ? AppColors.textPrimaryDark : const Color(0xFF334155);
     final priceColor =
@@ -403,17 +381,30 @@ class MyCartWidgets extends StatelessWidget {
         ? Colors.white
         : (isDark ? const Color(0xFF14B8A6) : const Color(0xFF0F766E));
 
-    return SizedBox(
-      width: 110,
+    return Container(
+      width: 130,
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: cardBgColor,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: cardBorderColor, width: 1.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: isDark ? 0.25 : 0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Image with Floating ADD Button
+          // Image with Floating ADD / ADDED Button
           Stack(
             children: [
               Container(
-                width: 110,
-                height: 95,
+                width: double.infinity,
+                height: 90,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
                   color: isDark
@@ -429,7 +420,7 @@ class MyCartWidgets extends StatelessWidget {
                 ),
               ),
 
-              // Floating ADD Button
+              // Floating ADD / ADDED Button
               Positioned(
                 bottom: 6,
                 right: 6,
@@ -444,7 +435,7 @@ class MyCartWidgets extends StatelessWidget {
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 8, vertical: 3.5),
+                        horizontal: 9, vertical: 4),
                     decoration: BoxDecoration(
                       color: btnBgColor,
                       borderRadius: BorderRadius.circular(7),
@@ -470,15 +461,15 @@ class MyCartWidgets extends StatelessWidget {
             ],
           ),
 
-          const SizedBox(height: 6),
+          const SizedBox(height: 8),
 
           // Add-on Title
           Text(
             addon.title,
             style: GoogleFonts.plusJakartaSans(
-              fontSize: 11.5,
+              fontSize: 12,
               fontWeight: FontWeight.w600,
-              height: 1.2,
+              height: 1.25,
               color: titleColor,
             ),
             maxLines: 2,
@@ -491,7 +482,7 @@ class MyCartWidgets extends StatelessWidget {
           Text(
             '₹${addon.price.toStringAsFixed(0)}',
             style: GoogleFonts.plusJakartaSans(
-              fontSize: 14,
+              fontSize: 14.5,
               fontWeight: FontWeight.w900,
               color: priceColor,
             ),
@@ -503,7 +494,7 @@ class MyCartWidgets extends StatelessWidget {
 
   Widget _buildStickyBottomCheckoutBar(
     BuildContext context,
-    KitchenCleaningController controller,
+    MyCartController controller,
     bool isDark,
   ) {
     return Container(
@@ -553,17 +544,7 @@ class MyCartWidgets extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  HapticFeedback.mediumImpact();
-                  Get.snackbar(
-                    'Select Address',
-                    'Proceeding to address selection with total: ₹${controller.totalCartPrice.toStringAsFixed(0)}',
-                    snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: const Color(0xFF0F766E),
-                    colorText: Colors.white,
-                    duration: const Duration(seconds: 3),
-                    margin: const EdgeInsets.all(16),
-                    borderRadius: 12,
-                  );
+                  controller.proceedToAddressSelection();
                 },
                 child: Text(
                   'Select Address',
