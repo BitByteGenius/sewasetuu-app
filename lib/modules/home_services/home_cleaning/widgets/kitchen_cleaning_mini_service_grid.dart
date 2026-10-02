@@ -3,7 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sewasetu/app/theme/app_colors.dart';
 import 'package:sewasetu/shared/widgets/app_network_image.dart';
+import '../data/kitchen_cleaning_data.dart';
 import '../models/kitchen_cleaning_model.dart';
+import 'kitchen_cleaning_item_detail_sheet.dart';
 import 'kitchen_cleaning_options_sheet.dart';
 
 /// 2-Column Grid widget for Mini Services section with compact premium modern cards.
@@ -75,8 +77,8 @@ class KitchenCleaningMiniServiceGrid extends StatelessWidget {
           builder: (context, constraints) {
             final screenWidth = MediaQuery.of(context).size.width;
             final double childAspectRatio = screenWidth < 360
-                ? 0.66
-                : (screenWidth < 400 ? 0.68 : 0.70);
+                ? 0.78
+                : (screenWidth < 400 ? 0.82 : 0.85);
 
             return GridView.builder(
               shrinkWrap: true,
@@ -134,17 +136,13 @@ class _MiniServiceCardState extends State<_MiniServiceCard> {
 
   void _handleCardTap() {
     HapticFeedback.lightImpact();
-    if (widget.item.hasOptions) {
-      KitchenCleaningOptionsSheet.show(
-        context,
-        service: widget.item,
-        onOptionSelected: (opt) => widget.onAdd(widget.item),
-      );
-    } else {
-      if (widget.qty <= 0) {
-        widget.onAdd(widget.item);
-      }
-    }
+    final singleDetailData =
+        KitchenCleaningData.getSingleServiceDetailData(widget.item);
+    KitchenCleaningItemDetailSheet.show(
+      context,
+      item: widget.item,
+      detailData: singleDetailData,
+    );
   }
 
   void _handleAddPressed() {
@@ -207,11 +205,11 @@ class _MiniServiceCardState extends State<_MiniServiceCard> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Top Image Container (compact height: 96)
+                // Top Image Container (compact height: 90)
                 Stack(
                   children: [
                     Container(
-                      height: 96,
+                      height: 90,
                       width: double.infinity,
                       color: isDark
                           ? AppColors.surfaceVariantDark
@@ -359,23 +357,31 @@ class _MiniServiceCardState extends State<_MiniServiceCard> {
                               ),
                             ),
 
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  'View details',
-                                  style: GoogleFonts.plusJakartaSans(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w700,
-                                    color: const Color(0xFF4338CA),
-                                  ),
+                            InkWell(
+                              borderRadius: BorderRadius.circular(4),
+                              onTap: _handleCardTap,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 2, vertical: 2),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      'View details',
+                                      style: GoogleFonts.plusJakartaSans(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w700,
+                                        color: const Color(0xFF4338CA),
+                                      ),
+                                    ),
+                                    const Icon(
+                                      Icons.chevron_right_rounded,
+                                      size: 12,
+                                      color: Color(0xFF4338CA),
+                                    ),
+                                  ],
                                 ),
-                                const Icon(
-                                  Icons.chevron_right_rounded,
-                                  size: 12,
-                                  color: Color(0xFF4338CA),
-                                ),
-                              ],
+                              ),
                             ),
                           ],
                         ),

@@ -385,3 +385,96 @@ class KitchenServiceDetailData {
       };
 }
 
+/// Model for Variant Options inside a single service (e.g. Single door, Double door, Side by side)
+class KitchenServiceVariant {
+  final String id;
+  final String name;
+  final String duration;
+  final double price;
+  final double? originalPrice;
+  final String? description;
+
+  const KitchenServiceVariant({
+    required this.id,
+    required this.name,
+    required this.duration,
+    required this.price,
+    this.originalPrice,
+    this.description,
+  });
+
+  factory KitchenServiceVariant.fromJson(Map<String, dynamic> json) {
+    return KitchenServiceVariant(
+      id: json['id'] as String? ?? '',
+      name: json['name'] as String? ?? '',
+      duration: json['duration'] as String? ?? '30 mins',
+      price: (json['price'] as num?)?.toDouble() ?? 0.0,
+      originalPrice: (json['original_price'] as num?)?.toDouble(),
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'duration': duration,
+        'price': price,
+        'original_price': originalPrice,
+        'description': description,
+      };
+}
+
+/// Comprehensive Detail Data model for Appliance & Mini services detail views (Fridge, Chimney, Fan, etc.)
+class KitchenSingleServiceDetailData {
+  final String serviceId;
+  final String title;
+  final double rating;
+  final String ratingCount;
+  final List<KitchenServiceVariant> variants;
+  final List<String> includes;
+  final List<String> excludes;
+  final RatingBreakdownModel? ratingBreakdown;
+
+  const KitchenSingleServiceDetailData({
+    required this.serviceId,
+    required this.title,
+    required this.rating,
+    required this.ratingCount,
+    required this.variants,
+    required this.includes,
+    required this.excludes,
+    this.ratingBreakdown,
+  });
+
+  factory KitchenSingleServiceDetailData.fromJson(Map<String, dynamic> json) {
+    return KitchenSingleServiceDetailData(
+      serviceId: json['service_id'] as String? ?? '',
+      title: json['title'] as String? ?? '',
+      rating: (json['rating'] as num?)?.toDouble() ?? 4.75,
+      ratingCount: json['rating_count'] as String? ?? '1K+',
+      variants: (json['variants'] as List<dynamic>?)
+              ?.map((v) => KitchenServiceVariant.fromJson(v as Map<String, dynamic>))
+              .toList() ??
+          [],
+      includes: (json['includes'] as List<dynamic>?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          [],
+      excludes: (json['excludes'] as List<dynamic>?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          [],
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        'service_id': serviceId,
+        'title': title,
+        'rating': rating,
+        'rating_count': ratingCount,
+        'variants': variants.map((v) => v.toJson()).toList(),
+        'includes': includes,
+        'excludes': excludes,
+      };
+}
+

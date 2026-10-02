@@ -472,6 +472,290 @@ class KitchenCleaningData {
     return occupiedKitchenDetailData;
   }
 
+  /// Returns dynamic single service detail data for appliances & mini services matching reference mockup
+  static KitchenSingleServiceDetailData getSingleServiceDetailData(
+      KitchenCleaningServiceItem item) {
+    if (item.id.contains('fridge') || item.title.toLowerCase().contains('fridge')) {
+      return KitchenSingleServiceDetailData(
+        serviceId: item.id,
+        title: item.title,
+        rating: item.rating,
+        ratingCount: item.ratingCount,
+        variants: const [
+          KitchenServiceVariant(
+            id: 'opt_fridge_1',
+            name: 'Single door',
+            duration: '30 mins',
+            price: 379.0,
+          ),
+          KitchenServiceVariant(
+            id: 'opt_fridge_2',
+            name: 'Double door',
+            duration: '1 hr',
+            price: 499.0,
+          ),
+          KitchenServiceVariant(
+            id: 'opt_fridge_3',
+            name: 'Side by side',
+            duration: '1 hr',
+            price: 749.0,
+          ),
+        ],
+        includes: const [
+          'Removing and placing back food items',
+          'Cleaning shelves and trays',
+          'Wiping interior and exterior surfaces',
+          'Removal of stains, crumbs, and odors',
+          'Drying and reassembling the fridge',
+        ],
+        excludes: const [
+          'Defrosting of freezer',
+          'Internal technical/repair work',
+          'Gas refill or cooling-related issues',
+          'Removal of dents, scratches, or rust',
+          'Polishing surfaces',
+        ],
+      );
+    }
+
+    if (item.id.contains('chimney') || item.title.toLowerCase().contains('chimney')) {
+      return KitchenSingleServiceDetailData(
+        serviceId: item.id,
+        title: item.title,
+        rating: item.rating,
+        ratingCount: item.ratingCount,
+        variants: [
+          KitchenServiceVariant(
+            id: '${item.id}_std',
+            name: 'Standard Mesh Chimney',
+            duration: '30 mins',
+            price: item.price,
+          ),
+          KitchenServiceVariant(
+            id: '${item.id}_baffle',
+            name: 'Baffle Filter Heavy Degrease',
+            duration: '45 mins',
+            price: item.price + 120.0,
+          ),
+        ],
+        includes: const [
+          'Degreasing and stain removal of chimney filters & mesh',
+          'Outer body wiping and motor cover dusting',
+          'Removal of oil sludge and carbon deposits',
+          'Post-cleaning functionality check',
+        ],
+        excludes: const [
+          'Duct pipe internal cleaning',
+          'Electrical motor repair or spare replacement',
+          'Wall ducting modifications',
+        ],
+      );
+    }
+
+    if (item.id.contains('fan') || item.title.toLowerCase().contains('fan')) {
+      return KitchenSingleServiceDetailData(
+        serviceId: item.id,
+        title: item.title,
+        rating: item.rating,
+        ratingCount: item.ratingCount,
+        variants: const [
+          KitchenServiceVariant(
+            id: 'opt_fan_1',
+            name: 'Exhaust / Ceiling Fan',
+            duration: '15 mins',
+            price: 89.0,
+          ),
+          KitchenServiceVariant(
+            id: 'opt_fan_2',
+            name: 'Multiple Fans (Up to 3)',
+            duration: '30 mins',
+            price: 199.0,
+          ),
+        ],
+        includes: const [
+          'Dust and grease removal from fan blades and motor housing',
+          'Wet wiping with specialized degreasing solution',
+          'Cleaning fan mesh grill, blades & outer casing',
+          'Post-cleaning functionality & noise check',
+        ],
+        excludes: const [
+          'Motor rewinding or electrical repairs',
+          'Replacement of damaged fan blades or capacitor',
+        ],
+      );
+    }
+
+    if (item.id.contains('utensils') || item.title.toLowerCase().contains('utensil')) {
+      return KitchenSingleServiceDetailData(
+        serviceId: item.id,
+        title: item.title,
+        rating: item.rating,
+        ratingCount: item.ratingCount,
+        variants: const [
+          KitchenServiceVariant(
+            id: 'opt_utensil_1',
+            name: 'Standard Kitchen Utensils',
+            duration: '30 mins',
+            price: 409.0,
+          ),
+          KitchenServiceVariant(
+            id: 'opt_utensil_2',
+            name: 'Heavy Crockery & Glassware',
+            duration: '45 mins',
+            price: 599.0,
+          ),
+        ],
+        includes: const [
+          'Careful removal of utensils from cabinets before deep clean',
+          'Wiping cabinet shelves clean before replacing items',
+          'Organized rearrangement of utensils back in designated shelves',
+          'Safe handling of fragile cookware and glassware',
+        ],
+        excludes: const [
+          'Washing or scrubbing dirty dishes & sink dishwashing',
+          'Repairing pre-damaged or cracked cookware',
+        ],
+      );
+    }
+
+    if (item.id.contains('sink') || item.title.toLowerCase().contains('sink')) {
+      return KitchenSingleServiceDetailData(
+        serviceId: item.id,
+        title: item.title,
+        rating: item.rating,
+        ratingCount: item.ratingCount,
+        variants: const [
+          KitchenServiceVariant(
+            id: 'opt_sink_1',
+            name: 'Standard Single Sink',
+            duration: '20 mins',
+            price: 79.0,
+          ),
+          KitchenServiceVariant(
+            id: 'opt_sink_2',
+            name: 'Double Sink & Heavy Scrub',
+            duration: '30 mins',
+            price: 129.0,
+          ),
+        ],
+        includes: const [
+          'Hard water stain & limescale removal from sink basin & tap',
+          'Deep sanitization of sink drain strainer & overflow rim',
+          'Degreasing and wiping under-sink cabinet floor & pipe exterior',
+          'Elimination of foul odours from sink drain trap',
+        ],
+        excludes: const [
+          'Plumbing pipe leak repair or unblocking clogged drain pipes',
+          'Replacing damaged faucet washers or cartridges',
+        ],
+      );
+    }
+
+    if (item.id.contains('window') || item.title.toLowerCase().contains('window')) {
+      return KitchenSingleServiceDetailData(
+        serviceId: item.id,
+        title: item.title,
+        rating: item.rating,
+        ratingCount: item.ratingCount,
+        variants: const [
+          KitchenServiceVariant(
+            id: 'opt_window_1',
+            name: 'Standard Window (up to 2 panes)',
+            duration: '30 mins',
+            price: 269.0,
+          ),
+          KitchenServiceVariant(
+            id: 'opt_window_2',
+            name: 'Large Mesh & Glass Window',
+            duration: '45 mins',
+            price: 349.0,
+          ),
+        ],
+        includes: const [
+          'Degreasing window glass panes, aluminum frames, and sliding tracks',
+          'Washing and scrubbing removable wire mesh screens',
+          'Wiping window sills, latches & safety grilles clean',
+        ],
+        excludes: const [
+          'External high-rise window rope access or scaffolding',
+          'Replacing broken glass panes or rusted window latches',
+        ],
+      );
+    }
+
+    if (item.id.contains('dining') || item.title.toLowerCase().contains('dining')) {
+      return KitchenSingleServiceDetailData(
+        serviceId: item.id,
+        title: item.title,
+        rating: item.rating,
+        ratingCount: item.ratingCount,
+        variants: const [
+          KitchenServiceVariant(
+            id: 'opt_dining_1',
+            name: '4-Seater Table & Chairs',
+            duration: '25 mins',
+            price: 349.0,
+          ),
+          KitchenServiceVariant(
+            id: 'opt_dining_2',
+            name: '6-Seater Table & Chairs',
+            duration: '40 mins',
+            price: 499.0,
+          ),
+        ],
+        includes: const [
+          'Surface wipe down and food stain removal from dining table top',
+          'Cleaning chair legs, seat frames, and backrests',
+          'Wood or glass polishing wipe for a shiny hygienic finish',
+        ],
+        excludes: const [
+          'Deep foam shampooing of fabric chair upholstery',
+          'Wood re-varnishing or scratch repair',
+        ],
+      );
+    }
+
+    // Default dynamic generator for any other appliance or mini service
+    final variantsList = item.options.isNotEmpty
+        ? item.options
+            .map((o) => KitchenServiceVariant(
+                  id: o.id,
+                  name: o.name,
+                  duration: item.duration,
+                  price: o.price,
+                ))
+            .toList()
+        : [
+            KitchenServiceVariant(
+              id: '${item.id}_default',
+              name: item.title,
+              duration: item.duration,
+              price: item.price,
+            ),
+          ];
+
+    return KitchenSingleServiceDetailData(
+      serviceId: item.id,
+      title: item.title,
+      rating: item.rating,
+      ratingCount: item.ratingCount,
+      variants: variantsList,
+      includes: item.bulletPoints.isNotEmpty
+          ? item.bulletPoints
+          : const [
+              'Deep sanitization of surface & fixtures',
+              'Removal of tough grease stains and dust',
+              'Use of food-safe non-corrosive chemicals',
+              'Post-service quality check and wipe down',
+            ],
+      excludes: const [
+        'Major structural or electrical repairs',
+        'Replacement of damaged hardware or parts',
+        'Chemical bleaching of corroded metals',
+      ],
+    );
+  }
+
   static const KitchenServiceDetailData occupiedKitchenDetailData =
       KitchenServiceDetailData(
     serviceId: 'occupied',

@@ -5,6 +5,7 @@ import 'package:sewasetu/app/theme/app_colors.dart';
 import 'package:sewasetu/shared/widgets/app_network_image.dart';
 import '../data/kitchen_cleaning_data.dart';
 import '../models/kitchen_cleaning_model.dart';
+import 'kitchen_cleaning_item_detail_sheet.dart';
 import 'kitchen_cleaning_options_sheet.dart';
 import 'kitchen_cleaning_package_detail_sheet.dart';
 
@@ -314,7 +315,13 @@ class KitchenCleaningServiceCard extends StatelessWidget {
                   },
                 );
               } else {
-                onToggleExpand();
+                final singleDetailData =
+                    KitchenCleaningData.getSingleServiceDetailData(item);
+                KitchenCleaningItemDetailSheet.show(
+                  context,
+                  item: item,
+                  detailData: singleDetailData,
+                );
               }
             },
             borderRadius: BorderRadius.circular(4),
