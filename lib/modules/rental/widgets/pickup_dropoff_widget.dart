@@ -180,7 +180,7 @@ class PickupDropoffWidget extends StatelessWidget {
                     const SizedBox(width: AppSpacing.sm),
                     Expanded(
                       child: Text(
-                        'Pickup from: SewaSetu Hub, Paltan Bazar / Airport Counter. Detailed instructions sent upon booking.',
+                        'Pickup from: Oji One Hub, Paltan Bazar / Airport Counter. Detailed instructions sent upon booking.',
                         style: TextStyle(
                           fontSize: 11,
                           color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,

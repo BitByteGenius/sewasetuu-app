@@ -39,7 +39,7 @@ class SignUpPage extends GetView<AuthController> {
                 ),
                 AppSpacing.gapV8,
                 Text(
-                  'Join SewaSetu to discover and book verified stays and homestays effortlessly.',
+                  'Join Oji One to discover and book verified stays and homestays effortlessly.',
                   style: AppTextStyles.bodyMedium(isDark).copyWith(
                     color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
                   ),
@@ -110,7 +110,7 @@ class SignUpPage extends GetView<AuthController> {
                       ),
                       Expanded(
                         child: Text(
-                          'I agree to SewaSetu Terms of Service & Privacy Policy',
+                          'I agree to Oji One Terms of Service & Privacy Policy',
                           style: AppTextStyles.bodySmall(isDark),
                         ),
                       ),

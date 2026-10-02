@@ -75,7 +75,7 @@ class RentalBookingModel {
     required this.pricing,
     this.status = RentalBookingStatus.confirmed,
     this.paymentStatus = 'paid',
-    this.driverName = 'SewaSetu Traveler',
+    this.driverName = 'Oji One Traveler',
     this.driverPhone = '+91 98765 43210',
     this.driverLicenseNumber = 'AS01 20230048123',
     DateTime? createdAt,

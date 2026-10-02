@@ -60,7 +60,7 @@ class NotificationService extends GetxService {
       ),
       AppNotification(
         id: '3',
-        title: 'Welcome to SewaSetu!',
+        title: 'Welcome to Oji One!',
         body: 'Explore rooms, PGs, mess, homestays, and upcoming local on-demand services.',
         timestamp: DateTime.now().subtract(const Duration(days: 3)),
         isRead: true,

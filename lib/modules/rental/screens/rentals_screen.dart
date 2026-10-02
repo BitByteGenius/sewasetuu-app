@@ -377,7 +377,7 @@ class RentalScreen extends StatelessWidget {
               ),
               const SizedBox(width: AppSpacing.sm),
               Text(
-                'WHY RENT WITH SEWASETU',
+                'WHY RENT WITH OJI ONE',
                 style: TextStyle(
                   fontSize: 11,
                   fontWeight: FontWeight.w800,

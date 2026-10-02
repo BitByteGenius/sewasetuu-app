@@ -384,7 +384,7 @@ class RentalMockDatasource {
         'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=1000&q=80',
       ],
       description:
-          'Experience the zero-emission electric rush. 465 km certified ARAI range, ultra-silent cabin, 360-degree camera, and fast-charging enabled at all SewaSetu hubs.',
+          'Experience the zero-emission electric rush. 465 km certified ARAI range, ultra-silent cabin, 360-degree camera, and fast-charging enabled at all Oji One hubs.',
       cityIds: ['guwahati', 'kolkata', 'patna'],
       rating: 4.9,
       reviewCount: 92,
@@ -1184,7 +1184,7 @@ class RentalMockDatasource {
       ),
       status: RentalBookingStatus.confirmed,
       paymentStatus: 'paid',
-      driverName: 'SewaSetu Traveler',
+      driverName: 'Oji One Traveler',
       driverPhone: '+91 98765 43210',
       driverLicenseNumber: 'AS01 20230048123',
     ),

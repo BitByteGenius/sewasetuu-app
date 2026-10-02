@@ -39,7 +39,7 @@ class RentalHeaderWidget extends StatelessWidget {
                         borderRadius: AppRadius.radiusXs,
                       ),
                       child: const Text(
-                        'SEWASETU RENTALS',
+                        'OJI ONE RENTALS',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 10,

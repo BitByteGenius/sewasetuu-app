@@ -123,7 +123,7 @@ class AuthController extends GetxController {
       await _storageService?.setString('user_phone', phone);
 
       Get.offAllNamed(AppRoutes.main);
-      Get.snackbar('Welcome to SewaSetu', 'You are now signed in successfully!', snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar('Welcome to Oji One', 'You are now signed in successfully!', snackPosition: SnackPosition.BOTTOM);
     } catch (_) {
       Get.snackbar('Verification Failed', 'Invalid or expired OTP code', snackPosition: SnackPosition.BOTTOM);
     } finally {

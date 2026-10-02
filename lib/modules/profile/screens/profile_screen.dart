@@ -213,7 +213,7 @@ class ProfileScreen extends GetView<ProfileController> {
                     title: 'Help & 24/7 Support',
                     subtitle: 'Customer assistance & FAQs',
                     onTap: () {
-                      Get.snackbar('SewaSetu Support', 'Support team is available 24x7 at support@sewasetu.com');
+                      Get.snackbar('Oji One Support', 'Support team is available 24x7 at support@sewasetu.com');
                     },
                   ),
                   const Divider(height: 1),

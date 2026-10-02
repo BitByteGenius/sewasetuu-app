@@ -185,7 +185,7 @@ class RentalConfirmationScreen extends StatelessWidget {
                       const SizedBox(height: 6),
                       Text(
                         '1. Please carry your original Driving License and valid Government Photo ID.\n'
-                        '2. Contact our SewaSetu Hub Manager at +91 98765 43210 for airport/station coordination.\n'
+                        '2. Contact our Oji One Hub Manager at +91 98765 43210 for airport/station coordination.\n'
                         '3. A digital inspection checklist will be signed upon handover.',
                         style: TextStyle(
                           fontSize: 12,

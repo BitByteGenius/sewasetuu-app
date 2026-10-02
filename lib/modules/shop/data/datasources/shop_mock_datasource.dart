@@ -723,7 +723,7 @@ class ShopMockDatasource {
         rating: 5.0,
         dateText: '3 weeks ago',
         comment:
-            'So happy to find real regional Indian products on SewaSetu. The packaging came with the artisan details and history card!',
+            'So happy to find real regional Indian products on Oji One. The packaging came with the artisan details and history card!',
       ),
       ProductReviewModel(
         id: 'rev-3',

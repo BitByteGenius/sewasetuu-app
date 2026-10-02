@@ -489,7 +489,7 @@ class _BookingCheckoutScreenState extends State<BookingCheckoutScreen> {
                   AppSpacing.gapV8,
                   _buildPriceRow(isDark, 'Cleaning fee', cleaningFee),
                   AppSpacing.gapV8,
-                  _buildPriceRow(isDark, 'SewaSetu service fee', serviceFee),
+                  _buildPriceRow(isDark, 'Oji One service fee', serviceFee),
                   AppSpacing.gapV8,
                   _buildPriceRow(isDark, 'Taxes & GST (12%)', taxes),
                   if (isPromoApplied) ...[

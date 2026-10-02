@@ -278,7 +278,7 @@ class StayFilterBottomSheet extends StatelessWidget {
                 style: AppTextStyles.titleMedium(isDark),
               ),
               subtitle: Text(
-                'Show only properties verified in-person by SewaSetu team',
+                'Show only properties verified in-person by Oji One team',
                 style: AppTextStyles.bodySmall(isDark),
               ),
               activeTrackColor:

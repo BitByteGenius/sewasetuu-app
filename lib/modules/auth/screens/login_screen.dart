@@ -285,7 +285,7 @@ class LoginPage extends GetView<AuthController> {
                             ),
                             const SizedBox(height: 10),
                             Text(
-                              'By continuing, you agree to SewaSetu’s Terms of Service and Privacy Policy.',
+                              'By continuing, you agree to Oji One’s Terms of Service and Privacy Policy.',
                               textAlign: TextAlign.center,
                               style: GoogleFonts.plusJakartaSans(
                                 fontSize: 11.5,

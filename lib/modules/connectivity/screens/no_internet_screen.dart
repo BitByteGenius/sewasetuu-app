@@ -149,7 +149,7 @@ class _NoInternetScreenState extends State<NoInternetScreen> {
 
                     // Subtitle
                     Text(
-                      'Please check your network settings and try again to continue using SewaSetu.',
+                      'Please check your network settings and try again to continue using Oji One.',
                       textAlign: TextAlign.center,
                       style: GoogleFonts.plusJakartaSans(
                         fontSize: 14.5,

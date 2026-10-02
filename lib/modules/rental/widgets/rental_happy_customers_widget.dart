@@ -110,7 +110,7 @@ class RentalHappyCustomersWidget extends StatelessWidget {
               const SizedBox(height: 4),
 
               Text(
-                'Real road trip memories and honest stories from verified SewaSetu travelers across India.',
+                'Real road trip memories and honest stories from verified Oji One travelers across India.',
                 style: TextStyle(
                   fontSize: 12.5,
                   height: 1.35,
@@ -262,7 +262,7 @@ class RentalHappyCustomersWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  'Tag @SewaSetuRentals or submit your trip memories to earn ₹500 in rental credits!',
+                  'Tag @OjiOneRentals or submit your trip memories to earn ₹500 in rental credits!',
                   style: TextStyle(
                     fontSize: 11.5,
                     color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,

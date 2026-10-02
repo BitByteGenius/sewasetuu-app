@@ -217,7 +217,7 @@ class ServicesMockData {
       serviceName: 'Home Cleaning Service',
       rating: 4.8,
       comment:
-          'Painting and cleaning services from SewaSetu was something that I recently came to know about. Prices are really cheap since there is no middleman just reliable local experts.',
+          'Painting and cleaning services from Oji One was something that I recently came to know about. Prices are really cheap since there is no middleman just reliable local experts.',
     ),
     ServiceReviewItem(
       id: 'rev_2',
@@ -243,7 +243,7 @@ class ServicesMockData {
   static const List<ServiceFaqItem> faqItems = [
     ServiceFaqItem(
       id: 'faq_1',
-      question: 'How to book a service on SewaSetu?',
+      question: 'How to book a service on Oji One?',
       answer:
           'Select your desired service, choose your preferred date and time slot, and confirm your booking. A background-verified expert will be assigned immediately.',
     ),

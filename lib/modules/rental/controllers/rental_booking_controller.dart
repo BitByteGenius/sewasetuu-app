@@ -27,7 +27,7 @@ class RentalBookingController extends GetxController {
   final RxSet<String> selectedAddonIds = <String>{'addon_insurance_zero'}.obs;
 
   // Driver details form
-  final RxString driverName = 'SewaSetu Traveler'.obs;
+  final RxString driverName = 'Oji One Traveler'.obs;
   final RxString driverPhone = '+91 98765 43210'.obs;
   final RxString driverLicense = 'AS01 20230048123'.obs;
 

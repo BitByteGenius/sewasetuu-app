@@ -537,7 +537,7 @@ class _TripsScreenState extends State<TripsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Why Travel With SewaSetu?',
+                        'Why Travel With Oji One?',
                         style: AppTextStyles.titleMedium(isDark).copyWith(
                           fontWeight: FontWeight.w800,
                         ),

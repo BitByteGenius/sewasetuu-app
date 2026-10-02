@@ -34,21 +34,8 @@ class KitchenCleaningPromiseWidget extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Container(
-                    width: 24,
-                    height: 24,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFE11D48),
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Center(
-                      child: Icon(Icons.percent_rounded,
-                          size: 14, color: Colors.white),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
                   Text(
-                    'SewaSetu Promise',
+                    'Oji One Promise',
                     style: GoogleFonts.plusJakartaSans(
                       fontSize: 18,
                       fontWeight: FontWeight.w800,
@@ -103,21 +90,9 @@ class KitchenCleaningPromiseWidget extends StatelessWidget {
                       : const Color(0xFF1E293B),
                 ),
               ),
-              Container(
-                width: 22,
-                height: 22,
-                margin: const EdgeInsets.only(right: 6),
-                decoration: const BoxDecoration(
-                  color: Color(0xFFE11D48),
-                  shape: BoxShape.circle,
-                ),
-                child: const Center(
-                  child: Icon(Icons.percent_rounded,
-                      size: 13, color: Colors.white),
-                ),
-              ),
+              
               Text(
-                'SewaSetu?',
+                'Oji One?',
                 style: GoogleFonts.plusJakartaSans(
                   fontSize: 20,
                   fontWeight: FontWeight.w800,

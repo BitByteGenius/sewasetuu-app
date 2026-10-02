@@ -1,6 +1,6 @@
 /// Global Application Level Constants
 abstract class AppConstants {
-  static const String appName = 'SewaSetu';
+  static const String appName = 'Oji One';
   static const String appTagline = 'Your All-in-One Stay & Services Marketplace';
   
   // Storage Keys

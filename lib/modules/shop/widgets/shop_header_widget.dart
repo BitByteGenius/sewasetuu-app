@@ -15,7 +15,7 @@ class ShopHeaderWidget extends StatelessWidget implements PreferredSizeWidget {
 
   const ShopHeaderWidget({
     super.key,
-    this.title = 'SewaSetu Bazaar',
+    this.title = 'Oji One Bazaar',
     this.subtitle = 'Authentic State Crafts & Food',
     this.showBackButton = true,
     this.onBackPressed,
