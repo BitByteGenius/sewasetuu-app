@@ -638,7 +638,7 @@ class KitchenCleaningData {
       KitchenServiceDetailData(
     serviceId: 'empty',
     title: 'Empty Kitchen Cleaning',
-    badgeText: 'Essential',
+    badgeText: 'Power Steam',
     bannerImageUrl:
         'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=80',
     bookingStatsText: '12k bookings near you | ★ 4.75',
@@ -655,15 +655,8 @@ class KitchenCleaningData {
         title: 'Power\nSteam',
         badgeTag: 'Popular',
         isPopular: true,
-        price: 1249.0,
-        originalPrice: 1799.0,
-        icon: Icons.workspace_premium_rounded,
-      ),
-      KitchenPackageColumn(
-        id: 'eco_smart',
-        title: 'Eco-\nSmart',
-        price: 1399.0,
-        originalPrice: 1999.0,
+        price: 949.0,
+        originalPrice: 2209.0,
         icon: Icons.workspace_premium_rounded,
       ),
     ],
@@ -678,7 +671,6 @@ class KitchenCleaningData {
             columnValues: {
               'essential': KitchenFeatureValue.bool(false),
               'power_steam': KitchenFeatureValue.bool(true),
-              'eco_smart': KitchenFeatureValue.bool(true),
             },
           ),
           KitchenFeatureRow(
@@ -687,7 +679,14 @@ class KitchenCleaningData {
             columnValues: {
               'essential': KitchenFeatureValue.bool(true),
               'power_steam': KitchenFeatureValue.bool(true),
-              'eco_smart': KitchenFeatureValue.bool(true),
+            },
+          ),
+          KitchenFeatureRow(
+            id: 'utensil_rearrangement',
+            featureName: 'Utensil re-arrangement',
+            columnValues: {
+              'essential': KitchenFeatureValue.bool(false),
+              'power_steam': KitchenFeatureValue.bool(false),
             },
           ),
           KitchenFeatureRow(
@@ -696,7 +695,15 @@ class KitchenCleaningData {
             columnValues: {
               'essential': KitchenFeatureValue.bool(true),
               'power_steam': KitchenFeatureValue.bool(true),
-              'eco_smart': KitchenFeatureValue.bool(true),
+            },
+          ),
+          KitchenFeatureRow(
+            id: 'appliances_cleaning',
+            featureName:
+                'Appliances exterior + interior cleaning (if added separately)',
+            columnValues: {
+              'essential': KitchenFeatureValue.bool(true),
+              'power_steam': KitchenFeatureValue.bool(true),
             },
           ),
           KitchenFeatureRow(
@@ -705,16 +712,14 @@ class KitchenCleaningData {
             columnValues: {
               'essential': KitchenFeatureValue.bool(true),
               'power_steam': KitchenFeatureValue.bool(true),
-              'eco_smart': KitchenFeatureValue.bool(true),
             },
           ),
           KitchenFeatureRow(
             id: 'cabinet_interior',
             featureName: "Cabinet's cleaning (Interior)",
             columnValues: {
-              'essential': KitchenFeatureValue.bool(true),
-              'power_steam': KitchenFeatureValue.bool(true),
-              'eco_smart': KitchenFeatureValue.bool(true),
+              'essential': KitchenFeatureValue.bool(false),
+              'power_steam': KitchenFeatureValue.bool(false),
             },
           ),
           KitchenFeatureRow(
@@ -723,7 +728,6 @@ class KitchenCleaningData {
             columnValues: {
               'essential': KitchenFeatureValue.bool(true),
               'power_steam': KitchenFeatureValue.bool(true),
-              'eco_smart': KitchenFeatureValue.bool(true),
             },
           ),
           KitchenFeatureRow(
@@ -732,7 +736,6 @@ class KitchenCleaningData {
             columnValues: {
               'essential': KitchenFeatureValue.bool(true),
               'power_steam': KitchenFeatureValue.bool(true),
-              'eco_smart': KitchenFeatureValue.bool(true),
             },
           ),
           KitchenFeatureRow(
@@ -741,34 +744,6 @@ class KitchenCleaningData {
             columnValues: {
               'essential': KitchenFeatureValue.bool(true),
               'power_steam': KitchenFeatureValue.bool(true),
-              'eco_smart': KitchenFeatureValue.bool(true),
-            },
-          ),
-          KitchenFeatureRow(
-            id: 'odourless_cleaning',
-            featureName: 'Odourless cleaning',
-            columnValues: {
-              'essential': KitchenFeatureValue.bool(false),
-              'power_steam': KitchenFeatureValue.bool(false),
-              'eco_smart': KitchenFeatureValue.bool(true),
-            },
-          ),
-          KitchenFeatureRow(
-            id: 'eco_friendly',
-            featureName: 'Eco-Friendly',
-            columnValues: {
-              'essential': KitchenFeatureValue.bool(false),
-              'power_steam': KitchenFeatureValue.bool(false),
-              'eco_smart': KitchenFeatureValue.bool(true),
-            },
-          ),
-          KitchenFeatureRow(
-            id: 'residue_after_cleaning',
-            featureName: 'Residue after cleaning',
-            columnValues: {
-              'essential': KitchenFeatureValue.text('LOW'),
-              'power_steam': KitchenFeatureValue.text('LOW'),
-              'eco_smart': KitchenFeatureValue.text('ZERO'),
             },
           ),
         ],

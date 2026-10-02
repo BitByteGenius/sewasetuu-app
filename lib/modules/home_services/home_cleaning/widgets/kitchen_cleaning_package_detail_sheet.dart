@@ -392,8 +392,14 @@ class _KitchenCleaningPackageDetailSheetState
     );
   }
 
+  int _getServicesFlex(int count) => count <= 2 ? 44 : 32;
+  int _getPackageFlex(int count) => count <= 2 ? 28 : 20;
+
   Widget _buildMatrixHeaderRow(
       BuildContext context, bool isDark, List<KitchenPackageColumn> packages) {
+    final servicesFlex = _getServicesFlex(packages.length);
+    final packageFlex = _getPackageFlex(packages.length);
+
     return Padding(
       padding: const EdgeInsets.only(top: 10, bottom: 8),
       child: Row(
@@ -401,7 +407,7 @@ class _KitchenCleaningPackageDetailSheetState
         children: [
           // Column 1: "Services" Header
           Expanded(
-            flex: 32,
+            flex: servicesFlex,
             child: Padding(
               padding: const EdgeInsets.only(left: 14, bottom: 8),
               child: Text(
@@ -422,7 +428,7 @@ class _KitchenCleaningPackageDetailSheetState
             final isSelected = pkg.id == _selectedPackageId;
 
             return Expanded(
-              flex: 20,
+              flex: packageFlex,
               child: GestureDetector(
                 onTap: () {
                   HapticFeedback.selectionClick();
@@ -513,12 +519,15 @@ class _KitchenCleaningPackageDetailSheetState
 
   Widget _buildSelectPackageRow(
       BuildContext context, bool isDark, List<KitchenPackageColumn> packages) {
+    final servicesFlex = _getServicesFlex(packages.length);
+    final packageFlex = _getPackageFlex(packages.length);
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
         children: [
           Expanded(
-            flex: 32,
+            flex: servicesFlex,
             child: Padding(
               padding: const EdgeInsets.only(left: 14),
               child: Text(
@@ -537,7 +546,7 @@ class _KitchenCleaningPackageDetailSheetState
             final isSelected = pkg.id == _selectedPackageId;
 
             return Expanded(
-              flex: 20,
+              flex: packageFlex,
               child: GestureDetector(
                 onTap: () {
                   HapticFeedback.selectionClick();
@@ -591,12 +600,15 @@ class _KitchenCleaningPackageDetailSheetState
 
   Widget _buildPricesRow(
       BuildContext context, bool isDark, List<KitchenPackageColumn> packages) {
+    final servicesFlex = _getServicesFlex(packages.length);
+    final packageFlex = _getPackageFlex(packages.length);
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Row(
         children: [
           Expanded(
-            flex: 32,
+            flex: servicesFlex,
             child: Padding(
               padding: const EdgeInsets.only(left: 14),
               child: Text(
@@ -615,7 +627,7 @@ class _KitchenCleaningPackageDetailSheetState
             final isSelected = pkg.id == _selectedPackageId;
 
             return Expanded(
-              flex: 20,
+              flex: packageFlex,
               child: Container(
                 color: isSelected
                     ? (isDark
@@ -652,6 +664,9 @@ class _KitchenCleaningPackageDetailSheetState
     List<KitchenPackageColumn> packages,
     KitchenFeatureRow feature,
   ) {
+    final servicesFlex = _getServicesFlex(packages.length);
+    final packageFlex = _getPackageFlex(packages.length);
+
     return Container(
       decoration: BoxDecoration(
         border: Border(
@@ -666,7 +681,7 @@ class _KitchenCleaningPackageDetailSheetState
         children: [
           // Feature Label
           Expanded(
-            flex: 32,
+            flex: servicesFlex,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
               child: Text(
@@ -683,13 +698,13 @@ class _KitchenCleaningPackageDetailSheetState
             ),
           ),
 
-          // Columns 2, 3, 4 feature support values (Check ✓, Cross ✕, or Text)
+          // Columns feature support values (Check ✓, Cross ✕, or Text)
           ...packages.map((pkg) {
             final isSelected = pkg.id == _selectedPackageId;
             final val = feature.columnValues[pkg.id];
 
             return Expanded(
-              flex: 20,
+              flex: packageFlex,
               child: Container(
                 color: isSelected
                     ? (isDark
