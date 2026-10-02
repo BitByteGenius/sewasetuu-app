@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sewasetu/app/theme/app_colors.dart';
+import 'package:sewasetu/modules/home/widgets/home_location_header_widget.dart';
 import 'package:sewasetu/shared/enums/view_state.dart';
 import 'package:sewasetu/shared/widgets/app_bar/app_bar.dart';
 import 'package:sewasetu/shared/widgets/app_skeleton.dart';
@@ -30,8 +31,11 @@ class KitchenCleaningScreen extends StatelessWidget {
       backgroundColor:
           isDark ? AppColors.backgroundDark : const Color(0xFFF8FAFC),
       appBar: SewaAppBar(
-        titleText: 'Kitchen Cleaning',
-        showBackButton: true,
+        titleWidget: const HomeLocationHeaderWidget(
+          showNotification: false,
+          showProfile: false,
+        ),
+        showBackButton: false,
         actions: [
           // Search Action Button
           IconButton(

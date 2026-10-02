@@ -9,7 +9,16 @@ import 'location_selector_modal.dart';
 
 /// Premium dark location header with interactive location selector and profile avatar
 class HomeLocationHeaderWidget extends StatefulWidget {
-  const HomeLocationHeaderWidget({super.key});
+  final bool showNotification;
+  final bool showProfile;
+  final EdgeInsetsGeometry? padding;
+
+  const HomeLocationHeaderWidget({
+    super.key,
+    this.showNotification = true,
+    this.showProfile = true,
+    this.padding,
+  });
 
   @override
   State<HomeLocationHeaderWidget> createState() =>
@@ -23,10 +32,13 @@ class _HomeLocationHeaderWidgetState extends State<HomeLocationHeaderWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<HomeController>();
+    final controller = Get.isRegistered<HomeController>()
+        ? Get.find<HomeController>()
+        : Get.put(HomeController());
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      padding: widget.padding ??
+          const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -139,162 +151,168 @@ class _HomeLocationHeaderWidgetState extends State<HomeLocationHeaderWidget> {
               ),
             ),
           ),
-          const SizedBox(width: 8),
 
-          GestureDetector(
-            onTapDown: (_) => setState(() => _isNotificationPressed = true),
-            onTapUp: (_) => setState(() => _isNotificationPressed = false),
-            onTapCancel: () => setState(() => _isNotificationPressed = false),
-            onTap: () => Get.toNamed(AppRoutes.notifications),
-            behavior: HitTestBehavior.opaque,
-            child: AnimatedScale(
-              scale: _isNotificationPressed ? 0.92 : 1.0,
-              duration: const Duration(milliseconds: 150),
-              child: Builder(
-                builder: (context) {
-                  final isDark =
-                      Theme.of(context).brightness == Brightness.dark;
-                  return Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: isDark
-                              ? const Color(0xFF1E293B)
-                              : const Color(0xFFF1F5F9),
-                          border: Border.all(
+          if (widget.showNotification) ...[
+            const SizedBox(width: 8),
+            GestureDetector(
+              onTapDown: (_) => setState(() => _isNotificationPressed = true),
+              onTapUp: (_) => setState(() => _isNotificationPressed = false),
+              onTapCancel: () => setState(() => _isNotificationPressed = false),
+              onTap: () => Get.toNamed(AppRoutes.notifications),
+              behavior: HitTestBehavior.opaque,
+              child: AnimatedScale(
+                scale: _isNotificationPressed ? 0.92 : 1.0,
+                duration: const Duration(milliseconds: 150),
+                child: Builder(
+                  builder: (context) {
+                    final isDark =
+                        Theme.of(context).brightness == Brightness.dark;
+                    return Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
                             color: isDark
-                                ? Colors.white.withValues(alpha: 0.22)
-                                : const Color(0xFFCBD5E1),
-                            width: 1.5,
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black
-                                  .withValues(alpha: isDark ? 0.35 : 0.06),
-                              blurRadius: 8,
-                              offset: const Offset(0, 2),
+                                ? const Color(0xFF1E293B)
+                                : const Color(0xFFF1F5F9),
+                            border: Border.all(
+                              color: isDark
+                                  ? Colors.white.withValues(alpha: 0.22)
+                                  : const Color(0xFFCBD5E1),
+                              width: 1.5,
                             ),
-                          ],
-                        ),
-                        child: ClipOval(
-                          child: Center(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: isDark
-                                      ? const [
-                                          Color(0xFF334155),
-                                          Color(0xFF1E293B)
-                                        ]
-                                      : const [
-                                          Color(0xFFFFFFFF),
-                                          Color(0xFFE2E8F0)
-                                        ],
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black
+                                    .withValues(alpha: isDark ? 0.35 : 0.06),
+                                blurRadius: 8,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: ClipOval(
+                            child: Center(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: isDark
+                                        ? const [
+                                            Color(0xFF334155),
+                                            Color(0xFF1E293B)
+                                          ]
+                                        : const [
+                                            Color(0xFFFFFFFF),
+                                            Color(0xFFE2E8F0)
+                                          ],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                  ),
+                                ),
+                                child: Center(
+                                  child: Icon(
+                                    Icons.notifications_none_rounded,
+                                    color: isDark
+                                        ? AppColors.primaryLight
+                                        : AppColors.primary,
+                                    size: 22,
+                                  ),
                                 ),
                               ),
-                              child: Center(
-                                child: Icon(
-                                  Icons.notifications_none_rounded,
-                                  color: isDark
-                                      ? AppColors.primaryLight
-                                      : AppColors.primary,
-                                  size: 22,
-                                ),
-                              ),
                             ),
                           ),
                         ),
-                      ),
-                      // Blinking small dot
-                      Positioned(
-                        top: 2,
-                        right: 2,
-                        child: _BlinkingNotificationDot(isDark: isDark),
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ),
-          ),
-
-          const SizedBox(width: 8),
-
-          // Profile / Avatar Action Button
-          GestureDetector(
-            onTapDown: (_) => setState(() => _isProfilePressed = true),
-            onTapUp: (_) => setState(() => _isProfilePressed = false),
-            onTapCancel: () => setState(() => _isProfilePressed = false),
-            onTap: controller.onProfileTap,
-            behavior: HitTestBehavior.opaque,
-            child: AnimatedScale(
-              scale: _isProfilePressed ? 0.92 : 1.0,
-              duration: const Duration(milliseconds: 150),
-              child: Builder(
-                builder: (context) {
-                  final isDark =
-                      Theme.of(context).brightness == Brightness.dark;
-                  return Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: isDark
-                          ? const Color(0xFF1E293B)
-                          : const Color(0xFFF1F5F9),
-                      border: Border.all(
-                        color: isDark
-                            ? Colors.white.withValues(alpha: 0.22)
-                            : const Color(0xFFCBD5E1),
-                        width: 1.5,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black
-                              .withValues(alpha: isDark ? 0.35 : 0.06),
-                          blurRadius: 8,
-                          offset: const Offset(0, 2),
+                        // Blinking small dot
+                        Positioned(
+                          top: 2,
+                          right: 2,
+                          child: _BlinkingNotificationDot(isDark: isDark),
                         ),
                       ],
-                    ),
-                    child: ClipOval(
-                      child: Center(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: isDark
-                                  ? const [Color(0xFF334155), Color(0xFF1E293B)]
-                                  : const [
-                                      Color(0xFFFFFFFF),
-                                      Color(0xFFE2E8F0)
-                                    ],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
+
+          if (widget.showProfile) ...[
+            const SizedBox(width: 8),
+            // Profile / Avatar Action Button
+            GestureDetector(
+              onTapDown: (_) => setState(() => _isProfilePressed = true),
+              onTapUp: (_) => setState(() => _isProfilePressed = false),
+              onTapCancel: () => setState(() => _isProfilePressed = false),
+              onTap: controller.onProfileTap,
+              behavior: HitTestBehavior.opaque,
+              child: AnimatedScale(
+                scale: _isProfilePressed ? 0.92 : 1.0,
+                duration: const Duration(milliseconds: 150),
+                child: Builder(
+                  builder: (context) {
+                    final isDark =
+                        Theme.of(context).brightness == Brightness.dark;
+                    return Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: isDark
+                            ? const Color(0xFF1E293B)
+                            : const Color(0xFFF1F5F9),
+                        border: Border.all(
+                          color: isDark
+                              ? Colors.white.withValues(alpha: 0.22)
+                              : const Color(0xFFCBD5E1),
+                          width: 1.5,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black
+                                .withValues(alpha: isDark ? 0.35 : 0.06),
+                            blurRadius: 8,
+                            offset: const Offset(0, 2),
                           ),
-                          child: Center(
-                            child: Icon(
-                              Icons.person_rounded,
-                              color: isDark
-                                  ? AppColors.primaryLight
-                                  : AppColors.primary,
-                              size: 22,
+                        ],
+                      ),
+                      child: ClipOval(
+                        child: Center(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: isDark
+                                    ? const [
+                                        Color(0xFF334155),
+                                        Color(0xFF1E293B)
+                                      ]
+                                    : const [
+                                        Color(0xFFFFFFFF),
+                                        Color(0xFFE2E8F0)
+                                      ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                            ),
+                            child: Center(
+                              child: Icon(
+                                Icons.person_rounded,
+                                color: isDark
+                                    ? AppColors.primaryLight
+                                    : AppColors.primary,
+                                size: 22,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             ),
-          ),
+          ],
         ],
       ),
     );
