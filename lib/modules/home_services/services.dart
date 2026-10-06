@@ -1,4 +1,12 @@
-// Central barrel export for Services Module
+// Central barrel export for Home Services Module
+
+// API & Routes & Constants
+export 'api/home_services_api_endpoints.dart';
+export 'constants/home_services_constants.dart';
+export 'data/home_services_repository.dart';
+export 'services_routes/service_page_routes.dart';
+
+// Home Marketplace Screen & Navigation Shell
 export 'home_screen/screens/services_screen.dart';
 export 'home_screen/screens/instant_services_screen.dart';
 export 'home_screen/screens/instant_services_navigation_shell.dart';
@@ -13,7 +21,7 @@ export 'home_screen/widgets/instant_services_bottom_sheet.dart';
 export 'home_screen/data/services_mock_data.dart';
 export 'home_screen/data/services_repository.dart';
 
-// Models
+// Marketplace Models
 export 'home_screen/models/service_category_item.dart';
 export 'home_screen/models/service_faq_item.dart';
 export 'home_screen/models/service_offer_item.dart';
@@ -38,7 +46,8 @@ export 'electrician/screen/electrician_screen.dart';
 export 'electrician/screen/plumbing_screen.dart';
 export 'electrician/screen/cartpenter_screen.dart';
 
-// Shared Common Widgets
+// Shared Common Reusable Widgets
+export 'common_widgets/home_service_header_widget.dart';
 export 'common_widgets/home_service_category_grid.dart';
 export 'common_widgets/home_service_listing_card.dart';
 export 'common_widgets/home_service_states.dart';
