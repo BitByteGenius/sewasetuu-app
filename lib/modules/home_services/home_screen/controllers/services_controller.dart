@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:sewasetu/app/routes/app_routes.dart';
 import 'package:sewasetu/app/theme/app_colors.dart';
 import 'package:sewasetu/modules/home_services/home_cleaning/widgets/home_cleaning_bottom_sheet.dart';
 import 'package:sewasetu/shared/enums/view_state.dart';
@@ -147,6 +148,21 @@ class ServicesController extends GetxController {
         InstantServicesBottomSheet.show(ctx);
         return;
       }
+    }
+
+    if (lowerName.contains('electrician')) {
+      Get.toNamed(AppRoutes.electrician);
+      return;
+    }
+
+    if (lowerName.contains('plumb')) {
+      Get.toNamed(AppRoutes.plumbing);
+      return;
+    }
+
+    if (lowerName.contains('carpent')) {
+      Get.toNamed(AppRoutes.carpenter);
+      return;
     }
 
     Get.snackbar(

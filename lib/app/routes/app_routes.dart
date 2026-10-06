@@ -28,6 +28,9 @@ abstract class AppRoutes {
 
   // Secondary Modules
   static const String services = '/services';
+  static const String electrician = '/services/electrician';
+  static const String plumbing = '/services/plumbing';
+  static const String carpenter = '/services/carpenter';
   static const String rentals = '/rentals';
   static const String trips = '/trips';
   static const String shop = '/shop';

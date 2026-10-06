@@ -198,6 +198,24 @@ abstract class AppPages {
       transition: Transition.rightToLeftWithFade,
     ),
     GetPage(
+      name: AppRoutes.electrician,
+      page: () => const ElectricianScreen(),
+      binding: ElectricianBinding(),
+      transition: Transition.rightToLeftWithFade,
+    ),
+    GetPage(
+      name: AppRoutes.plumbing,
+      page: () => const PlumbingScreen(),
+      binding: PlumbingBinding(),
+      transition: Transition.rightToLeftWithFade,
+    ),
+    GetPage(
+      name: AppRoutes.carpenter,
+      page: () => const CarpenterScreen(),
+      binding: CarpenterBinding(),
+      transition: Transition.rightToLeftWithFade,
+    ),
+    GetPage(
       name: AppRoutes.rentals,
       page: () => const RentalScreen(),
       transition: Transition.rightToLeftWithFade,
