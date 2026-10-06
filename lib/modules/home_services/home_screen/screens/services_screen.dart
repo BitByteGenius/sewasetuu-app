@@ -86,7 +86,7 @@ class ServicesScreen extends StatelessWidget {
                   items: controller.cleaningSubcategories,
                   ringColor: const Color(0xFFF43F5E), // Rose/Pink accent ring from screenshot
                   onSeeAll: () => controller.onCategorySelected('Home Cleaning', context),
-                  onItemTap: (item) => controller.onBookService(item.name),
+                  onItemTap: (item) => controller.onBookService(item.name, context),
                 ),
 
                 AppSpacing.gapV24,
@@ -94,7 +94,7 @@ class ServicesScreen extends StatelessWidget {
                 // 6. Popular Services (2x2 full-bleed image grid with ratings)
                 ServicesPopularGridWidget(
                   items: controller.popularServices,
-                  onItemTap: (item) => controller.onBookService(item.title),
+                  onItemTap: (item) => controller.onBookService(item.title, context),
                 ),
 
                 //AppSpacing.gapV24,
@@ -104,8 +104,8 @@ class ServicesScreen extends StatelessWidget {
                   title: 'Home Repair Services',
                   items: controller.repairSubcategories,
                   ringColor: const Color(0xFFE11D48), // Deep rose ring from screenshot
-                  onSeeAll: () => controller.onCategorySelected('Home Repair'),
-                  onItemTap: (item) => controller.onBookService(item.name),
+                  onSeeAll: () => controller.onCategorySelected('Home Repair', context),
+                  onItemTap: (item) => controller.onBookService(item.name, context),
                 ),
 
                 AppSpacing.gapV24,

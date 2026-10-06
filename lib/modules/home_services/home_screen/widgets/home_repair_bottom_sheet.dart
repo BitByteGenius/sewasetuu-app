@@ -3,12 +3,14 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sewasetu/app/theme/app_colors.dart';
 import 'package:sewasetu/shared/widgets/app_network_image.dart';
-import '../../home_cleaning/screens/kitchen_cleaning_screen.dart';
+import '../../electrician/screen/cartpenter_screen.dart';
+import '../../electrician/screen/electrician_screen.dart';
+import '../../electrician/screen/plumbing_screen.dart';
 
-/// Modal Bottom Sheet displaying the Instant Services category option(s)
-/// matching the exact structure and layout of HomeCleaningBottomSheet.
-class InstantServicesBottomSheet extends StatelessWidget {
-  const InstantServicesBottomSheet({super.key});
+/// Modal Bottom Sheet displaying Home Repair Services (Electrician, Plumbing, Carpentry)
+/// as a clean, reusable grid matching HomeCleaningBottomSheet architecture.
+class HomeRepairBottomSheet extends StatelessWidget {
+  const HomeRepairBottomSheet({super.key});
 
   /// Helper method to present the modal bottom sheet from anywhere in the app
   static Future<T?> show<T>(BuildContext context) {
@@ -17,7 +19,7 @@ class InstantServicesBottomSheet extends StatelessWidget {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       barrierColor: Colors.black.withValues(alpha: 0.5),
-      builder: (context) => const InstantServicesBottomSheet(),
+      builder: (context) => const HomeRepairBottomSheet(),
     );
   }
 
@@ -43,7 +45,7 @@ class InstantServicesBottomSheet extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Instant Services',
+                    'Home Repair Services',
                     style: GoogleFonts.plusJakartaSans(
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
@@ -77,8 +79,8 @@ class InstantServicesBottomSheet extends StatelessWidget {
               ),
             ),
 
-            // Content Grid
-            const InstantServicesBottomSheetContent(),
+            // Content Grid with Electrician, Plumbing, and Carpentry
+            const HomeRepairBottomSheetContent(),
           ],
         ),
       ),
@@ -86,9 +88,16 @@ class InstantServicesBottomSheet extends StatelessWidget {
   }
 }
 
-/// Reusable Grid Content widget for Instant Services sub-categories
-class InstantServicesBottomSheetContent extends StatelessWidget {
-  const InstantServicesBottomSheetContent({super.key});
+/// Reusable Grid Content widget displaying Electrician, Plumbing, and Carpentry
+class HomeRepairBottomSheetContent extends StatelessWidget {
+  const HomeRepairBottomSheetContent({super.key});
+
+  void _navigateTo(Widget screen) {
+    if (Get.isBottomSheetOpen ?? false) {
+      Get.back();
+    }
+    Get.to(() => screen);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -103,19 +112,47 @@ class InstantServicesBottomSheetContent extends StatelessWidget {
       mainAxisSpacing: 22,
       childAspectRatio: 0.72,
       children: [
-        _buildKitchenCleaningCard(context, isDark),
+        _buildServiceCard(
+          context: context,
+          isDark: isDark,
+          title: 'Electrician',
+          imageUrl:
+              'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=500&q=80',
+          fallbackIcon: Icons.electrical_services_rounded,
+          onTap: () => _navigateTo(const ElectricianScreen()),
+        ),
+        _buildServiceCard(
+          context: context,
+          isDark: isDark,
+          title: 'Plumbing',
+          imageUrl:
+              'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=500&q=80',
+          fallbackIcon: Icons.plumbing_rounded,
+          onTap: () => _navigateTo(const PlumbingScreen()),
+        ),
+        _buildServiceCard(
+          context: context,
+          isDark: isDark,
+          title: 'Carpentry',
+          imageUrl:
+              'https://images.unsplash.com/photo-1538688525198-9b88f6f53126?auto=format&fit=crop&w=500&q=80',
+          fallbackIcon: Icons.construction_rounded,
+          onTap: () => _navigateTo(const CarpenterScreen()),
+        ),
       ],
     );
   }
 
-  Widget _buildKitchenCleaningCard(BuildContext context, bool isDark) {
+  Widget _buildServiceCard({
+    required BuildContext context,
+    required bool isDark,
+    required String title,
+    required String imageUrl,
+    required IconData fallbackIcon,
+    required VoidCallback onTap,
+  }) {
     return GestureDetector(
-      onTap: () {
-        if (Get.isBottomSheetOpen ?? false) {
-          Get.back();
-        }
-        Get.to(() => const KitchenCleaningScreen());
-      },
+      onTap: onTap,
       behavior: HitTestBehavior.opaque,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -143,15 +180,14 @@ class InstantServicesBottomSheetContent extends StatelessWidget {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(18.8),
-                child: const AppNetworkImage(
-                  imageUrl:
-                      'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=500&q=80',
+                child: AppNetworkImage(
+                  imageUrl: imageUrl,
                   fit: BoxFit.cover,
                   errorWidget: Center(
                     child: Icon(
-                      Icons.countertops_rounded,
+                      fallbackIcon,
                       size: 34,
-                      color: Color(0xFF0F766E),
+                      color: const Color(0xFF0F766E),
                     ),
                   ),
                 ),
@@ -162,7 +198,7 @@ class InstantServicesBottomSheetContent extends StatelessWidget {
 
           // Sub-category Title Label
           Text(
-            'Kitchen\nCleaning',
+            title,
             textAlign: TextAlign.center,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,

@@ -6,6 +6,8 @@ export 'home_screen/controllers/instant_services_navigation_controller.dart';
 export 'home_screen/controllers/services_controller.dart';
 export 'home_screen/bindings/services_binding.dart';
 export 'home_screen/widgets/instant_services_navigation_bar.dart';
+export 'home_screen/widgets/home_repair_bottom_sheet.dart';
+export 'home_screen/widgets/instant_services_bottom_sheet.dart';
 
 // Data & Repositories
 export 'home_screen/data/services_mock_data.dart';

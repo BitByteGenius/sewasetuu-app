@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:sewasetu/app/routes/app_routes.dart';
 import 'package:sewasetu/app/theme/app_colors.dart';
 import 'package:sewasetu/modules/home_services/home_cleaning/widgets/home_cleaning_bottom_sheet.dart';
 import 'package:sewasetu/shared/enums/view_state.dart';
@@ -14,6 +13,7 @@ import '../models/service_relocation_item.dart';
 import '../models/service_review_item.dart';
 import '../models/service_spotlight_item.dart';
 import '../models/service_subcategory_item.dart';
+import '../widgets/home_repair_bottom_sheet.dart';
 import '../widgets/instant_services_bottom_sheet.dart';
 
 /// GetX controller managing UI state, interactive actions, and repository data feeds
@@ -118,7 +118,28 @@ class ServicesController extends GetxController {
   }
 
   /// Handle service booking action
-  void onBookService(String serviceName) {
+  void onBookService(String serviceName, [BuildContext? context]) {
+    final lowerName = serviceName.trim().toLowerCase();
+    final ctx = context ?? Get.context;
+
+    if (lowerName.contains('electrician') ||
+        lowerName.contains('plumb') ||
+        lowerName.contains('carpent') ||
+        lowerName.contains('repair') ||
+        lowerName.contains('home repair')) {
+      if (ctx != null) {
+        HomeRepairBottomSheet.show(ctx);
+        return;
+      }
+    }
+
+    if (lowerName.contains('instant')) {
+      if (ctx != null) {
+        InstantServicesBottomSheet.show(ctx);
+        return;
+      }
+    }
+
     Get.snackbar(
       'Booking Service',
       'Starting booking flow for "$serviceName"...',
@@ -143,26 +164,22 @@ class ServicesController extends GetxController {
       }
     }
 
+    if (lowerName.contains('home repair') ||
+        lowerName.contains('repair') ||
+        lowerName.contains('electrician') ||
+        lowerName.contains('plumb') ||
+        lowerName.contains('carpent')) {
+      if (ctx != null) {
+        HomeRepairBottomSheet.show(ctx);
+        return;
+      }
+    }
+
     if (lowerName.contains('instant')) {
       if (ctx != null) {
         InstantServicesBottomSheet.show(ctx);
         return;
       }
-    }
-
-    if (lowerName.contains('electrician')) {
-      Get.toNamed(AppRoutes.electrician);
-      return;
-    }
-
-    if (lowerName.contains('plumb')) {
-      Get.toNamed(AppRoutes.plumbing);
-      return;
-    }
-
-    if (lowerName.contains('carpent')) {
-      Get.toNamed(AppRoutes.carpenter);
-      return;
     }
 
     Get.snackbar(
