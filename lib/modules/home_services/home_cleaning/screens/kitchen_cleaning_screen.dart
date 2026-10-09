@@ -84,7 +84,7 @@ class KitchenCleaningScreen extends StatelessWidget {
         onAddItem: controller.addItem,
         onDecrementItem: controller.decrementItem,
         scrollController: controller.scrollController,
-        showBackButton: false,
+        showBackButton: true,
       );
     });
   }

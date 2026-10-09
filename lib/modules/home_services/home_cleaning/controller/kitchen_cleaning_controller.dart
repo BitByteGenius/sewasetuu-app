@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:sewasetu/app/theme/app_colors.dart';
 import 'package:sewasetu/shared/enums/view_state.dart';
+import '../../controller/home_services_cart_controller.dart';
 import '../data/kitchen_cleaning_data.dart';
 import '../models/kitchen_cleaning_model.dart';
 
@@ -10,6 +11,9 @@ import '../models/kitchen_cleaning_model.dart';
 /// for the Kitchen Cleaning detail screen.
 class KitchenCleaningController extends GetxController {
   final state = ViewState.loaded.obs;
+
+  HomeServicesCartController get _cartController =>
+      HomeServicesCartController.instance;
 
   // Scroll Controller for section navigation
   final ScrollController scrollController = ScrollController();
@@ -29,8 +33,8 @@ class KitchenCleaningController extends GetxController {
   final faqItems = <KitchenFaqItem>[].obs;
   final expandedFaqIds = <String>{}.obs;
 
-  // Reactive Cart State
-  final cartItems = <KitchenCartItem>[].obs;
+  // Reactive Cart State delegated to central HomeServicesCartController
+  RxList<KitchenCartItem> get cartItems => _cartController.cartItems;
 
   // Section GlobalKeys for precise viewport scrolling
   final GlobalKey occupiedSectionKey = GlobalKey();
@@ -105,67 +109,27 @@ class KitchenCleaningController extends GetxController {
 
 
   // --- CART GETTERS ---
-  int get totalCartCount =>
-      cartItems.fold(0, (sum, item) => sum + item.quantity);
+  int get totalCartCount => _cartController.totalCartCount;
 
-  double get totalCartPrice =>
-      cartItems.fold(0.0, (sum, item) => sum + item.totalPrice);
+  double get totalCartPrice => _cartController.totalCartPrice;
 
-  bool get isCartNotEmpty => cartItems.isNotEmpty;
+  bool get isCartNotEmpty => _cartController.isCartNotEmpty;
 
-  int getItemQuantity(String serviceId) {
-    final found = cartItems.firstWhereOrNull((i) => i.service.id == serviceId);
-    return found?.quantity ?? 0;
-  }
+  int getItemQuantity(String serviceId) => _cartController.getItemQuantity(serviceId);
 
-  KitchenCartItem? getCartItem(String serviceId) {
-    return cartItems.firstWhereOrNull((i) => i.service.id == serviceId);
-  }
+  KitchenCartItem? getCartItem(String serviceId) => _cartController.getCartItem(serviceId);
 
   // --- CART ACTIONS ---
   void addItem(KitchenCleaningServiceItem service, [ServiceOptionItem? option]) {
-    final existingIndex =
-        cartItems.indexWhere((i) => i.service.id == service.id);
-
-    if (existingIndex >= 0) {
-      cartItems[existingIndex].quantity += 1;
-      cartItems.refresh();
-    } else {
-      cartItems.add(KitchenCartItem(
-        service: service,
-        selectedOption: option ?? (service.hasOptions ? service.options.first : null),
-        quantity: 1,
-      ));
-    }
-
-    Get.snackbar(
-      'Item Added',
-      '${service.title} added to cart',
-      snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: const Color(0xFF0F766E),
-      colorText: Colors.white,
-      duration: const Duration(seconds: 1),
-      margin: const EdgeInsets.fromLTRB(16, 0, 16, 80),
-      borderRadius: 12,
-    );
+    _cartController.addItem(service, option);
   }
 
   void decrementItem(String serviceId) {
-    final existingIndex =
-        cartItems.indexWhere((i) => i.service.id == serviceId);
-    if (existingIndex >= 0) {
-      if (cartItems[existingIndex].quantity > 1) {
-        cartItems[existingIndex].quantity -= 1;
-        cartItems.refresh();
-      } else {
-        cartItems.removeAt(existingIndex);
-      }
-    }
+    _cartController.decrementItem(serviceId);
   }
 
   void removeItemCompletely(String serviceId) {
-    cartItems.removeWhere((i) => i.service.id == serviceId);
-    cartItems.refresh();
+    _cartController.removeItemCompletely(serviceId);
   }
 
   // --- UI INTERACTION ACTIONS ---

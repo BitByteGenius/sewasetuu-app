@@ -1,5 +1,6 @@
 import '../electrician/data/home_services_data.dart';
 import '../electrician/models/home_service_model.dart';
+import '../home_cleaning/data/kitchen_cleaning_data.dart';
 import '../home_cleaning/models/kitchen_cleaning_model.dart';
 
 /// Unified Abstract Repository interface for all Home Services submodules.
@@ -32,6 +33,17 @@ class HomeServicesRepositoryImpl implements HomeServicesRepository {
       case 'carpentry':
       case 'carpenter':
         return HomeServicesData.carpentryCategories;
+      case 'cleaning':
+      case 'kitchen':
+      case 'kitchen_cleaning':
+        return KitchenCleaningData.navCategories
+            .map((c) => HomeServiceCategory(
+                  id: c.id,
+                  name: c.title,
+                  imageUrl: c.imageUrl,
+                  icon: c.fallbackIcon,
+                ))
+            .toList();
       default:
         return HomeServicesData.electricianCategories;
     }
@@ -51,6 +63,11 @@ class HomeServicesRepositoryImpl implements HomeServicesRepository {
       case 'carpentry':
       case 'carpenter':
         items = HomeServicesData.carpentryServices;
+        break;
+      case 'cleaning':
+      case 'kitchen':
+      case 'kitchen_cleaning':
+        items = KitchenCleaningData.allServices;
         break;
       default:
         items = HomeServicesData.electricianServices;
@@ -73,6 +90,10 @@ class HomeServicesRepositoryImpl implements HomeServicesRepository {
       case 'carpentry':
       case 'carpenter':
         return HomeServicesData.carpentryBanners;
+      case 'cleaning':
+      case 'kitchen':
+      case 'kitchen_cleaning':
+        return KitchenCleaningData.promoBanners;
       default:
         return HomeServicesData.electricianBanners;
     }

@@ -195,6 +195,7 @@ abstract class AppPages {
     GetPage(
       name: AppRoutes.services,
       page: () => const ServicesScreen(),
+      binding: ServicesBinding(),
       transition: Transition.rightToLeftWithFade,
     ),
     GetPage(
@@ -214,6 +215,22 @@ abstract class AppPages {
       page: () => const CarpenterScreen(),
       binding: CarpenterBinding(),
       transition: Transition.rightToLeftWithFade,
+    ),
+    GetPage(
+      name: ServicePageRoutes.homeCleaning,
+      page: () => const HomeCleaningScreen(),
+      binding: HomeCleaningBinding(),
+      transition: Transition.rightToLeftWithFade,
+    ),
+    GetPage(
+      name: ServicePageRoutes.kitchenCleaning,
+      page: () => const KitchenCleaningScreen(),
+      transition: Transition.rightToLeftWithFade,
+    ),
+    GetPage(
+      name: ServicePageRoutes.myCart,
+      page: () => const MyCartWidgets(),
+      transition: Transition.downToUp,
     ),
     GetPage(
       name: AppRoutes.rentals,

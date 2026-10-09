@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:sewasetu/app/routes/app_routes.dart';
 
 import '../electrician/bindings/electrician_binding.dart';
-import '../electrician/screen/cartpenter_screen.dart';
+import '../electrician/screen/carpenter_screen.dart';
 import '../electrician/screen/electrician_screen.dart';
 import '../electrician/screen/plumbing_screen.dart';
 import '../home_cleaning/bindings/home_cleaning_binding.dart';

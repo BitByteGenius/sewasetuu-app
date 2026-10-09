@@ -3,6 +3,7 @@
 // API & Routes & Constants
 export 'api/home_services_api_endpoints.dart';
 export 'constants/home_services_constants.dart';
+export 'controller/home_services_cart_controller.dart';
 export 'data/home_services_repository.dart';
 export 'services_routes/service_page_routes.dart';
 
@@ -44,7 +45,7 @@ export 'electrician/controller/plumbing_controller.dart';
 export 'electrician/controller/carpenter_controller.dart';
 export 'electrician/screen/electrician_screen.dart';
 export 'electrician/screen/plumbing_screen.dart';
-export 'electrician/screen/cartpenter_screen.dart';
+export 'electrician/screen/carpenter_screen.dart';
 
 // Shared Common Reusable Widgets
 export 'common_widgets/home_service_header_widget.dart';

@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:sewasetu/app/theme/app_colors.dart';
 import 'package:sewasetu/shared/enums/view_state.dart';
-import '../../home_cleaning/controller/kitchen_cleaning_controller.dart';
+import '../../controller/home_services_cart_controller.dart';
 import '../../home_cleaning/models/kitchen_cleaning_model.dart';
 import '../data/home_services_data.dart';
 
@@ -12,6 +12,9 @@ import '../data/home_services_data.dart';
 class PlumbingController extends GetxController {
   final state = ViewState.loaded.obs;
   final ScrollController scrollController = ScrollController();
+
+  HomeServicesCartController get _cartController =>
+      HomeServicesCartController.instance;
 
   // Primary Data Streams
   final navCategories = <KitchenCleaningNavCategory>[].obs;
@@ -33,14 +36,6 @@ class PlumbingController extends GetxController {
   final GlobalKey miniSectionKey = GlobalKey();
 
   bool _isProgrammaticScroll = false;
-
-  /// Cart controller connection for shared cart state across Home Services
-  KitchenCleaningController get _cartController {
-    if (Get.isRegistered<KitchenCleaningController>()) {
-      return Get.find<KitchenCleaningController>();
-    }
-    return Get.put(KitchenCleaningController());
-  }
 
   @override
   void onInit() {

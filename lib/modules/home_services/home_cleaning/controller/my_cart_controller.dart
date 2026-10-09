@@ -1,40 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'kitchen_cleaning_controller.dart';
+import '../../controller/home_services_cart_controller.dart';
 import '../data/kitchen_cleaning_data.dart';
 import '../models/kitchen_cleaning_model.dart';
 
 /// Dedicated GetX Controller managing logic, cart operations, add-on data,
 /// and checkout actions for [MyCartWidgets].
 class MyCartController extends GetxController {
-  /// Access or initialize the primary KitchenCleaningController for unified state
-  KitchenCleaningController get _cleaningController {
-    if (Get.isRegistered<KitchenCleaningController>()) {
-      return Get.find<KitchenCleaningController>();
-    }
-    return Get.put(KitchenCleaningController());
-  }
+  /// Access central HomeServicesCartController for unified state across all home services
+  HomeServicesCartController get _cartController =>
+      HomeServicesCartController.instance;
 
-  /// Reactive stream of cart items from the primary controller
-  RxList<KitchenCartItem> get cartItems => _cleaningController.cartItems;
+  /// Reactive stream of cart items from the central cart controller
+  RxList<KitchenCartItem> get cartItems => _cartController.cartItems;
 
   /// Live total price calculation
-  double get totalCartPrice => _cleaningController.totalCartPrice;
+  double get totalCartPrice => _cartController.totalCartPrice;
 
   /// Live total item count
-  int get totalCartCount => _cleaningController.totalCartCount;
+  int get totalCartCount => _cartController.totalCartCount;
 
   /// Check if the cart has any items
-  bool get hasCartItems => _cleaningController.isCartNotEmpty;
+  bool get hasCartItems => _cartController.isCartNotEmpty;
 
   /// Recommended add-on services list derived from 'mini' services data
   List<KitchenCleaningServiceItem> get recommendedAddons {
-    final miniServices =
-        _cleaningController.services.where((s) => s.sectionId == 'mini').toList();
-    if (miniServices.isNotEmpty) {
-      return miniServices;
-    }
     return KitchenCleaningData.allServices
         .where((s) => s.sectionId == 'mini')
         .toList();
@@ -42,22 +33,22 @@ class MyCartController extends GetxController {
 
   /// Add a service or option to cart
   void addItem(KitchenCleaningServiceItem service, [ServiceOptionItem? option]) {
-    _cleaningController.addItem(service, option);
+    _cartController.addItem(service, option);
   }
 
   /// Decrement item quantity or remove if quantity reaches 0
   void decrementItem(String serviceId) {
-    _cleaningController.decrementItem(serviceId);
+    _cartController.decrementItem(serviceId);
   }
 
   /// Remove item completely from cart
   void removeItemCompletely(String serviceId) {
-    _cleaningController.removeItemCompletely(serviceId);
+    _cartController.removeItemCompletely(serviceId);
   }
 
   /// Get current quantity of a specific item
   int getItemQuantity(String serviceId) {
-    return _cleaningController.getItemQuantity(serviceId);
+    return _cartController.getItemQuantity(serviceId);
   }
 
   /// Check if an item is currently added to cart
