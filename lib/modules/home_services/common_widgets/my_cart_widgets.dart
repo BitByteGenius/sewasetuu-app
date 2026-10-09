@@ -457,7 +457,7 @@ class MyCartWidgets extends StatelessWidget {
                     ),
                   ),
                 ),
-              ),
+              )
             ],
           ),
 

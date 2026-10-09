@@ -6,26 +6,33 @@ import 'package:sewasetu/shared/enums/view_state.dart';
 import '../../home_cleaning/controller/kitchen_cleaning_controller.dart';
 import '../../home_cleaning/models/kitchen_cleaning_model.dart';
 import '../data/home_services_data.dart';
-import '../models/home_service_model.dart';
 
-/// GetX controller managing state, category selection, search filtering,
-/// promo actions, and cart integration for Carpenter Screen.
+/// Production-ready GetX Controller managing state, cart, section navigation,
+/// and interactivity for Carpenter Screen matching Kitchen Cleaning architecture.
 class CarpenterController extends GetxController {
   final state = ViewState.loaded.obs;
+  final ScrollController scrollController = ScrollController();
 
-  // Primary data streams
-  final categories = <HomeServiceCategory>[].obs;
-  final promoBanners = <HomeServiceOfferBanner>[].obs;
-  final services = <HomeServiceItem>[].obs;
-  final activeCategoryId = 'all'.obs;
-  final showAllCategories = false.obs;
-  final searchQuery = ''.obs;
+  // Primary Data Streams
+  final navCategories = <KitchenCleaningNavCategory>[].obs;
+  final promoBanners = <KitchenCleaningOfferBanner>[].obs;
+  final services = <KitchenCleaningServiceItem>[].obs;
+  final activeNavCategory = 'carp_sec_door'.obs;
 
-  // Rating & FAQ state
+  // Expanded details & FAQ state
+  final expandedDetails = <String>{}.obs;
   final ratingBreakdown = HomeServicesData.ratingBreakdown.obs;
   final whyUsFeatures = HomeServicesData.defaultWhyUsFeatures.obs;
   final faqItems = HomeServicesData.defaultFaqs.obs;
   final expandedFaqIds = <String>{}.obs;
+
+  // Section Keys for smooth scrolling
+  final GlobalKey doorSectionKey = GlobalKey();
+  final GlobalKey drillSectionKey = GlobalKey();
+  final GlobalKey assemblySectionKey = GlobalKey();
+  final GlobalKey miniSectionKey = GlobalKey();
+
+  bool _isProgrammaticScroll = false;
 
   /// Cart controller connection for shared cart state across Home Services
   KitchenCleaningController get _cartController {
@@ -39,60 +46,76 @@ class CarpenterController extends GetxController {
   void onInit() {
     super.onInit();
     loadData();
+    scrollController.addListener(_onScrollUpdate);
+  }
+
+  @override
+  void onClose() {
+    scrollController.removeListener(_onScrollUpdate);
+    scrollController.dispose();
+    super.onClose();
+  }
+
+  void _onScrollUpdate() {
+    if (_isProgrammaticScroll || !scrollController.hasClients) return;
+
+    final scrollOffset = scrollController.offset;
+    final doorOffset = _getWidgetOffset(doorSectionKey);
+    final drillOffset = _getWidgetOffset(drillSectionKey);
+    final assemblyOffset = _getWidgetOffset(assemblySectionKey);
+
+    String? targetCategory;
+    if (assemblyOffset != null && scrollOffset >= assemblyOffset - 150) {
+      targetCategory = 'carp_sec_assembly';
+    } else if (drillOffset != null && scrollOffset >= drillOffset - 150) {
+      targetCategory = 'carp_sec_drill';
+    } else if (doorOffset != null && scrollOffset >= doorOffset - 150) {
+      targetCategory = 'carp_sec_door';
+    }
+
+    if (targetCategory != null && activeNavCategory.value != targetCategory) {
+      final newCategory = targetCategory;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (activeNavCategory.value != newCategory) {
+          activeNavCategory.value = newCategory;
+        }
+      });
+    }
+  }
+
+  double? _getWidgetOffset(GlobalKey key) {
+    final context = key.currentContext;
+    if (context == null) return null;
+    final renderBox = context.findRenderObject() as RenderBox?;
+    if (renderBox == null || !renderBox.attached) return null;
+    final position = renderBox.localToGlobal(Offset.zero);
+    return position.dy + scrollController.offset - kToolbarHeight - 60;
   }
 
   void loadData() {
     state.value = ViewState.loading;
     try {
-      categories.assignAll(HomeServicesData.carpentryCategories);
+      navCategories.assignAll(HomeServicesData.carpentryNavCategories);
       promoBanners.assignAll(HomeServicesData.carpentryBanners);
       services.assignAll(HomeServicesData.carpentryServices);
+      whyUsFeatures.assignAll(HomeServicesData.defaultWhyUsFeatures);
+      faqItems.assignAll(HomeServicesData.defaultFaqs);
       state.value = ViewState.loaded;
     } catch (e) {
       state.value = ViewState.error;
     }
   }
 
-  // Filtered Services according to active Category & Search query
-  List<HomeServiceItem> get filteredServices {
-    var result = services.toList();
-
-    // 1. Category Filter
-    if (activeCategoryId.value != 'all' && activeCategoryId.value.isNotEmpty) {
-      result = result
-          .where((s) => s.categoryId == activeCategoryId.value)
-          .toList();
-    }
-
-    // 2. Search Filter
-    if (searchQuery.value.trim().isNotEmpty) {
-      final query = searchQuery.value.trim().toLowerCase();
-      result = result
-          .where((s) =>
-              s.title.toLowerCase().contains(query) ||
-              (s.description?.toLowerCase().contains(query) ?? false) ||
-              s.bulletPoints.any((bp) => bp.toLowerCase().contains(query)))
-          .toList();
-    }
-
-    return result;
-  }
-
-  void selectCategory(String catId) {
-    if (activeCategoryId.value == catId) {
-      activeCategoryId.value = 'all';
+  // --- UI INTERACTION ACTIONS ---
+  void toggleDetails(String serviceId) {
+    if (expandedDetails.contains(serviceId)) {
+      expandedDetails.remove(serviceId);
     } else {
-      activeCategoryId.value = catId;
+      expandedDetails.add(serviceId);
     }
   }
 
-  void toggleCategoryExpand() {
-    showAllCategories.value = !showAllCategories.value;
-  }
-
-  void setSearchQuery(String query) {
-    searchQuery.value = query;
-  }
+  bool isDetailsExpanded(String serviceId) => expandedDetails.contains(serviceId);
 
   void toggleFaq(String faqId) {
     if (expandedFaqIds.contains(faqId)) {
@@ -116,15 +139,62 @@ class CarpenterController extends GetxController {
     );
   }
 
+  void scrollToSection(String sectionId) {
+    activeNavCategory.value = sectionId;
+    final targetKey = _getSectionKey(sectionId);
+    final context = targetKey?.currentContext;
+
+    if (context != null) {
+      _isProgrammaticScroll = true;
+      Scrollable.ensureVisible(
+        context,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOutCubic,
+        alignment: 0.0,
+      ).then((_) {
+        _isProgrammaticScroll = false;
+      });
+    } else {
+      double offset = 0;
+      if (sectionId == 'carp_sec_door') {
+        offset = 240;
+      } else if (sectionId == 'carp_sec_drill') {
+        offset = 800;
+      } else if (sectionId == 'carp_sec_assembly') {
+        offset = 1400;
+      }
+
+      if (scrollController.hasClients) {
+        scrollController.animateTo(
+          offset,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeInOutCubic,
+        );
+      }
+    }
+  }
+
+  GlobalKey? _getSectionKey(String sectionId) {
+    switch (sectionId) {
+      case 'carp_sec_door':
+        return doorSectionKey;
+      case 'carp_sec_drill':
+        return drillSectionKey;
+      case 'carp_sec_assembly':
+        return assemblySectionKey;
+      default:
+        return null;
+    }
+  }
+
   // --- SHARED CART INTEGRATION DELEGATES ---
   int get totalCartCount => _cartController.totalCartCount;
   double get totalCartPrice => _cartController.totalCartPrice;
 
-  int getItemQuantity(String serviceId) =>
-      _cartController.getItemQuantity(serviceId);
+  int getItemQuantity(String serviceId) => _cartController.getItemQuantity(serviceId);
 
-  void addItem(HomeServiceItem service, [ServiceOptionItem? option]) {
-    _cartController.addItem(service.toKitchenCleaningItem(), option);
+  void addItem(KitchenCleaningServiceItem service, [ServiceOptionItem? option]) {
+    _cartController.addItem(service, option);
   }
 
   void decrementItem(String serviceId) {

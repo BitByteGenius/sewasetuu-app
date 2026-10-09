@@ -7,8 +7,8 @@ import '../home_cleaning/models/kitchen_cleaning_model.dart';
 /// Mock Data Sources and Live REST API Endpoints.
 abstract class HomeServicesRepository {
   Future<List<HomeServiceCategory>> getCategories(String serviceType);
-  Future<List<HomeServiceItem>> getServices(String serviceType, {String? categoryId});
-  Future<List<HomeServiceOfferBanner>> getOfferBanners(String serviceType);
+  Future<List<KitchenCleaningServiceItem>> getServices(String serviceType, {String? categoryId});
+  Future<List<KitchenCleaningOfferBanner>> getOfferBanners(String serviceType);
   Future<List<KitchenFaqItem>> getFaqs(String serviceType);
   Future<RatingBreakdownModel> getRatingBreakdown(String serviceType);
 }
@@ -38,9 +38,9 @@ class HomeServicesRepositoryImpl implements HomeServicesRepository {
   }
 
   @override
-  Future<List<HomeServiceItem>> getServices(String serviceType, {String? categoryId}) async {
+  Future<List<KitchenCleaningServiceItem>> getServices(String serviceType, {String? categoryId}) async {
     await Future<void>.delayed(const Duration(milliseconds: 120));
-    List<HomeServiceItem> items;
+    List<KitchenCleaningServiceItem> items;
     switch (serviceType.toLowerCase()) {
       case 'electrician':
         items = HomeServicesData.electricianServices;
@@ -57,13 +57,13 @@ class HomeServicesRepositoryImpl implements HomeServicesRepository {
     }
 
     if (categoryId != null && categoryId.isNotEmpty && categoryId != 'all') {
-      return items.where((item) => item.categoryId == categoryId).toList();
+      return items.where((item) => item.sectionId == categoryId).toList();
     }
     return items;
   }
 
   @override
-  Future<List<HomeServiceOfferBanner>> getOfferBanners(String serviceType) async {
+  Future<List<KitchenCleaningOfferBanner>> getOfferBanners(String serviceType) async {
     await Future<void>.delayed(const Duration(milliseconds: 50));
     switch (serviceType.toLowerCase()) {
       case 'electrician':
