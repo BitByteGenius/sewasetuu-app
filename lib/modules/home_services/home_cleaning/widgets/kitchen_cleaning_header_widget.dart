@@ -8,12 +8,18 @@ import '../models/kitchen_cleaning_model.dart';
 /// Top header section displaying screen title, rating badge,
 /// and the 3 quick-category navigation cards matching reference photos.
 class KitchenCleaningHeaderWidget extends StatelessWidget {
+  final String title;
+  final double rating;
+  final String ratingCountText;
   final List<KitchenCleaningNavCategory> categories;
   final String activeCategoryId;
   final ValueChanged<String> onSelectCategory;
 
   const KitchenCleaningHeaderWidget({
     super.key,
+    this.title = 'Kitchen Cleaning',
+    this.rating = 4.77,
+    this.ratingCountText = '(192.2K+ ratings)',
     required this.categories,
     required this.activeCategoryId,
     required this.onSelectCategory,
@@ -33,7 +39,7 @@ class KitchenCleaningHeaderWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Kitchen Cleaning',
+                title,
                 style: GoogleFonts.plusJakartaSans(
                   fontSize: 24,
                   fontWeight: FontWeight.w800,
@@ -51,7 +57,7 @@ class KitchenCleaningHeaderWidget extends StatelessWidget {
                   ),
                   const SizedBox(width: 4),
                   Text(
-                    '4.77 ',
+                    '$rating ',
                     style: GoogleFonts.plusJakartaSans(
                       fontSize: 13.5,
                       fontWeight: FontWeight.w700,
@@ -59,7 +65,7 @@ class KitchenCleaningHeaderWidget extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '(192.2K+ ratings)',
+                    ratingCountText,
                     style: GoogleFonts.plusJakartaSans(
                       fontSize: 12.5,
                       fontWeight: FontWeight.w500,

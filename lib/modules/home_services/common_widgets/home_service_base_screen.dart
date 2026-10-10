@@ -216,6 +216,9 @@ class HomeServiceBaseScreen extends StatelessWidget {
                   children: [
                     // 1. Header Widget with Rating & Image-based Category Cards
                     KitchenCleaningHeaderWidget(
+                      title: title,
+                      rating: rating,
+                      ratingCountText: ratingCountText,
                       categories: categories,
                       activeCategoryId: activeCategoryId,
                       onSelectCategory: onSelectCategory,
