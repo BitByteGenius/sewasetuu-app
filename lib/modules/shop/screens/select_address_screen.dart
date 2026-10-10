@@ -7,6 +7,7 @@ import '../../../../app/theme/app_text_styles.dart';
 import '../../../../shared/widgets/app_bar/app_bar.dart';
 import '../../../../shared/widgets/app_button.dart';
 import '../../../../shared/widgets/app_card.dart';
+import '../../../../shared/widgets/app_dialog.dart';
 import '../controllers/checkout_controller.dart';
 import '../models/address_model.dart';
 import '../shop_navigator.dart';
@@ -31,77 +32,32 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
   }
 
   void _confirmDeleteAddress(BuildContext context, ShopAddressModel address) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     Get.dialog(
-      AlertDialog(
-        backgroundColor: isDark ? AppColors.surfaceDark : AppColors.surfaceLight,
-        shape: RoundedRectangleBorder(borderRadius: AppRadius.radiusLg),
-        title: Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: Colors.red.withAlpha(25),
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(Icons.delete_outline_rounded, color: Colors.red, size: 22),
-            ),
-            const SizedBox(width: 12),
-            Text(
-              'Delete Address?',
-              style: AppTextStyles.titleMedium(isDark).copyWith(
-                fontWeight: FontWeight.w800,
-              ),
-            ),
-          ],
-        ),
-        content: Text(
-          'Are you sure you want to remove this delivery address?\n\n"${address.fullName}, ${address.city}"',
-          style: AppTextStyles.bodyMedium(isDark).copyWith(
-            height: 1.4,
-          ),
-        ),
-        actionsPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            child: Text(
-              'Cancel',
-              style: TextStyle(
-                color: isDark ? AppColors.textMutedDark : AppColors.textMutedLight,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-              foregroundColor: Colors.white,
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-            ),
-            onPressed: () {
-              Get.back();
-              final success = controller.deleteAddress(address.id);
-              if (success) {
-                Get.snackbar(
-                  'Address Deleted',
-                  'The delivery address was removed.',
-                  snackPosition: SnackPosition.BOTTOM,
-                  backgroundColor: Colors.black.withAlpha(200),
-                  colorText: Colors.white,
-                  margin: const EdgeInsets.all(16),
-                  borderRadius: 12,
-                  duration: const Duration(seconds: 2),
-                );
-              }
-            },
-            child: const Text('Delete', style: TextStyle(fontWeight: FontWeight.w700)),
-          ),
-        ],
+      AppConfirmationDialog(
+        title: 'Delete Address?',
+        message: 'Are you sure you want to remove this delivery address?\n\n"${address.fullName}, ${address.city}"',
+        icon: Icons.delete_outline_rounded,
+        iconColor: Colors.red,
+        confirmText: 'Delete',
+        cancelText: 'Cancel',
+        isDanger: true,
+        onConfirm: () {
+          Get.back();
+          final success = controller.deleteAddress(address.id);
+          if (success) {
+            Get.snackbar(
+              'Address Deleted',
+              'The delivery address was removed.',
+              snackPosition: SnackPosition.BOTTOM,
+              backgroundColor: Colors.black.withAlpha(200),
+              colorText: Colors.white,
+              margin: const EdgeInsets.all(16),
+              borderRadius: 12,
+              duration: const Duration(seconds: 2),
+            );
+          }
+        },
+        onCancel: () => Get.back(),
       ),
     );
   }

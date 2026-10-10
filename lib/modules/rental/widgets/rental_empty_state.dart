@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../app/theme/app_colors.dart';
-import '../../../app/theme/app_radius.dart';
-import '../../../app/theme/app_spacing.dart';
-import '../../../app/theme/app_text_styles.dart';
+import '../../../shared/widgets/app_empty_state.dart';
 
 /// Clean, informative empty state widget tailored for vehicle rentals.
 class RentalEmptyState extends StatelessWidget {
@@ -63,68 +60,12 @@ class RentalEmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(AppSpacing.xxl),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: 90,
-              height: 90,
-              decoration: BoxDecoration(
-                color: (isDark ? AppColors.surfaceVariantDark : AppColors.primaryContainer)
-                    .withAlpha((255 * 0.7).round()),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                icon,
-                size: 44,
-                color: AppColors.primary,
-              ),
-            ),
-            const SizedBox(height: AppSpacing.lg),
-            Text(
-              title,
-              style: AppTextStyles.headlineSmall(isDark),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: AppSpacing.sm),
-            Text(
-              message,
-              style: AppTextStyles.bodyMedium(isDark).copyWith(
-                color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            if (actionText != null && onAction != null) ...[
-              const SizedBox(height: AppSpacing.xl),
-              ElevatedButton(
-                onPressed: onAction,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.xxl,
-                    vertical: AppSpacing.md,
-                  ),
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: AppRadius.radiusFull,
-                  ),
-                  elevation: 0,
-                ),
-                child: Text(
-                  actionText!,
-                  style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
-                ),
-              ),
-            ],
-          ],
-        ),
-      ),
+    return AppEmptyState(
+      icon: icon,
+      title: title,
+      description: message,
+      actionText: actionText,
+      onAction: onAction,
     );
   }
 }

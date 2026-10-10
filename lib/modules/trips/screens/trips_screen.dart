@@ -7,6 +7,7 @@ import '../../../../app/theme/app_text_styles.dart';
 import '../../../../shared/enums/view_state.dart';
 import '../../../../shared/widgets/app_button.dart';
 import '../../../../shared/widgets/app_card.dart';
+import '../../../../shared/widgets/app_dialog.dart';
 import '../controllers/trips_controller.dart';
 import '../models/trip_package_model.dart';
 import '../trips_navigator.dart';
@@ -701,16 +702,9 @@ class _TripsScreenState extends State<TripsScreen> {
         final phoneCtrl = TextEditingController();
         final destCtrl = TextEditingController();
 
-        return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: AppRadius.radiusLg),
-          title: Row(
-            children: const [
-              Icon(Icons.flight_takeoff_rounded, color: AppColors.primary),
-              SizedBox(width: 8),
-              Text('Custom Trip Inquiry',
-                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w800)),
-            ],
-          ),
+        return AppDialog(
+          title: 'Custom Trip Inquiry',
+          titleIcon: Icons.flight_takeoff_rounded,
           content: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -752,7 +746,9 @@ class _TripsScreenState extends State<TripsScreen> {
               onPressed: () => Navigator.pop(dialogCtx),
               child: const Text('Cancel'),
             ),
-            ElevatedButton(
+            AppButton(
+              text: 'Submit Inquiry',
+              size: AppButtonSize.small,
               onPressed: () {
                 Navigator.pop(dialogCtx);
                 Get.snackbar(
@@ -765,7 +761,6 @@ class _TripsScreenState extends State<TripsScreen> {
                   margin: const EdgeInsets.all(16),
                 );
               },
-              child: const Text('Submit Inquiry'),
             ),
           ],
         );

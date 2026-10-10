@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sewasetu/app/theme/app_colors.dart';
+import 'package:sewasetu/shared/widgets/app_button.dart';
 import 'package:sewasetu/shared/widgets/app_skeleton.dart';
 
 /// Reusable Loading Skeleton for Home Services
@@ -83,24 +84,11 @@ class HomeServiceEmptyState extends StatelessWidget {
             ),
             if (onAction != null && buttonText != null) ...[
               const SizedBox(height: 20),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF0F766E),
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                ),
+              AppButton(
+                text: buttonText!,
                 onPressed: onAction,
-                child: Text(
-                  buttonText!,
-                  style: GoogleFonts.plusJakartaSans(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
+                size: AppButtonSize.medium,
+                borderRadius: BorderRadius.circular(12),
               ),
             ],
           ],
@@ -164,25 +152,12 @@ class HomeServiceErrorState extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF0F766E),
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-              ),
+            AppButton(
+              text: 'Retry Loading',
+              prefixIcon: const Icon(Icons.refresh_rounded, size: 18, color: Colors.white),
               onPressed: onRetry,
-              icon: const Icon(Icons.refresh_rounded, size: 18),
-              label: Text(
-                'Retry Loading',
-                style: GoogleFonts.plusJakartaSans(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
+              size: AppButtonSize.medium,
+              borderRadius: BorderRadius.circular(12),
             ),
           ],
         ),
