@@ -7,7 +7,7 @@ import 'package:sewasetu/modules/home_services/services.dart';
 import 'package:sewasetu/modules/shop/shop.dart';
 import 'package:sewasetu/modules/stay/stay.dart';
 import 'package:sewasetu/modules/trips/trips.dart';
-import 'package:sewasetu/modules/wishlist/wishlist.dart';
+import 'package:sewasetu/modules/stay/wishlist/wishlist.dart';
 
 /// Bindings for Home module and the root Navigation Shell
 class HomeBinding extends Bindings {

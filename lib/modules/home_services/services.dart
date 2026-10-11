@@ -37,15 +37,15 @@ export 'home_cleaning/home_cleaning.dart';
 export 'home_cleaning/bindings/home_cleaning_binding.dart';
 
 // Electrician, Plumbing, Carpentry Sub-Modules
-export 'electrician/models/home_service_model.dart';
-export 'electrician/data/home_services_data.dart';
-export 'electrician/bindings/electrician_binding.dart';
-export 'electrician/controller/electrician_controller.dart';
-export 'electrician/controller/plumbing_controller.dart';
-export 'electrician/controller/carpenter_controller.dart';
-export 'electrician/screen/electrician_screen.dart';
-export 'electrician/screen/plumbing_screen.dart';
-export 'electrician/screen/carpenter_screen.dart';
+export 'home_repair/models/home_service_model.dart';
+export 'home_repair/data/home_services_data.dart';
+export 'home_repair/bindings/electrician_binding.dart';
+export 'home_repair/controller/electrician_controller.dart';
+export 'home_repair/controller/plumbing_controller.dart';
+export 'home_repair/controller/carpenter_controller.dart';
+export 'home_repair/screen/electrician_screen.dart';
+export 'home_repair/screen/plumbing_screen.dart';
+export 'home_repair/screen/carpenter_screen.dart';
 
 // Shared Common Reusable Widgets
 export 'common_widgets/home_service_header_widget.dart';

@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sewasetu/app/theme/app_colors.dart';
 import 'package:sewasetu/shared/widgets/app_network_image.dart';
-import '../../electrician/screen/carpenter_screen.dart';
-import '../../electrician/screen/electrician_screen.dart';
-import '../../electrician/screen/plumbing_screen.dart';
+import '../../home_repair/screen/carpenter_screen.dart';
+import '../../home_repair/screen/electrician_screen.dart';
+import '../../home_repair/screen/plumbing_screen.dart';
 
 /// Modal Bottom Sheet displaying Home Repair Services (Electrician, Plumbing, Carpentry)
 /// as a clean, reusable grid matching HomeCleaningBottomSheet architecture.

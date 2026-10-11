@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sewasetu/app/theme/app_colors.dart';
-import '../electrician/models/home_service_model.dart';
+import '../home_repair/models/home_service_model.dart';
 
 /// Reusable Category Shortcut Grid widget for Home Service modules.
 /// Features state-driven category selection, active item highlighting,

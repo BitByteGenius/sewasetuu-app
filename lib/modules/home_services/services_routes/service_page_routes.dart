@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
 import 'package:sewasetu/app/routes/app_routes.dart';
 
-import '../electrician/bindings/electrician_binding.dart';
-import '../electrician/screen/carpenter_screen.dart';
-import '../electrician/screen/electrician_screen.dart';
-import '../electrician/screen/plumbing_screen.dart';
+import '../home_repair/bindings/electrician_binding.dart';
+import '../home_repair/screen/carpenter_screen.dart';
+import '../home_repair/screen/electrician_screen.dart';
+import '../home_repair/screen/plumbing_screen.dart';
 import '../home_cleaning/bindings/home_cleaning_binding.dart';
 import '../home_cleaning/screens/home_cleaning_screen.dart';
 import '../home_cleaning/screens/kitchen_cleaning_screen.dart';

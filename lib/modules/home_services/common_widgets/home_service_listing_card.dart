@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sewasetu/shared/widgets/app_network_image.dart';
 import '../home_cleaning/models/kitchen_cleaning_model.dart';
 import '../home_cleaning/widgets/kitchen_cleaning_options_sheet.dart';
-import '../electrician/models/home_service_model.dart';
+import '../home_repair/models/home_service_model.dart';
 
 /// Production-grade Service Listing Card matching exact Kitchen Cleaning visual language.
 /// Seamlessly displays service badge, title, rating/duration row, pricing,

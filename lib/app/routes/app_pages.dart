@@ -13,7 +13,7 @@ import 'package:sewasetu/modules/shop/shop.dart';
 import 'package:sewasetu/modules/splash/splash.dart';
 import 'package:sewasetu/modules/stay/stay.dart';
 import 'package:sewasetu/modules/trips/trips.dart';
-import 'package:sewasetu/modules/wishlist/wishlist.dart';
+import 'package:sewasetu/modules/stay/wishlist/wishlist.dart';
 import 'package:sewasetu/modules/connectivity/connectivity.dart';
 
 /// Premium transition providing a smooth, fluid pop-in animation (scale 0.90 -> 1.0 with easeOutCubic + soft fade)

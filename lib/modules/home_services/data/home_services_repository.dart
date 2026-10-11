@@ -1,5 +1,5 @@
-import '../electrician/data/home_services_data.dart';
-import '../electrician/models/home_service_model.dart';
+import '../home_repair/data/home_services_data.dart';
+import '../home_repair/models/home_service_model.dart';
 import '../home_cleaning/data/kitchen_cleaning_data.dart';
 import '../home_cleaning/models/kitchen_cleaning_model.dart';
 
